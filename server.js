@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/control", (req, res) => {
-  res.render("index");
+  res.render("control");
 });
 
 app.listen(PORT, () => {
