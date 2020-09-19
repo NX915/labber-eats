@@ -15,20 +15,28 @@ module.exports = (db) => {
     // {newOrders: [], pendingOrders: []}
     const output = {};
     dbHelpers.getNewOrders()
-      .then(res => output.newOrders = res)
-      .then(() => dbHelpers.getPendingOrders())
-      .then(res => output.pendingOrders = res)
-      .then(() => res.send(output));
+      .then(data => {
+        output.newOrders = data;
+        return dbHelpers.getPendingOrders();
+      })
+      .then(data => {
+        output.pendingOrders = data;
+        res.send(output);
+      });
   });
 
   router.get("/:id", (req, res) => {
     // {orderItems: [], orderDetail: []}
     const output = {};
     dbHelpers.getOrderDetails(req.params.id)
-      .then(res => output.orderDetails = res)
-      .then(() => dbHelpers.getItemsFromOrder(req.params.id))
-      .then(res => output.itemsFromOrder = res)
-      .then(() => res.send(output));
+      .then(data => {
+        output.orderDetails = data;
+        return dbHelpers.getItemsFromOrder(req.params.id);
+      })
+      .then(data => {
+        output.itemsFromOrder = data;
+        res.send(output);
+      });
   });
 
   router.post("/:id", (req, res) => {
