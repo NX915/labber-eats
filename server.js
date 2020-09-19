@@ -19,20 +19,20 @@ const dbHelpers = require('./db/dbHelpers')(db);
 
 // -----------------      dbHelpers tests         ---------------------
 
-dbHelpers.getMenu()
-.then(res => console.log('menu', res));
+// dbHelpers.getMenu()
+// .then(res => console.log('menu', res));
 
-dbHelpers.getNewOrders()
-.then(res => console.log('new orders:', res));
+// dbHelpers.getNewOrders()
+// .then(res => console.log('new orders:', res));
 
-dbHelpers.getPendingOrders()
-.then(res => console.log('pending orders:',res));
+// dbHelpers.getPendingOrders()
+// .then(res => console.log('pending orders:',res));
 
-dbHelpers.getOrderDetails(1)
-.then(res => console.log('order details:', res));
+// dbHelpers.getOrderDetails(1)
+// .then(res => console.log('order details:', res));
 
-dbHelpers.getItemsFromOrder(1)
-.then(res => console.log('items from order:', res));
+// dbHelpers.getItemsFromOrder(1)
+// .then(res => console.log('items from order:', res));
 
 // -----------------      dbHelpers tests         ---------------------
 
@@ -72,8 +72,7 @@ app.use("/orders", ordersRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  const templateVars = {};
-  res.render("index", templateVars);
+  res.render("index");
 });
 
 app.get("/control", (req, res) => {
