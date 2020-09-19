@@ -1,12 +1,13 @@
-const renderNewOrders = function() {
+const getOrders = function() {
   console.log('It works!');
-  $.ajax({url: '/orders', method: 'get'})
-    .then(res => console.log(res))
+  return $.ajax({url: '/orders', method: 'get'})
+    .then(res => res)
     .catch(err => console.log('error ', err));
 };
 
 $().ready(() => {
-  renderNewOrders();
+  getOrders()
+    .then(res => console.log(res));
 });
 
 
