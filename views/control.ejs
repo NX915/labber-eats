@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home Page</title>
+
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <script type="text/javascript" src="/scripts/control.js"></script>
+    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
+  </head>
+
+  <body>
+    <main>
+      <div>
+        <h1>New Orders</h1>
+        <ol>
+          <li id='order_id'>
+            <h2>Order 12312</h2>
+            <p>@ ORDERED-TIME</p>
+            <p>For CUST-NAME (416 666 6666)</p>
+            <ul>
+              <li>x3 Ice cream</li>
+              <li>x2 Lasagna</li>
+              <li>x1 Buffalo wings</li>
+            </ul>
+            <p>Order Total: TOTALS</p>
+            <form method='POST' action='/orders/1'>
+              <label for='wait-time'>Wait Time: </label>
+              <input name='wait-time' placeholder='Default 20'>
+              <input type='submit' value='Accept'>
+            </form>
+            <form method='POST' action='/orders/1/decline'>
+              <label for='decline'>Message: </label>
+              <input name='decline' placeholder='Sorry! We cannot take orders right now'>
+              <input type='submit' value='Decline'>
+            </form>
+          </li>
+          <li>order</li>
+        </ol>
+      </div>
+      <div>
+        <h1>In Progress</h1>
+        <ol>
+          <li>order</li>
+          <li>order</li>
+        </ol>
+      </div>
+    </main>
+  </body>
+</html>

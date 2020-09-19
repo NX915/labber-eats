@@ -7,5 +7,6 @@
 | POST | /orders | Submit order |
 | GET  | /control | See all orders (restaurant side) |
 | GET  | /orders | Return JSON with active orders (populates both columns) | 
-| POST  | /orders/:id |  confirm/decline |
+| POST  | /orders/:id |  confirm order |
+| POST  | /orders/:id/decline |  decline order|
 | POST  | /orders/:id/delete |  Archive orders that were fufilled |
