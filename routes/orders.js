@@ -39,6 +39,10 @@ module.exports = (db) => {
       });
   });
 
+  router.post('/', (req, res) =>{
+    console.log(`posted to /orders`);
+  });
+
   router.post("/:id", (req, res) => {
     res.send(`POST to orders/:${req.params.id}`);
     console.log(`POST to orders/:${req.params.id}`);
