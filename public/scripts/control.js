@@ -13,7 +13,33 @@ const renderNewOrders = function(orderArr) {
   for (const ele of orderArr) {
     const orderId = ele.id;
     getOrders(orderId)
-      .then(data => console.log(`new order `, data));
+      .then(orderData => {
+        const { orderDetails, itemsFromOrder } = orderData;
+        const $orderDiv = `
+          <li id='order_id_${orderId}'>
+            <h2>Order ${orderId}</h2>
+            <p>@ ${orderDetails.created_at}</p>
+            <p>For ${orderDetails.name} (${orderDetails.phone})</p>
+            <ul>
+              <li>x3 Ice cream</li>
+              <li>x2 Lasagna</li>
+              <li>x1 Buffalo wings</li>
+            </ul>
+            <p>Order Total: $${orderDetails.total / 100}</p>
+            <form method='POST' action='/orders/1'>
+              <label for='wait-time'>Wait Time: </label>
+              <input name='wait-time' placeholder='Default 20'>
+              <input type='submit' value='Accept'>
+            </form>
+            <form method='POST' action='/orders/1/decline'>
+              <label for='decline'>Message: </label>
+              <input name='decline' placeholder='Sorry! We cannot take orders right now'>
+              <input type='submit' value='Decline'>
+            </form>
+          </li>
+        `;
+        $('#new_orders').append($orderDiv);
+      });
   }
 };
 
