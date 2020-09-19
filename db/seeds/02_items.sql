@@ -1,4 +1,4 @@
--- Users table seeds here (Example)
+-- Items table seeds here
 INSERT INTO items (name, description, price)
 VALUES ('Dish 1', 'Dish 1 is salty :|', 299),
 ('Dish 2', 'Dish 2 is sweet :)', 999),

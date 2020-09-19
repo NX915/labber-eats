@@ -1,4 +1,4 @@
--- Drop and recreate Users table (Example)
+-- Drop and recreate items table
 
 DROP TABLE IF EXISTS items CASCADE;
 CREATE TABLE items (
