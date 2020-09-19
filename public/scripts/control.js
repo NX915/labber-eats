@@ -1,20 +1,28 @@
-const getOrders = function() {
-  console.log('It works!');
-  return $.ajax({url: '/orders', method: 'get'})
+const getOrders = function(id) {
+  const url = '/orders';
+
+  return $.ajax({url: url, method: 'get'})
     .then(res => res)
     .catch(err => console.log('error ', err));
 };
 
-$().ready(() => {
+//take in an array of object with the key of id and value order id
+//
+const renderNewOrders = function(orderArr) {
+  for (const ele of orderArr) {
+    const orderId = ele.id;
+    console.log(`id `, orderId);
+  }
+};
+
+const renderAllOrders = function() {
   getOrders()
-    .then(res => console.log(res));
+    .then(data => {
+      renderNewOrders(data.newOrders);
+      // renderPendingOrders(data.pendingOrders);
+    });
+};
+
+$().ready(() => {
+  renderAllOrders();
 });
-
-
-// $.ajax({ url: '/tweets/', data, method: "POST" }).then(() => {
-//   // after updating the database, request /tweets/, empty the tweets-container and render the new tweets
-//   $.ajax({ url: '/tweets/', method: "GET" }).then(response => {
-//     $("#tweets-container").empty();
-//     renderTweets(response);
-//   });
-// });
