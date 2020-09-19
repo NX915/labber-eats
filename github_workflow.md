@@ -8,3 +8,4 @@
 8. git push
 9. git checkout master
 10. git merge *feature/name_of_the_feature*
+11. git push
