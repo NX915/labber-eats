@@ -1,11 +1,11 @@
 # App Routes
 
-<!-- 1. GET      '/menu'         Show menu
-2. POST     '/orders'       Submit order
-3. GET      '/orders'       See all orders (restaurant side) -->
-
 | HTTP method | URL pattern | Use |
 |---|---|---|
-| GET  | /menu  | Show menu |
-| POST | /orders| Submit order |
-| GET  | /orders| See all orders (restaurant side) |
+| GET  | / | Shows full menu of restaurant |
+| GET  | /items | Return JSON with menu items |
+| POST | /orders | Submit order |
+| GET  | /control | See all orders (restaurant side) |
+| GET  | /orders | Return JSON with active orders (populates both columns) | 
+| POST  | /orders/:id |  confirm/decline |
+| POST  | /orders/:id/delete |  Archive orders that were fufilled |
