@@ -15,6 +15,27 @@ const { Pool } = require('pg');
 const dbParams = require('./lib/db.js');
 const db = new Pool(dbParams);
 db.connect();
+const dbHelpers = require('./db/dbHelpers')(db);
+
+// -----------------      dbHelpers tests         ---------------------
+
+dbHelpers.getMenu()
+.then(res => console.log('menu', res));
+
+dbHelpers.getNewOrders()
+.then(res => console.log('new orders:', res));
+
+dbHelpers.getPendingOrders()
+.then(res => console.log('pending orders:',res));
+
+dbHelpers.getOrderDetails(1)
+.then(res => console.log('order details:', res));
+
+dbHelpers.getItemsFromOrder(1)
+.then(res => console.log('items from order:', res));
+
+// -----------------      dbHelpers tests         ---------------------
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
