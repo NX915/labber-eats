@@ -1,10 +1,10 @@
-* git pull
-* git checkout -b setup/markdowns
-* git push -u origin setup/markdowns
-* *work on markdowns + commits*
-* git fetch origin
-* git merge origin/master
-* *resolve conflict if any*
-* git push
-* git checkout master
-* git merge setup/markdowns
+1. git pull
+2. git checkout -b *feature/name_of_the_feature*
+3. git push -u origin *feature/name_of_the_feature*
+4. *work on markdowns + commits + pushes*
+5. git fetch origin
+6. git merge origin/master
+7. *resolve conflict if any*
+8. git push
+9. git checkout master
+10. git merge *feature/name_of_the_feature*
