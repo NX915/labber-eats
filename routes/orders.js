@@ -13,8 +13,12 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     // {newOrders: [], pendingOrders: []}
+    const output = {};
     dbHelpers.getNewOrders()
-      .then(orders => res.send(orders));
+      .then(res => output.newOrders = res)
+      .then(() => dbHelpers.getPendingOrders())
+      .then(res => output.pendingOrders = res)
+      .then(() => res.send(output));
   });
 
   router.get("/:id", (req, res) => {
