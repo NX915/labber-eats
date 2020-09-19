@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
-
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <title>Labber Eats Home Page</title>
+    <%- include('partials/_head') %>
   </head>
 
   <body>
     <header>
-      <h1>L</h1>
+      <%- include('partials/_header') %>
+      <nav>
+        <button>Cart that only shows when items selected for client page</button></nav>
     </header>
-    <h1>Hello, I am the menu page</h1>
+    <article>
+      <h1>Menu</h1>
+      <p>Use js to loop through menu and output them here along with a SELECT button that changes to a counter when clicked</p>
+    </article>
+    <footer>
+      <h3>Restaurant address info</h3>
+    </footer>
   </body>
 </html>
