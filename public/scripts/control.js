@@ -19,7 +19,7 @@ const renderNewOrders = function(orderArr) {
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
             <p>@ ${orderDetails.created_at}</p>
-            <p>For ${orderDetails.name} (${orderDetails.phone})</p>
+            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
             <ul></ul>
             <p>Order Total: $${orderDetails.total / 100}</p>
             <form method='POST' action='/orders/${orderId}'>
