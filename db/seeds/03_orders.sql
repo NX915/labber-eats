@@ -1,4 +1,4 @@
--- Items table seeds here
+-- orders table seeds here
 INSERT INTO orders (user_id)
 VALUES (1),
 (3),
