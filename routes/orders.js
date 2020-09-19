@@ -9,17 +9,11 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+  const dbHelpers = require('../db/dbHelpers')(db);
+
   router.get("/", (req, res) => {
-    db.query(`SELECT * FROM orders;`)
-      .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+    dbHelpers.getNewOrders()
+      .then(orders => res.send(orders));
   });
 
   router.post("/:id", (req, res) => {
