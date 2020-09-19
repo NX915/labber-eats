@@ -20,25 +20,28 @@ const renderNewOrders = function(orderArr) {
             <h2>Order ${orderId}</h2>
             <p>@ ${orderDetails.created_at}</p>
             <p>For ${orderDetails.name} (${orderDetails.phone})</p>
-            <ul>
-              <li>x3 Ice cream</li>
-              <li>x2 Lasagna</li>
-              <li>x1 Buffalo wings</li>
-            </ul>
+            <ul></ul>
             <p>Order Total: $${orderDetails.total / 100}</p>
-            <form method='POST' action='/orders/1'>
+            <form method='POST' action='/orders/${orderId}'>
               <label for='wait-time'>Wait Time: </label>
               <input name='wait-time' placeholder='Default 20'>
               <input type='submit' value='Accept'>
             </form>
-            <form method='POST' action='/orders/1/decline'>
+            <form method='POST' action='/orders/${orderId}/decline'>
               <label for='decline'>Message: </label>
               <input name='decline' placeholder='Sorry! We cannot take orders right now'>
               <input type='submit' value='Decline'>
             </form>
           </li>
         `;
+        let $itemsDiv = '';
+
+        for (const ele of itemsFromOrder) {
+          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
+        }
+
         $('#new_orders').append($orderDiv);
+        $(`#order_id_${orderId} ul`).append($itemsDiv);
       });
   }
 };
