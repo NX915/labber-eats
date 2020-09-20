@@ -72,8 +72,14 @@ module.exports = (db) => {
   });
 
   router.post("/:id/done", (req, res) => {
-    res.send(`POST to orders/:${req.params.id}/done`);
-    console.log(`POST to orders/:${req.params.id}/done`);
+    const { id } = req.params;
+
+    dbHelpers.finishOrder(id)
+      .then(() => {
+        res.send(`Successful POST to orders/:${req.params.id}/done`);
+      })
+      .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
+    // console.log(`POST to orders/:${req.params.id}/done`);
   });
 
   return router;
