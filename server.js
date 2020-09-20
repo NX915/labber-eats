@@ -37,7 +37,12 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // .catch(e => console.log('catch response for order details for order 13:', e));
 
 // dbHelpers.getItemsFromOrder(1)
-// .then(res => console.log('items from order:', res));
+// .then(res => console.log('then response for items from order 1:', res))
+// .catch(e => console.log('catch response for items from order 1:', e));
+
+// dbHelpers.getItemsFromOrder(15)
+// .then(res => console.log('then response for items from order 15:', res))
+// .catch(e => console.log('catch response for items from order 15:', e));
 
 // // ok --> should add to db
 // dbHelpers.addOrder({

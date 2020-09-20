@@ -60,7 +60,12 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows);
+      .then(res => {
+        if (res.rows.length > 0) {
+          return res.rows;
+        }
+        throw 'The order id does not exist'
+      })
   }
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
