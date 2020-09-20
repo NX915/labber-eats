@@ -29,7 +29,12 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // .then(res => console.log('pending orders:',res));
 
 // dbHelpers.getOrderDetails(1)
-// .then(res => console.log('order details:', res));
+// .then(res => console.log('then response for order details for order 1:', res))
+// .catch(e => console.log('catch response for order details for order 1:', e));
+
+// dbHelpers.getOrderDetails(13)
+// .then(res => console.log('then response for order details for order 13:', res))
+// .catch(e => console.log('catch response for order details for order 13:', e));
 
 // dbHelpers.getItemsFromOrder(1)
 // .then(res => console.log('items from order:', res));

@@ -37,7 +37,12 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows[0]);
+      .then(res => {
+        if (res.rows[0]) {
+          return res.rows[0];
+        }
+        throw 'The order id does not exist'
+      })
   }
 
 
