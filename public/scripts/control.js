@@ -41,7 +41,7 @@ const renderNewOrders = function(orderArr) {
         }
 
         $('#new_orders').append($orderDiv);
-        $(`#order_id_${orderId} ul`).append($itemsDiv);
+        $(`#order_id_${orderId} ul`).prepend($itemsDiv);
       });
   }
 };
@@ -73,13 +73,14 @@ const renderPendingOrders = function(orderArr) {
         }
 
         $('#pending_orders').append($orderDiv);
-        $(`#order_id_${orderId} ul`).append($itemsDiv);
+        $(`#order_id_${orderId} ul`).prepend($itemsDiv);
       });
   }
 };
 
 //get and render all active orders
 const renderAllOrders = function() {
+  $('ol').on('order_update_successed', renderAllOrders);
   getOrders()
     .then(data => {
       renderNewOrders(data.newOrders);
