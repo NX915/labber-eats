@@ -77,8 +77,10 @@ module.exports = db => {
     we need to make sure that the user can only submit an order if both the name and phone fields are filled
  */
   const addOrder = (selectedItems, userDetails) => {
+    // define userID and orderID variables to hold the ids of the new created rows
     let userID;
     let orderID;
+    // query to insert a new user, returning its id
     const newUserQuery = {
       text: `
         INSERT INTO users (name, phone)
@@ -86,22 +88,37 @@ module.exports = db => {
       `,
       values: [userDetails.name, userDetails.phone]
     }
+    // the query text to insert a new order, returning its id
     const newOrderQuery = `
-        INSERT INTO orders (user_id)
-        VALUES ($1) RETURNING id;
-      `
+      INSERT INTO orders (user_id)
+      VALUES ($1) RETURNING id;
+    `;
+    // create a new let variable to hold the query text to create n rows in the order_items table, it will be updated with a for loop
+    let assignItemsToOrderText = `INSERT INTO order_items (order_id, item_id, quantity)\nVALUES\n`;
+    // create an array to hold the values to the new query. It will be populated with a for loop
+    const assignItemsToOrderValues = []
+    for (const itemID in selectedItems) {
+      assignItemsToOrderText += `($1, $${assignItemsToOrderValues.length + 2}, $${assignItemsToOrderValues.length + 3}),\n`;
+      assignItemsToOrderValues.push(itemID);
+      assignItemsToOrderValues.push(selectedItems[itemID]);
+    }
+    // delete the last row extra new line and comma and add the command to finish the query
+    assignItemsToOrderText = assignItemsToOrderText.slice(0, -2) + ';';
+    // run the first query that will return the user_id
     return db
       .query(newUserQuery)
       .then(res => {
         userID = res.rows[0].id;
-        console.log(userID);
-        // db.query(newOrderQuery, userID);
+        // run the second query to create a new order related to the user_id that submitted the order
+        return db.query(newOrderQuery, [userID]);
       })
-      // .then(res => console.log(res.rows))
-    // .query(assignItemsToOrder)
-    /*orders: create a new row only with the user_id (id, estimated_wait, accepted, created_at and completed_at should not be filled right now)
-
-    order_items: create n rows where n is the number of distinct items. Should populate the row with the order_id, the item_id and quantity)*/
+      .then(res => {
+        orderID = res.rows[0].id;
+        // include the order_id as the first value in the values array
+        assignItemsToOrderValues.unshift(orderID)
+        // run the last query to create n rows in the order_items table
+        return db.query(assignItemsToOrderText, assignItemsToOrderValues);
+      })
   }
 
   // evaluate if the order was accepted and change the accepted column accordingly
