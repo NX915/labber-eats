@@ -1,13 +1,15 @@
 const attachButtonListener = function() {
   $('ol').on('submit', (e) => {
     e.preventDefault();
-    const { action } = e.target;
-    // console.log(e);
-    // console.log(action);
+    const { action, method } = e.target;
 
-    return $.ajax({url: action, method: 'post'})
-      .then(res => console.log(res))
-      .catch(err => console.log('Server connection error ', err));
+    $.ajax({url: action, method: method})
+      .then(function(res) {
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log('Ajax request error ', err);
+      });
   });
 };
 
