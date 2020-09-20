@@ -153,6 +153,13 @@ $(document).ready(() => {
           <h4>Total</h4>
           <p>${calculateTotal(menuCache, selectedItems)}</p>
         </div>
+        <form method='POST' action='/orders'>
+          <label for="name">Name:</label>
+          <input type="text" name="name" placeholder="Name">
+          <label for="phone-num">Phone number:</label>
+          <input type="text" name="Phone" placeholder="(xxx)xxx-xxxx">
+          <button type="submit">Submit Order</button>
+        </form>
         `);
       });
     });
