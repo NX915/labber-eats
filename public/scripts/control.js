@@ -1,3 +1,5 @@
+let orderCache;
+
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
   const url = id === undefined ? '/orders' : `/orders/${id}`;
@@ -10,6 +12,8 @@ const getOrders = function(id) {
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
+  let toRenderArr;
+
   for (const ele of orderArr) {
     const orderId = ele.id;
     getOrders(orderId)
@@ -83,8 +87,9 @@ const renderAllOrders = function() {
   $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
-      renderNewOrders(data.newOrders);
-      renderPendingOrders(data.pendingOrders);
+      orderCache = data;
+      renderNewOrders(orderCache.newOrders);
+      renderPendingOrders(orderCache.pendingOrders);
     });
 };
 
