@@ -31,20 +31,23 @@ const getOrderDetails = function(orderArr) {
   });
 };
 
-// const findUpdatedOrder = function(newArr, cachedArr) {
-//   let output = [];
+const findUpdatedOrder = function(newArr) {
+  let output = [];
 
-//   if (cachedArr === undefined) {
-//     output = newArr;
-//   }
+  if (newOrdersCache === undefined) {
+    output = newArr;
+    newOrdersCache = newArr;
+  }
 
-//   return output;
-// };
+  return output;
+};
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  // const updatedOrders = findUpdatedOrder(orderArr, newOrdersCache);
+  const updatedOrders = findUpdatedOrder(orderArr);
+  console.log(updatedOrders);
+
   getOrderDetails(orderArr)
     .then((orderData) => {
       for (const ele of orderArr) {
