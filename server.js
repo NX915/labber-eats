@@ -74,6 +74,20 @@ dbHelpers.addOrder({
 })
 .catch(e => console.log(e.message));
 
+// ok
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 4:5 },
+  userDetails: { name: 'should populate the database', phone: '+1(234)567-8910' }
+})
+.catch(e => console.log(e.message));
+
+// ok
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 4:5 },
+  userDetails: { name: 'numberIsToLong', phone: '+1(234)567-8951234567895123456789512' }
+})
+.catch(e => console.log(e.message));
+
 // still populating databases
 dbHelpers.addOrder({
   selectedItems: { 1:3, 4:5 },

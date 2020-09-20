@@ -84,8 +84,9 @@ module.exports = db => {
   const checkErrors = obj => {
     console.log('starting checking erros')
     const { selectedItems, userDetails } = obj;
-    const phone = userDetails.phone ? parseInt(userDetails.phone, 10).toString(): '';
+    const phone = userDetails.phone ? userDetails.phone.toString().replace(/\D/g, "") : '';
     console.log({ phone })
+
     return new Promise((resolve, reject) => {
 
       // confirming that the user has selected at least one item (not an empty object)
@@ -99,7 +100,7 @@ module.exports = db => {
         return reject('The name field does not contain a valid input');
       }
       // confirming that the phone field is not empty, it has more than 10 characters and it contains valid numbers
-      if (!phone || phone.length < 10) {
+      if (!phone || phone.length < 10 || phone.length > 31 ) {
         console.log('invalid phone number')
         return reject('The phone number is either empty or incomplete');
       }
@@ -117,7 +118,7 @@ module.exports = db => {
       INSERT INTO users (name, phone)
       VALUES ($1, $2) RETURNING id;
       `,
-      values: [userDetails.name, userDetails.phone]
+      values: [userDetails.name, userDetails.phone ? userDetails.phone.toString().replace(/\D/g, "") : '']
     }
 
     // the query text to insert a new order, returning its id
