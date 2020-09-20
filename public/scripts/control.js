@@ -7,8 +7,8 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
-//take in an array of object with the key of id and value order id
-//
+//take in an array formatted as  [{id: orderId}, {id: orderId}...]
+//then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
   for (const ele of orderArr) {
     const orderId = ele.id;
@@ -19,7 +19,7 @@ const renderNewOrders = function(orderArr) {
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
             <p>@ ${orderDetails.created_at}</p>
-            <p>For ${orderDetails.name} (${orderDetails.phone})</p>
+            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
             <ul></ul>
             <p>Order Total: $${orderDetails.total / 100}</p>
             <form method='POST' action='/orders/${orderId}'>
@@ -46,12 +46,44 @@ const renderNewOrders = function(orderArr) {
   }
 };
 
+const renderPendingOrders = function(orderArr) {
+  for (const ele of orderArr) {
+    const orderId = ele.id;
+    getOrders(orderId)
+      .then(orderData => {
+        const { orderDetails, itemsFromOrder } = orderData;
+        const $orderDiv = `
+          <li id='order_id_${orderId}'>
+            <h2>Order ${orderId}</h2>
+            <p>@ ${orderDetails.created_at}</p>
+            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+            <ul></ul>
+            <p>Order Total: $${orderDetails.total / 100}</p>
+            <form method='POST' action='/orders/${orderId}/done'>
+              <label for='done'>Message: </label>
+              <input name='done' placeholder='Your order is ready!'>
+              <input type='submit' value='Done'>
+            </form>
+          </li>
+        `;
+        let $itemsDiv = '';
+
+        for (const ele of itemsFromOrder) {
+          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
+        }
+
+        $('#pending_orders').append($orderDiv);
+        $(`#order_id_${orderId} ul`).append($itemsDiv);
+      });
+  }
+};
+
 //get and render all active orders
 const renderAllOrders = function() {
   getOrders()
     .then(data => {
       renderNewOrders(data.newOrders);
-      // renderPendingOrders(data.pendingOrders);
+      renderPendingOrders(data.pendingOrders);
     });
 };
 
