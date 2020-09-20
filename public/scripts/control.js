@@ -1,3 +1,8 @@
+let orderIDCache;
+let orderDataCache;
+let newOrdersCache;
+let pendingOrdersCache;
+
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
   const url = id === undefined ? '/orders' : `/orders/${id}`;
@@ -7,14 +12,47 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+//request all the order details for a given array of order id and return the data in a promise
+const getOrderDetails = function(orderArr) {
+  const output = {};
+  return new Promise((resolve, reject) => {
+    for (const ele of orderArr) {
+      const orderId = ele.id;
+      getOrders(orderId)
+        .then(orderData => {
+          output[orderId] = orderData;
+          // console.log(output);
+          if (Object.keys(output).length === orderArr.length) {
+            // console.log('resolved');
+            resolve(output);
+          }
+        });
+    }
+  });
+};
+
+const findUpdatedOrder = function(newArr) {
+  let output = [];
+
+  if (newOrdersCache === undefined) {
+    output = newArr;
+    newOrdersCache = newArr;
+  }
+
+  return output;
+};
+
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  for (const ele of orderArr) {
-    const orderId = ele.id;
-    getOrders(orderId)
-      .then(orderData => {
-        const { orderDetails, itemsFromOrder } = orderData;
+  const updatedOrders = findUpdatedOrder(orderArr);
+  console.log(updatedOrders);
+
+  getOrderDetails(orderArr)
+    .then((orderData) => {
+      for (const ele of orderArr) {
+        const orderId = ele.id;
+        const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
@@ -42,8 +80,8 @@ const renderNewOrders = function(orderArr) {
 
         $('#new_orders').append($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
-      });
-  }
+      }
+    });
 };
 
 const renderPendingOrders = function(orderArr) {
@@ -80,6 +118,7 @@ const renderPendingOrders = function(orderArr) {
 
 //get and render all active orders
 const renderAllOrders = function() {
+  $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
       renderNewOrders(data.newOrders);

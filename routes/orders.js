@@ -49,13 +49,11 @@ module.exports = (db) => {
 
     dbHelpers.processOrder({order_id: id})
       .then(() => {
-        res.send(`Successful POST to orders/${id}`);
+        res.status(200).send(`Successful POST to orders/${id}`);
       })
       .catch((err) => {
-        res.send(`Unsuccessful POST to orders/${id} ${err.message}`);
+        res.status(404).send(`Unsuccessful POST to orders/${id} ${err.message}`);
       });
-    // console.log(`POST to orders/:${id}`);
-    //test fail request
   });
 
   router.post("/:id/decline", (req, res) => {
@@ -68,8 +66,6 @@ module.exports = (db) => {
       .catch((err) => {
         res.send(`Unsuccessful POST to orders/${id}/decline ${err.message}`);
       });
-    // res.send(`POST to orders/:${req.params.id}/decline`);
-    // console.log(`POST to orders/:${req.params.id}/decline`);
   });
 
   router.post("/:id/done", (req, res) => {
@@ -80,7 +76,6 @@ module.exports = (db) => {
         res.send(`Successful POST to orders/:${req.params.id}/done`);
       })
       .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
-    // console.log(`POST to orders/:${req.params.id}/done`);
   });
 
   return router;
