@@ -34,6 +34,26 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // dbHelpers.getItemsFromOrder(1)
 // .then(res => console.log('items from order:', res));
 
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 3:5 },
+//   userDetails: { name: 'Danilo', phone: 1234567890 }
+// })
+// .then(res => res)
+
+// dbHelpers.processOrder({order_id: 1}) // should be accepted
+// .then(res => res)
+// dbHelpers.processOrder({order_id: 2, accepted: 'anything'}) // should be accepted
+// .then(res => res)
+// dbHelpers.processOrder({order_id: 3, accepted: false}) // should be rejected
+// .then(res => res)
+// dbHelpers.processOrder({order_id: 4, accepted: ''}) // should be accepted
+// .then(res => res)
+
+// dbHelpers.finishOrder(6)
+// .then(res => res)
+
+
+
 // -----------------      dbHelpers tests         ---------------------
 
 
