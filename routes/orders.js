@@ -40,7 +40,8 @@ module.exports = (db) => {
   });
 
   router.post('/', (req, res) =>{
-    console.log(`posted to /orders`);
+    console.log(req.body);
+    console.log(`HELLOOOOO`);
   });
 
   router.post("/:id", (req, res) => {

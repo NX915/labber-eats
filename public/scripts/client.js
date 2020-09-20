@@ -168,7 +168,6 @@ $(document).ready(() => {
 
           decreaseCounter($counter);
           removeFromCart(selectedItems, clickedItemId);
-          console.log(selectedItems)
         });
 
         // Increase quantity when '+' clicked
@@ -178,7 +177,6 @@ $(document).ready(() => {
 
           increaseCounter($counter);
           addToCart(selectedItems, clickedItemId);
-          console.log(selectedItems)
         });
 
         // Update quantity when use types in the input field
@@ -187,18 +185,21 @@ $(document).ready(() => {
           const inputValue = $(`#${itemId}`).find('input').val();
 
           updateCart(selectedItems, itemId, inputValue);
-          console.log(selectedItems)
         });
 
         $('form').submit(function(event) {
           event.preventDefault();
           const name = $('#name').val();
           const phone = $('#phone').val();
+          const json = JSON.stringify({selectedItems, userDetails: {name, phone}});
 
-          const orderDetails = {selectedItems, userDetails: {name, phone}};
-          console.log(orderDetails);
-
-        });
+          $.ajax({
+            url: '/orders',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            body: json});
+        })
       });
     });
 });
