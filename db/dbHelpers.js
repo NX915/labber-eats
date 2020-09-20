@@ -6,7 +6,7 @@ module.exports = db => {
   const getMenu = () => {
     return db
       .query('SELECT * FROM items')
-      .then(res => res.rows)
+      .then(res => res.rows);
   }
 
   // returns all new orders id as an array
@@ -39,7 +39,7 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows[0])
+      .then(res => res.rows[0]);
   }
 
 
@@ -57,7 +57,7 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows)
+      .then(res => res.rows);
   }
 
 
@@ -133,10 +133,16 @@ module.exports = db => {
     UPDATE orders
     SET accepted = $2
     WHERE orders.id = $1
+    RETURNING *
     `
     return db
       .query(text, values)
-      .then(() => console.log(obj.order_id, 'was marked as', accepted))
+      .then(res => {
+        if (res.rows[0]) {
+          return console.log(obj.order_id, 'was marked as', accepted)
+        }
+        throw 'The order id doesn\'t exist'
+      })
   }
 
   // mark the order as completed (change the completed_at column to now())
@@ -146,12 +152,18 @@ module.exports = db => {
       UPDATE orders
       SET completed_at = now()
       WHERE orders.id = $1
+      RETURNING *
       `,
       values: [order_id]
     }
     return db
       .query(query)
-      .then(() => console.log(order_id, 'was marked as completed'))
+      .then(res => {
+        if (res.rows[0]) {
+          return console.log(order_id, 'was marked as completed')
+        }
+        throw 'The order id doesn\'t exist'
+      })
   }
 
   return {
