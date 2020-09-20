@@ -34,73 +34,72 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // dbHelpers.getItemsFromOrder(1)
 // .then(res => console.log('items from order:', res));
 
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 3:5 },
-  userDetails: { name: 'Danilo', phone: 1234567890 }
-})
-.catch(e => console.log(e.message));
-// ok
-dbHelpers.addOrder({
-  selectedItems: {},
-  userDetails: { name: 'invalid selection', phone: 1234567890 }
-})
-.catch(e => console.log(e.message));
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 3:5 },
-  userDetails: { name: '', phone: 1234567890 }
-})
-.catch(e => console.log(e.message));
-
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 3:5 },
-  userDetails: { name: 'absent phone' }
-})
-.catch(e => console.log(e.message));
-
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 3:5 },
-  userDetails: { name: 'invalid phone', phone: 123456789 }
-})
-.catch(e => console.log(e.message));
-
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 4:5 },
-  userDetails: { name: 'phone as a big string', phone: 'i dont want to inform my phone' }
-})
-.catch(e => console.log(e.message));
-
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 4:5 },
-  userDetails: { name: 'should populate the database', phone: '+1(234)567-8910' }
-})
-.catch(e => console.log(e.message));
-
-// ok
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 4:5 },
-  userDetails: { name: 'numberIsToLong', phone: '+1(234)567-8951234567895123456789512' }
-})
-.catch(e => console.log(e.message));
-
-// still populating databases
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 4:5 },
-  userDetails: { name: 'unavailable item', phone: 1234567890 }
-})
-.catch(e => console.log(e.message));
-
-// still populating databases
-dbHelpers.addOrder({
-  selectedItems: { 1:3, 5:5 },
-  userDetails: { name: 'non existing item', phone: 1234567890 }
-})
-.catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 3:5 },
+//   userDetails: { name: 'Danilo', phone: 1234567890 }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 2:1, 3:1 },
+//   userDetails: { name: 'Sara', phone: '+1(234)567-8910' }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 2:1, 3:0 },
+//   userDetails: { name: 'Selected item < 0', phone: '+1(234)567-8910' }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: {},
+//   userDetails: { name: 'invalid selection', phone: 1234567890 }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 3:5 },
+//   userDetails: { name: '', phone: 1234567890 }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 3:5 },
+//   userDetails: { name: 'absent phone' }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 3:5 },
+//   userDetails: { name: 'invalid phone', phone: 123456789 }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 4:5 },
+//   userDetails: { name: 'phone as a big string', phone: 'i dont want to inform my phone' }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 4:5 },
+//   userDetails: { name: 'numberIsToLong', phone: '+1(234)567-8951234567895123456789512' }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 4:5 },
+//   userDetails: { name: 'unavailable item', phone: 1234567890 }
+// })
+// .catch(e => console.log(e.message));
+// // ok
+// dbHelpers.addOrder({
+//   selectedItems: { 1:3, 5:5 },
+//   userDetails: { name: 'non existing item', phone: 1234567890 }
+// })
+// .catch(e => console.log(e.message));
 
 
 // dbHelpers.processOrder({order_id: 1}) // should be accepted
@@ -111,10 +110,8 @@ dbHelpers.addOrder({
 // .then(res => res)
 // dbHelpers.processOrder({order_id: 4, accepted: ''}) // should be accepted
 // .then(res => res)
-
 // dbHelpers.finishOrder(6)
 // .then(res => res)
-
 
 
 // -----------------      dbHelpers tests         ---------------------

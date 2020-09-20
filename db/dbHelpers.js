@@ -1,5 +1,3 @@
-
-//still need to change server to import this file and while doing so, pass the db parameter. Is that how we are supposed to do so we don't need to connect to our db again
 module.exports = db => {
 
   // gets all available items to be displayed to the user. It returns an array
@@ -60,32 +58,10 @@ module.exports = db => {
       .then(res => res.rows);
   }
 
-
-  /* should react to a new order submission and update three tables:
-
-    users: create a new row with name and phone. The id created by the database should be saved in a variable so we can use it to insert a row in the orders table
-
-    orders: create a new row only with the user_id (id, estimated_wait, accepted, created_at and completed_at should not be filled right now)
-
-    order_items: create n rows where n is the number of distinct items. Should populate the row with the order_id, the item_id and quantity)
-
-    expected input:
-      {
-        selectedItems: { item_id: quantity, item_id: quantity },
-        userDetails: { name: 'name', phone: 'phone' }
-      }
-    example:
-      {
-        selectedItems: { 1:3, 3:5 },
-        userDetails: { name: 'Danilo', phone: '1234567890' }
-      }
-
- */
-  const checkErrors = obj => {
-    console.log('starting checking erros')
+  // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
+  const checkErrors = (obj, itemsID) => {
     const { selectedItems, userDetails } = obj;
     const phone = userDetails.phone ? userDetails.phone.toString().replace(/\D/g, "") : '';
-    console.log({ phone })
 
     return new Promise((resolve, reject) => {
 
@@ -100,15 +76,56 @@ module.exports = db => {
         return reject('The name field does not contain a valid input');
       }
       // confirming that the phone field is not empty, it has more than 10 characters and it contains valid numbers
-      if (!phone || phone.length < 10 || phone.length > 31 ) {
+      if (!phone || phone.length < 10 || phone.length > 31) {
         console.log('invalid phone number')
         return reject('The phone number is either empty or incomplete');
       }
-      return resolve();
+      // confirming that every item has a valid quantity
+      for (const itemID in selectedItems) {
+        if (selectedItems[itemID] <= 0) {
+          return reject('It seems that not all of the selected quantities are valid');
+        }
+      }
+      //  create a new query to check if every item_id in the order is valid. The query should count how many items are valid (available and existent)
+      checkItemsQuery = `SELECT COUNT(*) FROM items WHERE available = TRUE AND id IN (`;
+      checkItemsValues = []
+      itemsID.forEach(elem => {
+        checkItemsQuery += `$${checkItemsValues.length + 1}, `;
+        checkItemsValues.push(elem);
+      })
+      checkItemsQuery = checkItemsQuery.slice(0, -2) + ');';
+      return db
+        .query(checkItemsQuery, checkItemsValues)
+        .then(res => {
+          // after checking how many items are valid, we evaluate if the quantity is exactly the same as the different items present in an order
+          if (Number(res.rows[0].count) === itemsID.length) {
+            return resolve()
+          }
+          return reject('Some of the items are unavailable or not existing')
+        })
     })
-
   }
 
+  /* should react to a new order submission and update three tables:
+
+  users: create a new row with name and phone. The id created by the database should be saved in a variable so we can use it to insert a row in the orders table
+
+  orders: create a new row only with the user_id (id, estimated_wait, accepted, created_at and completed_at should not be filled right now)
+
+  order_items: create n rows where n is the number of distinct items. Should populate the row with the order_id, the item_id and quantity)
+
+  expected input:
+    {
+      selectedItems: { item_id: quantity, item_id: quantity },
+      userDetails: { name: 'name', phone: 'phone' }
+    }
+  example:
+    {
+      selectedItems: { 1:3, 3:5 },
+      userDetails: { name: 'Danilo', phone: '1234567890' }
+    }
+
+*/
   const addOrder = obj => {
     const { selectedItems, userDetails } = obj;
     // query to insert a new user, returning its id
@@ -136,10 +153,6 @@ module.exports = db => {
     const assignItemsToOrderValues = []
     for (const itemID in selectedItems) {
       itemsID.push(itemID);
-      // confirming that every item has a valid quantity
-      if (selectedItems[itemID] <= 0) {
-        throw 'It seems that not all of the selected quantities are valid'
-      }
       assignItemsToOrderText += `($1, $${assignItemsToOrderValues.length + 2}, $${assignItemsToOrderValues.length + 3}),\n`;
       assignItemsToOrderValues.push(itemID);
       assignItemsToOrderValues.push(selectedItems[itemID]);
@@ -147,18 +160,8 @@ module.exports = db => {
     // delete the last row extra new line and comma, and add the command to finish the query
     assignItemsToOrderText = assignItemsToOrderText.slice(0, -2) + ';';
 
-    // create a new query to check if every item_id in the order is valid
-    // console.log(itemsID);
-    // checkItemsQuery = {
-    //   text: `
-    //   SELECT id FROM items WHERE available = TRUE
-    //   `,
-    //   values: []
-    // }
-
-
-    // check if the obj is invalid
-    return checkErrors(obj)
+    // check if the obj valid
+    return checkErrors(obj, itemsID)
       // run the first query that will return the user_id
       .then(() => db.query(newUserQuery))
       .then(res => {
