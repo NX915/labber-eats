@@ -1,4 +1,6 @@
 let orderCache;
+let newOrdersCache;
+let pendingOrdersCache;
 
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
@@ -13,8 +15,14 @@ const getOrders = function(id) {
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
   let toRenderArr;
+  console.log(orderArr);
 
-  for (const ele of orderArr) {
+  if (newOrdersCache === undefined) {
+    toRenderArr = orderArr;
+    newOrdersCache = orderArr;
+  }
+
+  for (const ele of toRenderArr) {
     const orderId = ele.id;
     getOrders(orderId)
       .then(orderData => {
