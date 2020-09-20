@@ -34,7 +34,7 @@ const createCartItem = (itemObj, quant) => {
       <button class='inc-button'>+</button>
     </div>
     <div>
-      <p>$${itemObj.price / 100 * quant}</p>
+      <p>$${itemObj.price * quant / 100}</p>
     </div>
   </article>
   `;
@@ -93,6 +93,22 @@ const updateCart = function(cart, id, value) {
   }
 };
 
+const calculateTotal = (menu, itemObj) => {
+  let sum = 0;
+  for (const itemId in itemObj) {
+    const quantity = itemObj[itemId];
+
+    for (const menuItem of menu) {
+      if (menuItem.id === parseInt(itemId)) {
+        const price = menuItem.price;
+
+        sum += quantity * price;
+      }
+    }
+  }
+  return sum / 100;
+};
+
 $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
@@ -131,6 +147,13 @@ $(document).ready(() => {
         $('main').empty();
         $('main').append('<h1>Cart</h1>');
         renderCart(menuCache, selectedItems);
+        $('main').append(`
+        <br>
+        <div>
+          <h4>Total</h4>
+          <p>${calculateTotal(menuCache, selectedItems)}</p>
+        </div>
+        `);
       });
     });
 });
