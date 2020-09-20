@@ -82,20 +82,24 @@ module.exports = db => {
 
  */
   const checkErrors = obj => {
+    console.log('starting checking erros')
     const { selectedItems, userDetails } = obj;
-     return new Promise((resolve, reject) => {
+    const phone = userDetails.phone ? parseInt(userDetails.phone, 10).toString(): '';
+    console.log({ phone })
+    return new Promise((resolve, reject) => {
 
       // confirming that the user has selected at least one item (not an empty object)
       if (Object.keys(selectedItems).length === 0) {
         console.log('invalid selection')
         return reject('It seems that the user did not select any item');
       }
-      // confirming that both the name and phone fields are filled
+      // confirming that both the name is filled
       if (!userDetails.name) {
         console.log('invalid name')
         return reject('The name field does not contain a valid input');
       }
-      if (!userDetails.phone || userDetails.phone.toString().length < 10) {
+      // confirming that the phone field is not empty, it has more than 10 characters and it contains valid numbers
+      if (!phone || phone.length < 10) {
         console.log('invalid phone number')
         return reject('The phone number is either empty or incomplete');
       }
@@ -143,7 +147,7 @@ module.exports = db => {
     assignItemsToOrderText = assignItemsToOrderText.slice(0, -2) + ';';
 
     // create a new query to check if every item_id in the order is valid
-    console.log(itemsID);
+    // console.log(itemsID);
     // checkItemsQuery = {
     //   text: `
     //   SELECT id FROM items WHERE available = TRUE
