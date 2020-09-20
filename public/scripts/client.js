@@ -1,8 +1,8 @@
-const cart = {}; // const cart = { itemId: 'quantity' }
+const selectedItems = {}; // const cart = { itemId: 'quantity' }
 let menuCache;
 // const userDetails = { name: 'qleqe', phone: '12341839254'}
 
-const createItemElement = (itemObj, quant = 0) => {
+const createItemElement = (itemObj) => {
   const $item = `
   <article class='menu-item' id=${itemObj.id}>
     <div><img src=${itemObj.image_url} width="500"></div>
@@ -13,8 +13,28 @@ const createItemElement = (itemObj, quant = 0) => {
     </div>
     <div>
       <button class='dec-button'>-</button>
+      <input type="number" name="quantity" value="0">
+      <button class='inc-button'>+</button>
+    </div>
+  </article>
+  `;
+  return $item;
+};
+
+const createCartItem = (itemObj, quant) => {
+  const $item = `
+  <article class='menu-item' id=${itemObj.id}>
+    <div><img src=${itemObj.image_url} width="500"></div>
+    <div>
+      <h3>${itemObj.name}</h3>
+    </div>
+    <div>
+      <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="${quant}">
       <button class='inc-button'>+</button>
+    </div>
+    <div>
+      <p>$${itemObj.price / 100 * quant}</p>
     </div>
   </article>
   `;
@@ -29,7 +49,7 @@ const renderCart = (arr, cart) => {
   for (const menuItem of arr) {
     for (const itemId in cart) {
       if (menuItem.id === parseInt(itemId)) {
-        $('main').append(createItemElement(menuItem, cart[itemId]));
+        $('main').append(createCartItem(menuItem, cart[itemId]));
       }
     }
   }
@@ -64,10 +84,12 @@ const addToCart = function(cart, id) {
 };
 
 const updateCart = function(cart, id, value) {
-  if (value) {
+  if (value && value !== '0') {
     cart[id] = parseInt(value);
   } else {
-    cart[id] = 0;
+    if (cart[id]) {
+      delete cart[id];
+    }
   }
 };
 
@@ -84,7 +106,7 @@ $(document).ready(() => {
         let $counter = $(this).siblings('input');
 
         decreaseCounter($counter);
-        removeFromCart(cart, clickedItemId);
+        removeFromCart(selectedItems, clickedItemId);
       });
 
       // Increase quantity when '+' clicked
@@ -93,19 +115,22 @@ $(document).ready(() => {
         let $counter = $(this).siblings('input');
 
         increaseCounter($counter);
-        addToCart(cart, clickedItemId);
+        addToCart(selectedItems, clickedItemId);
       });
 
       // Update quantity when use types in the input field
       $('input').on('input', function() {
         const itemId = $(this).parent().parent().attr('id');
-        updateCart(cart, itemId, $('input').val());
+        const inputValue = $(`#${itemId}`).find('input').val();
+
+        updateCart(selectedItems, itemId, inputValue);
       });
+
       // When client clicks on cart, repopulate page with only their selection
       $('#cart-btn').click(() => {
         $('main').empty();
         $('main').append('<h1>Cart</h1>');
-        renderCart(menuCache, cart);
+        renderCart(menuCache, selectedItems);
       });
     });
 });
