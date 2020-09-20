@@ -83,8 +83,7 @@ module.exports = db => {
  */
   const checkErrors = obj => {
     const { selectedItems, userDetails } = obj;
-    console.log(obj);
-    return new Promise((resolve, reject) => {
+     return new Promise((resolve, reject) => {
 
       // confirming that the user has selected at least one item (not an empty object)
       if (Object.keys(selectedItems).length === 0) {
@@ -96,7 +95,7 @@ module.exports = db => {
         console.log('invalid name')
         return reject('The name field does not contain a valid input');
       }
-      if (!userDetails.phone || toString(userDetails.phone).length < 10) {
+      if (!userDetails.phone || userDetails.phone.toString().length < 10) {
         console.log('invalid phone number')
         return reject('The phone number is either empty or incomplete');
       }

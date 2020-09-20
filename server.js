@@ -53,7 +53,14 @@ dbHelpers.addOrder({
 })
 .catch(e => console.log(e.message));
 
-// still populating databases
+// ok
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 3:5 },
+  userDetails: { name: 'absent phone' }
+})
+.catch(e => console.log(e.message));
+
+// ok
 dbHelpers.addOrder({
   selectedItems: { 1:3, 3:5 },
   userDetails: { name: 'invalid phone', phone: 123456789 }
