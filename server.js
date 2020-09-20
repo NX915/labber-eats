@@ -20,13 +20,16 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // -----------------      dbHelpers tests         ---------------------
 
 // dbHelpers.getMenu()
-// .then(res => console.log('menu', res));
+// .then(res => console.log('getMenu then:', res))
+// .catch(e => console.log('getMenu catch:', e))
 
 // dbHelpers.getNewOrders()
-// .then(res => console.log('new orders:', res));
+// .then(res => console.log('getNewOrders then:', res))
+// .catch(e => console.log('getNewOrders catch:', e))
 
 // dbHelpers.getPendingOrders()
-// .then(res => console.log('pending orders:',res));
+// .then(res => console.log('getPendingOrders then:', res))
+// .catch(e => console.log('getPendingOrders catch:', e))
 
 // dbHelpers.getOrderDetails(1)
 // .then(res => console.log('then response for order details for order 1:', res))

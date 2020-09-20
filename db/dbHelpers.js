@@ -4,21 +4,24 @@ module.exports = db => {
   const getMenu = () => {
     return db
       .query('SELECT * FROM items')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns all new orders id as an array
   const getNewOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted IS NULL ORDER BY created_at')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns all new orders id as an array
   const getPendingOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted = TRUE AND completed_at IS NULL ORDER BY created_at')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns an object with the order details
