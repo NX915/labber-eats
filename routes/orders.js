@@ -53,5 +53,10 @@ module.exports = (db) => {
     console.log(`POST to orders/:${req.params.id}/decline`);
   });
 
+  router.post("/:id/done", (req, res) => {
+    res.send(`POST to orders/:${req.params.id}/done`);
+    console.log(`POST to orders/:${req.params.id}/done`);
+  });
+
   return router;
 };
