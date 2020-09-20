@@ -44,8 +44,16 @@ module.exports = (db) => {
   });
 
   router.post("/:id", (req, res) => {
-    res.send(`POST to orders/:${req.params.id}`);
-    console.log(`POST to orders/:${req.params.id}`);
+    const { id } = req.params;
+    dbHelpers.processOrder({order_id: id})
+      .then(() => {
+        res.send(`Successful POST to orders/:${id}`);
+      })
+      .catch((err) => {
+        res.send(`Unsuccessful POST to orders/:${id} ${err.message}`);
+      });
+    // console.log(`POST to orders/:${id}`);
+    //test fail request
   });
 
   router.post("/:id/decline", (req, res) => {
