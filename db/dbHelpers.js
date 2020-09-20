@@ -76,7 +76,9 @@ module.exports = db => {
     we need to make sure that the selectedItems has at least one item selected (not an empty object)
     we need to make sure that the user can only submit an order if both the name and phone fields are filled
  */
-  const addOrder = (selectedItems, userDetails) => {
+  const addOrder = obj => {
+    const { selectedItems, userDetails } = obj;
+
     // define userID and orderID variables to hold the ids of the new created rows
     let userID;
     let orderID;
