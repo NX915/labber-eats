@@ -34,72 +34,82 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // dbHelpers.getItemsFromOrder(1)
 // .then(res => console.log('items from order:', res));
 
-// // ok
+// // ok --> should add to db
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 3:5 },
 //   userDetails: { name: 'Danilo', phone: 1234567890 }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (should not have an error):', e));
+
+// // ok --> should add to db
 // dbHelpers.addOrder({
 //   selectedItems: { 2:1, 3:1 },
 //   userDetails: { name: 'Sara', phone: '+1(234)567-8910' }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (should not have an error):', e));
+
+// // ok --> should return an error: it seems that not all of the selected quantities are valid
 // dbHelpers.addOrder({
 //   selectedItems: { 2:1, 3:0 },
 //   userDetails: { name: 'Selected item < 0', phone: '+1(234)567-8910' }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers(q < 0):', e));
+
+// // ok --> should return an error: it seems that no item has been selected
 // dbHelpers.addOrder({
 //   selectedItems: {},
 //   userDetails: { name: 'invalid selection', phone: 1234567890 }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (no item selected):', e));
+
+// // ok --> should return an error: The name field does not contain a valid input
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 3:5 },
 //   userDetails: { name: '', phone: 1234567890 }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (name is not a valid input):', e));
+
+// // ok --> should return an error: The phone number is empty
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 3:5 },
 //   userDetails: { name: 'absent phone' }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (no phone):', e));
+
+// // ok --> should return an error: The phone number incomplete
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 3:5 },
 //   userDetails: { name: 'invalid phone', phone: 123456789 }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (incomplete phone):', e));
+
+// // ok --> should return an error: The phone number is invalid
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 4:5 },
-//   userDetails: { name: 'phone as a big string', phone: 'i dont want to inform my phone' }
+//   userDetails: { name: 'phone as a big string', phone: 'I don\'t want to inform my phone' }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (string as phone):', e));
+
+// // ok --> should return an error: The phone number is longer than expected
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 4:5 },
 //   userDetails: { name: 'numberIsToLong', phone: '+1(234)567-8951234567895123456789512' }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (phone too long):', e));
+
+// // ok --> should return an error: unavailable item
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 4:5 },
 //   userDetails: { name: 'unavailable item', phone: 1234567890 }
 // })
-// .catch(e => console.log(e.message));
-// // ok
+// .catch(e => console.log('outside dbHelpers (unavailable item):', e));
+
+// // ok --> should return an error: non existing item
 // dbHelpers.addOrder({
 //   selectedItems: { 1:3, 5:5 },
 //   userDetails: { name: 'non existing item', phone: 1234567890 }
 // })
-// .catch(e => console.log(e.message));
+// .catch(e => console.log('outside dbHelpers (non existing item):', e));
 
 
 // dbHelpers.processOrder({order_id: 1}) // should be accepted
