@@ -1,4 +1,5 @@
-let orderCache;
+let orderIDCache;
+let orderDataCache;
 let newOrdersCache;
 let pendingOrdersCache;
 
@@ -11,6 +12,7 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+//request all the order details for a given array of order id and return the data in a promise
 const getOrderDetails = function(orderArr) {
   const output = {};
   return new Promise((resolve, reject) => {
@@ -19,8 +21,9 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          console.log(output);
+          // console.log(output);
           if (Object.keys(output).length === orderArr.length) {
+            // console.log('resolved');
             resolve(output);
           }
         });
@@ -28,28 +31,25 @@ const getOrderDetails = function(orderArr) {
   });
 };
 
-const findUpdatedOrder = function(newArr, cachedArr) {
-  let output = [];
+// const findUpdatedOrder = function(newArr, cachedArr) {
+//   let output = [];
 
-  if (cachedArr === undefined) {
-    output = newArr;
-  }
+//   if (cachedArr === undefined) {
+//     output = newArr;
+//   }
 
-  return output;
-};
+//   return output;
+// };
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  const updatedOrders = findUpdatedOrder(orderArr, newOrdersCache);
-
-  getOrderDetails(orderArr).then('hello');
-
-  for (const ele of updatedOrders) {
-    const orderId = ele.id;
-    getOrders(orderId)
-      .then(orderData => {
-        const { orderDetails, itemsFromOrder } = orderData;
+  // const updatedOrders = findUpdatedOrder(orderArr, newOrdersCache);
+  getOrderDetails(orderArr)
+    .then((orderData) => {
+      for (const ele of orderArr) {
+        const orderId = ele.id;
+        const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
@@ -76,9 +76,9 @@ const renderNewOrders = function(orderArr) {
         }
 
         $('#new_orders').append($orderDiv);
-        $(`#order_id_${orderId} ul`).prepend($itemsDiv);
-      });
-  }
+        $(`#order_id_${orderId} ul`).append($itemsDiv);
+      }
+    });
 };
 
 const renderPendingOrders = function(orderArr) {
@@ -108,7 +108,7 @@ const renderPendingOrders = function(orderArr) {
         }
 
         $('#pending_orders').append($orderDiv);
-        $(`#order_id_${orderId} ul`).prepend($itemsDiv);
+        $(`#order_id_${orderId} ul`).append($itemsDiv);
       });
   }
 };
@@ -118,9 +118,8 @@ const renderAllOrders = function() {
   $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
-      orderCache = data;
-      renderNewOrders(orderCache.newOrders);
-      renderPendingOrders(orderCache.pendingOrders);
+      renderNewOrders(data.newOrders);
+      renderPendingOrders(data.pendingOrders);
     });
 };
 
