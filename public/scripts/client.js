@@ -1,6 +1,6 @@
-const selectedItems = {}; // const cart = { itemId: 'quantity' }
+const selectedItems = {};
 let menuCache;
-// const userDetails = { name: 'qleqe', phone: '12341839254'}
+// const { selectedItems: { itemId: 'quantity' }, userDetails:{ name: 'qleqe', phone: '12341839254'}}
 
 const createItemElement = (itemObj) => {
   const $item = `
@@ -198,7 +198,7 @@ $(document).ready(() => {
             type: 'post',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            body: json});
+            data: json});
         })
       });
     });
