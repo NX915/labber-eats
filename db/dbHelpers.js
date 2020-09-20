@@ -106,26 +106,13 @@ module.exports = db => {
     })
   }
 
-  /* should react to a new order submission and update three tables:
 
-  users: create a new row with name and phone. The id created by the database should be saved in a variable so we can use it to insert a row in the orders table
-
-  orders: create a new row only with the user_id (id, estimated_wait, accepted, created_at and completed_at should not be filled right now)
-
-  order_items: create n rows where n is the number of distinct items. Should populate the row with the order_id, the item_id and quantity)
-
+  /* addOrder should react to a new order submission and update three tables: users, orders, and order_items
   expected input:
-    {
-      selectedItems: { item_id: quantity, item_id: quantity },
-      userDetails: { name: 'name', phone: 'phone' }
-    }
+    { selectedItems: { item_id: quantity, item_id: quantity }, userDetails: { name: 'name', phone: 'phone' } }
   example:
-    {
-      selectedItems: { 1:3, 3:5 },
-      userDetails: { name: 'Danilo', phone: '1234567890' }
-    }
-
-*/
+    { selectedItems: { 1:3, 3:5 }, userDetails: { name: 'Danilo', phone: '1234567890' } }
+  */
   const addOrder = obj => {
     const { selectedItems, userDetails } = obj;
     // query to insert a new user, returning its id
