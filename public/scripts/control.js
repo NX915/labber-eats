@@ -11,18 +11,41 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+const getOrderDetails = function(orderArr) {
+  const output = {};
+  return new Promise((resolve, reject) => {
+    for (const ele of orderArr) {
+      const orderId = ele.id;
+      getOrders(orderId)
+        .then(orderData => {
+          output[orderId] = orderData;
+          console.log(output);
+          if (Object.keys(output).length === orderArr.length) {
+            resolve(output);
+          }
+        });
+    }
+  });
+};
+
+const findUpdatedOrder = function(newArr, cachedArr) {
+  let output = [];
+
+  if (cachedArr === undefined) {
+    output = newArr;
+  }
+
+  return output;
+};
+
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  let toRenderArr;
-  console.log(orderArr);
+  const updatedOrders = findUpdatedOrder(orderArr, newOrdersCache);
 
-  if (newOrdersCache === undefined) {
-    toRenderArr = orderArr;
-    newOrdersCache = orderArr;
-  }
+  getOrderDetails(orderArr).then('hello');
 
-  for (const ele of toRenderArr) {
+  for (const ele of updatedOrders) {
     const orderId = ele.id;
     getOrders(orderId)
       .then(orderData => {
