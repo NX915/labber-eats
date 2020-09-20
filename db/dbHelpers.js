@@ -81,20 +81,32 @@ module.exports = db => {
       }
 
  */
+  const checkErrors = obj => {
+    const { selectedItems, userDetails } = obj;
+    console.log(obj);
+    return new Promise((resolve, reject) => {
+
+      // confirming that the user has selected at least one item (not an empty object)
+      if (Object.keys(selectedItems).length === 0) {
+        console.log('invalid selection')
+        return reject('It seems that the user did not select any item');
+      }
+      // confirming that both the name and phone fields are filled
+      if (!userDetails.name) {
+        console.log('invalid name')
+        return reject('The name field does not contain a valid input');
+      }
+      if (!userDetails.phone || toString(userDetails.phone).length < 10) {
+        console.log('invalid phone number')
+        return reject('The phone number is either empty or incomplete');
+      }
+      return resolve();
+    })
+
+  }
+
   const addOrder = obj => {
     const { selectedItems, userDetails } = obj;
-    // confirming that the user has selected at least one item (not an empty object)
-    if (Object.keys(selectedItems).length === 0) {
-      throw 'It seems that the user did not select any item'
-    }
-    // confirming that both the name and phone fields are filled
-    if (!userDetails.name) {
-      throw 'The name field does not contain a valid input'
-    }
-    if (!userDetails.phone || toString(userDetails.phone).length < 10) {
-      throw 'The phone number is either empty or incomplete'
-    }
-
     // query to insert a new user, returning its id
     let userID;
     const newUserQuery = {
@@ -141,10 +153,10 @@ module.exports = db => {
     // }
 
 
-
-    return db
+    // check if the obj is invalid
+    return checkErrors(obj)
       // run the first query that will return the user_id
-      .query(newUserQuery)
+      .then(() => db.query(newUserQuery))
       .then(res => {
         userID = res.rows[0].id;
         // run the second query to create a new order related to the user_id that submitted the order
@@ -157,6 +169,7 @@ module.exports = db => {
         // run the last query to create n rows in the order_items table
         return db.query(assignItemsToOrderText, assignItemsToOrderValues);
       })
+      .catch(e => e)
   }
 
   // evaluate if the order was accepted and change the accepted column accordingly

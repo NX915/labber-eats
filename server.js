@@ -34,16 +34,46 @@ const dbHelpers = require('./db/dbHelpers')(db);
 // dbHelpers.getItemsFromOrder(1)
 // .then(res => console.log('items from order:', res));
 
+// ok
 dbHelpers.addOrder({
   selectedItems: { 1:3, 3:5 },
   userDetails: { name: 'Danilo', phone: 1234567890 }
 })
-.then(res => res)
+.catch(e => console.log(e.message));
+// ok
+dbHelpers.addOrder({
+  selectedItems: {},
+  userDetails: { name: 'invalid selection', phone: 1234567890 }
+})
+.catch(e => console.log(e.message));
+// ok
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 3:5 },
+  userDetails: { name: '', phone: 1234567890 }
+})
+.catch(e => console.log(e.message));
+
+// still populating databases
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 3:5 },
+  userDetails: { name: 'invalid phone', phone: 123456789 }
+})
+.catch(e => console.log(e.message));
+
+// still populating databases
 dbHelpers.addOrder({
   selectedItems: { 1:3, 4:5 },
-  userDetails: { name: 'Bug tester', phone: 1234567890 }
+  userDetails: { name: 'unavailable item', phone: 1234567890 }
 })
-.then(res => res)
+.catch(e => console.log(e.message));
+
+// still populating databases
+dbHelpers.addOrder({
+  selectedItems: { 1:3, 5:5 },
+  userDetails: { name: 'non existing item', phone: 1234567890 }
+})
+.catch(e => console.log(e.message));
+
 
 // dbHelpers.processOrder({order_id: 1}) // should be accepted
 // .then(res => res)
