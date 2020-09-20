@@ -148,7 +148,6 @@ $(document).ready(() => {
         $('main').append('<h1>Cart</h1>');
         renderCart(menuCache, selectedItems);
         $('main').append(`
-        <br>
         <div>
           <h4>Total</h4>
           <p>${calculateTotal(menuCache, selectedItems)}</p>
@@ -161,6 +160,42 @@ $(document).ready(() => {
           <button type="submit">Submit Order</button>
         </form>
         `);
+
+        // Decrease quantity when '-' clicked
+        $('.dec-button').click(function() {
+          const clickedItemId = $(this).parent().parent().attr('id');
+          let $counter = $(this).siblings('input');
+
+          decreaseCounter($counter);
+          removeFromCart(selectedItems, clickedItemId);
+          console.log(selectedItems)
+        });
+
+        // Increase quantity when '+' clicked
+        $('.inc-button').click(function() {
+          const clickedItemId = $(this).parent().parent().attr('id');
+          let $counter = $(this).siblings('input');
+
+          increaseCounter($counter);
+          addToCart(selectedItems, clickedItemId);
+          console.log(selectedItems)
+        });
+
+        // Update quantity when use types in the input field
+        $('input').on('input', function() {
+          const itemId = $(this).parent().parent().attr('id');
+          const inputValue = $(`#${itemId}`).find('input').val();
+
+          updateCart(selectedItems, itemId, inputValue);
+          console.log(selectedItems)
+        });
+
+        $('form').submit(event => {
+          event.preventDefault();
+
+          const orderDetails = {selectedItems, userDetails: {}};
+
+        });
       });
     });
 });
