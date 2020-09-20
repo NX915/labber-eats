@@ -1,9 +1,8 @@
-const cart = {};
-// const cart = { itemId: 'quantity' };
+const cart = {}; // const cart = { itemId: 'quantity' }
+let menuCache;
 // const userDetails = { name: 'qleqe', phone: '12341839254'}
-// { cart: {},
 
-const createItemElement = itemObj => {
+const createItemElement = (itemObj, quant = 0) => {
   const $item = `
   <article class='menu-item' id=${itemObj.id}>
     <div><img src=${itemObj.image_url} width="500"></div>
@@ -14,7 +13,7 @@ const createItemElement = itemObj => {
     </div>
     <div>
       <button class='dec-button'>-</button>
-      <input type="number" name="quantity" value="0">
+      <input type="number" name="quantity" value="${quant}">
       <button class='inc-button'>+</button>
     </div>
   </article>
@@ -24,6 +23,16 @@ const createItemElement = itemObj => {
 
 const renderMenu = arr => {
   arr.forEach(item => $('main').append(createItemElement(item)));
+};
+
+const renderCart = (arr, cart) => {
+  for (const menuItem of arr) {
+    for (const itemId in cart) {
+      if (menuItem.id === parseInt(itemId)) {
+        $('main').append(createItemElement(menuItem, cart[itemId]));
+      }
+    }
+  }
 };
 
 const decreaseCounter = function(el) {
@@ -65,9 +74,11 @@ const updateCart = function(cart, id, value) {
 $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
+      menuCache = res;
       renderMenu(res);
     })
     .then(() => {
+      // Decrease quantity when '-' clicked
       $('.dec-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
@@ -76,19 +87,25 @@ $(document).ready(() => {
         removeFromCart(cart, clickedItemId);
       });
 
+      // Increase quantity when '+' clicked
       $('.inc-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
 
         increaseCounter($counter);
         addToCart(cart, clickedItemId);
-        console.log(cart)
       });
 
+      // Update quantity when use types in the input field
       $('input').on('input', function() {
         const itemId = $(this).parent().parent().attr('id');
         updateCart(cart, itemId, $('input').val());
-        console.log(cart)
+      });
+      // When client clicks on cart, repopulate page with only their selection
+      $('#cart-btn').click(() => {
+        $('main').empty();
+        $('main').append('<h1>Cart</h1>');
+        renderCart(menuCache, cart);
       });
     });
 });
