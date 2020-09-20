@@ -26,6 +26,16 @@ const renderMenu = arr => {
   arr.forEach(item => $('main').append(createItemElement(item)));
 };
 
+const decreaseValue = function(el) {
+  if (el.val() > 0) {
+    el.val(Number(el.val()) - 1);
+  }
+};
+
+const increaseValue = function(el) {
+  el.val(Number(el.val()) + 1);
+};
+
 $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
@@ -36,9 +46,7 @@ $(document).ready(() => {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
 
-        if ($counter.val() > 0) {
-          $counter.val(Number($counter.val()) - 1)
-        }
+        decreaseValue($counter);
 
         if (cart[clickedItemId]) {
           if (cart[clickedItemId] > 1) {
@@ -47,21 +55,21 @@ $(document).ready(() => {
             delete cart[clickedItemId];
           }
         }
-        console.log(cart)
       });
 
       $('.inc-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
 
-        $counter.val(Number($counter.val()) + 1)
+        increaseValue($counter);
 
         if (cart[clickedItemId]) {
           cart[clickedItemId]++;
         } else {
           cart[clickedItemId] = 1;
         }
-        console.log(cart)
       });
+
+
     });
 });
