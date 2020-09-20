@@ -92,8 +92,7 @@ app.use("/orders", ordersRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  const templateVars = {};
-  res.render("index", templateVars);
+  res.render("index");
 });
 
 app.get("/control", (req, res) => {

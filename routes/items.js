@@ -9,8 +9,12 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
+  const dbHelpers = require('../db/dbHelpers')(db);
+
   router.get("/", (req, res) => {
-    res.send('hello, I am the selected items page');
+    dbHelpers.getMenu()
+      .then(data => res.send(data));
   });
+
   return router;
 };
