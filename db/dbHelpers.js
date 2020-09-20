@@ -185,9 +185,9 @@ module.exports = db => {
       .query(text, values)
       .then(res => {
         if (res.rows[0]) {
-          return console.log(obj.order_id, 'was marked as', accepted)
+          return 'The order acceptance was marked as ' + accepted
         }
-        throw 'The order id doesn\'t exist'
+        throw 'The order id does not exist'
       })
   }
 
@@ -206,9 +206,9 @@ module.exports = db => {
       .query(query)
       .then(res => {
         if (res.rows[0]) {
-          return console.log(order_id, 'was marked as completed')
+          return 'The order was marked as completed'
         }
-        throw 'The order id doesn\'t exist'
+        throw 'The order id does not exist'
       })
   }
 

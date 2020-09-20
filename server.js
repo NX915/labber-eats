@@ -113,15 +113,32 @@ const dbHelpers = require('./db/dbHelpers')(db);
 
 
 // dbHelpers.processOrder({order_id: 1}) // should be accepted
-// .then(res => res)
+// .then(res => console.log('outside then response for processing order 1:',res))
+// .catch(e => console.log('outside catch response for processing order 1:',e))
 // dbHelpers.processOrder({order_id: 2, accepted: 'anything'}) // should be accepted
-// .then(res => res)
+// .then(res => console.log('outside then response for processing order 2:',res))
+// .catch(e => console.log('outside catch response for processing order 2:',e))
+
 // dbHelpers.processOrder({order_id: 3, accepted: false}) // should be rejected
-// .then(res => res)
+// .then(res => console.log('outside then response for processing order 3:',res))
+// .catch(e => console.log('outside catch response for processing order 3:',e))
+
 // dbHelpers.processOrder({order_id: 4, accepted: ''}) // should be accepted
-// .then(res => res)
+// .then(res => console.log('outside then response for processing order 4:',res))
+// .catch(e => console.log('outside catch response for processing order 4:',e))
+
+// dbHelpers.processOrder({order_id: 13, accepted: ''}) // should return an error
+// .then(res => console.log('outside then response for processing order 13:',res))
+// .catch(e => console.log('outside catch response for processing order 13:',e))
+
 // dbHelpers.finishOrder(6)
-// .then(res => res)
+// .then(res => console.log('outside then response for finishing order 6:', res))
+// .catch(e => console.log('outside catch response for finishing order 6:',e))
+
+// dbHelpers.finishOrder(13)
+// .then(res => console.log('outside then response for finishing order 13:', res))
+// .catch(e => console.log('outside catch response for finishing order 13:',e))
+
 
 
 // -----------------      dbHelpers tests         ---------------------
