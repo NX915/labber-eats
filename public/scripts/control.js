@@ -80,7 +80,7 @@ const renderPendingOrders = function(orderArr) {
 
 //get and render all active orders
 const renderAllOrders = function() {
-  $('ol').on('order_update_successed', renderAllOrders);
+  $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
       renderNewOrders(data.newOrders);

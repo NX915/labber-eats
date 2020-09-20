@@ -10,7 +10,7 @@ const attachButtonListener = function() {
     $.ajax({url: action, method: method})
       .then(res => {
         console.log(res);
-        $(parentElement).trigger('order_update_successed');
+        $(parentElement).trigger('order_update_succeeded');
       })
       .catch(err => {
         console.log('Ajax request error ', err);
