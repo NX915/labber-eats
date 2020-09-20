@@ -154,9 +154,9 @@ $(document).ready(() => {
         </div>
         <form method='POST' action='/orders'>
           <label for="name">Name:</label>
-          <input type="text" name="name" placeholder="Name">
+          <input type="text" name="name" id="name" placeholder="Name">
           <label for="phone-num">Phone number:</label>
-          <input type="text" name="Phone" placeholder="(xxx)xxx-xxxx">
+          <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx">
           <button type="submit">Submit Order</button>
         </form>
         `);
@@ -182,7 +182,7 @@ $(document).ready(() => {
         });
 
         // Update quantity when use types in the input field
-        $('input').on('input', function() {
+        $('input[name$="quantity"]').on('input', function() {
           const itemId = $(this).parent().parent().attr('id');
           const inputValue = $(`#${itemId}`).find('input').val();
 
@@ -190,10 +190,13 @@ $(document).ready(() => {
           console.log(selectedItems)
         });
 
-        $('form').submit(event => {
+        $('form').submit(function(event) {
           event.preventDefault();
+          const name = $('#name').val();
+          const phone = $('#phone').val();
 
-          const orderDetails = {selectedItems, userDetails: {}};
+          const orderDetails = {selectedItems, userDetails: {name, phone}};
+          console.log(orderDetails);
 
         });
       });
