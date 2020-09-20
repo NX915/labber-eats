@@ -28,12 +28,12 @@ const renderMenu = arr => {
 
 const decreaseCounter = function(el) {
   if (el.val() > 0) {
-    el.val(Number(el.val()) - 1);
+    el.val(parseInt(el.val()) - 1);
   }
 };
 
 const increaseCounter = function(el) {
-  el.val(Number(el.val()) + 1);
+  el.val(parseInt(el.val()) + 1);
 };
 
 const removeFromCart = function(cart, id) {
@@ -51,6 +51,14 @@ const addToCart = function(cart, id) {
     cart[id]++;
   } else {
     cart[id] = 1;
+  }
+};
+
+const updateCart = function(cart, id, value) {
+  if (value) {
+    cart[id] = parseInt(value);
+  } else {
+    cart[id] = 0;
   }
 };
 
@@ -74,13 +82,13 @@ $(document).ready(() => {
 
         increaseCounter($counter);
         addToCart(cart, clickedItemId);
+        console.log(cart)
       });
 
       $('input').on('input', function() {
         const itemId = $(this).parent().parent().attr('id');
-
-        console.log(itemId)
-
+        updateCart(cart, itemId, $('input').val());
+        console.log(cart)
       });
     });
 });
