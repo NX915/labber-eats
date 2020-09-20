@@ -26,14 +26,32 @@ const renderMenu = arr => {
   arr.forEach(item => $('main').append(createItemElement(item)));
 };
 
-const decreaseValue = function(el) {
+const decreaseCounter = function(el) {
   if (el.val() > 0) {
     el.val(Number(el.val()) - 1);
   }
 };
 
-const increaseValue = function(el) {
+const increaseCounter = function(el) {
   el.val(Number(el.val()) + 1);
+};
+
+const removeFromCart = function(cart, id) {
+  if (cart[id]) {
+    if (cart[id] > 1) {
+      cart[id]--;
+    } else if (cart[id] === 1) {
+      delete cart[id];
+    }
+  }
+};
+
+const addToCart = function(cart, id) {
+  if (cart[id]) {
+    cart[id]++;
+  } else {
+    cart[id] = 1;
+  }
 };
 
 $(document).ready(() => {
@@ -46,30 +64,23 @@ $(document).ready(() => {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
 
-        decreaseValue($counter);
-
-        if (cart[clickedItemId]) {
-          if (cart[clickedItemId] > 1) {
-            cart[clickedItemId]--;
-          } else if (cart[clickedItemId] === 1) {
-            delete cart[clickedItemId];
-          }
-        }
+        decreaseCounter($counter);
+        removeFromCart(cart, clickedItemId);
       });
 
       $('.inc-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
         let $counter = $(this).siblings('input');
 
-        increaseValue($counter);
-
-        if (cart[clickedItemId]) {
-          cart[clickedItemId]++;
-        } else {
-          cart[clickedItemId] = 1;
-        }
+        increaseCounter($counter);
+        addToCart(cart, clickedItemId);
       });
 
+      $('input').on('input', function() {
+        const itemId = $(this).parent().parent().attr('id');
 
+        console.log(itemId)
+
+      });
     });
 });
