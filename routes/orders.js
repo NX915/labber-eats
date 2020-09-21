@@ -54,7 +54,7 @@ module.exports = (db) => {
   router.post("/:id", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
-    console.log('user input', input);
+    console.log('accept order input', input);
 
     dbHelpers.processOrder({order_id: id})
       .then(() => {
@@ -68,7 +68,7 @@ module.exports = (db) => {
   router.post("/:id/decline", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
-    console.log('user input', input);
+    console.log('decline order input', input);
 
     dbHelpers.processOrder({order_id: id, accepted: false})
       .then(() => {
@@ -82,7 +82,7 @@ module.exports = (db) => {
   router.post("/:id/done", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
-    console.log('user input', input);
+    console.log('complete order input', input);
 
     dbHelpers.finishOrder(id)
       .then(() => {
