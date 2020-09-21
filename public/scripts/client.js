@@ -7,6 +7,9 @@ $(document).ready(() => {
     .then(res => {
       menuCache = res;
       renderMenu(res);
+
+      // Disable unavailable items
+      $('.unavailable *').prop("disabled", true);
     })
     .then(() => {
       // Decrease quantity when '-' clicked
@@ -84,8 +87,10 @@ $(document).ready(() => {
           const phone = $('#phone').val();
           const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
 
-          submitOrder(orderDetails)
-            .then(() => renderOrderConfirmation());
+          if (isValidName(name)) {
+            submitOrder(orderDetails)
+              .then(() => renderOrderConfirmation());
+          }
         });
       });
     });
