@@ -103,7 +103,7 @@ const renderNewOrders = function(orderArr) {
           $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
-        $('#new_orders').append($orderDiv);
+        $('#new_orders').prepend($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
