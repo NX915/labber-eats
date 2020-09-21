@@ -7,7 +7,11 @@
 
 const express = require('express');
 const router  = express.Router();
-const { sendSMS } = require('../send_sms');
+try {
+  const { sendSMS } = require('../send_sms');
+} catch (err) {
+  console.log('twilio error');
+}
 
 module.exports = (db) => {
   const dbHelpers = require('../db/dbHelpers')(db);
