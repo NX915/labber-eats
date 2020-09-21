@@ -6,6 +6,7 @@ $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
       menuCache = res;
+      console.log(menuCache)
       renderMenu(res);
     })
     .then(() => {
@@ -82,7 +83,7 @@ $(document).ready(() => {
           event.preventDefault();
           const name = $('#name').val();
           const phone = $('#phone').val();
-          const orderDetails = {selectedItems, userDetails: {name, phone}};
+          const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
 
           submitOrder(orderDetails);
           renderOrderConfirmation();
