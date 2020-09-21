@@ -12,6 +12,16 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+const destructOrderId = function(orderArr) {
+  const output = [];
+
+  for (const ele of orderArr) {
+    output.push(ele.id);
+  }
+  console.log(output);
+  return output;
+};
+
 //request all the order details for a given array of order id and return the data in a promise
 const getOrderDetails = function(orderArr) {
   const output = {};
@@ -37,6 +47,12 @@ const findUpdatedOrder = function(newArr) {
   if (newOrdersCache === undefined) {
     output = newArr;
     newOrdersCache = newArr;
+  } else {
+    //newArr = [{id:1}, {id:2}...]
+    for (const ele of newOrdersCache) {
+      const orderId = ele.id;
+      console.log(orderId);
+    }
   }
 
   return output;
@@ -121,6 +137,8 @@ const renderAllOrders = function() {
   $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
+      destructOrderId(data.newOrders);
+      destructOrderId(data.pendingOrders);
       renderNewOrders(data.newOrders);
       renderPendingOrders(data.pendingOrders);
     });
