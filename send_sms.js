@@ -7,11 +7,14 @@ const client = require('twilio')(accountSid, authToken);
 const twilioNumber = process.env.TWILIO_NUMBER;
 const myNumber = process.env.MY_NUMBER;
 
+const sendSMS = (msg) => {
+  client.messages
+    .create({
+      body: msg,
+      from: twilioNumber,
+      to: myNumber
+    })
+    .then(message => console.log(message.sid));
+};
 
-client.messages
-  .create({
-     body: 'Thank you for your order!',
-     from: twilioNumber,
-     to: myNumber
-   })
-  .then(message => console.log(message.sid));
+module.exports = { sendSMS };
