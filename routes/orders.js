@@ -7,8 +7,9 @@
 
 const express = require('express');
 const router  = express.Router();
+let sendSMS;
 try {
-  const { sendSMS } = require('../send_sms');
+  sendSMS = require('../send_sms').sendSMS;
 } catch (err) {
   console.log('twilio error');
 }
