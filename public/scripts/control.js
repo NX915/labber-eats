@@ -87,12 +87,12 @@ const renderNewOrders = function(orderArr) {
             <p>Order Total: $${orderDetails.total / 100}</p>
             <form method='POST' action='/orders/${orderId}'>
               <label for='wait-time'>Wait Time: </label>
-              <input type="number" name='wait-time' class='user_input' placeholder='Default 20'>
+              <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
               <input type='submit' value='Accept'>
             </form>
             <form method='POST' action='/orders/${orderId}/decline'>
               <label for='decline'>Message: </label>
-              <input type="text" name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
+              <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
               <input type='submit' value='Decline'>
             </form>
           </li>
@@ -103,7 +103,7 @@ const renderNewOrders = function(orderArr) {
           $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
-        $('#new_orders').prepend($orderDiv);
+        $('#new_orders').append($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
@@ -124,7 +124,7 @@ const renderPendingOrders = function(orderArr) {
             <p>Order Total: $${orderDetails.total / 100}</p>
             <form method='POST' action='/orders/${orderId}/done'>
               <label for='done'>Message: </label>
-              <input name='done' class='user_input' placeholder='Your order is ready!'>
+              <input type='text' name='done' class='user_input' placeholder='Your order is ready!'>
               <input type='submit' value='Done'>
             </form>
           </li>
