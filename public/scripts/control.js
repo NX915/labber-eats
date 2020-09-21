@@ -12,12 +12,21 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+//take in array [{id: 1}, {id: 2}] and output [1, 2]
+const destructOrderId = function(orderArr) {
+  const output = [];
+
+  for (const ele of orderArr) {
+    output.push(ele.id);
+  }
+  return output;
+};
+
 //request all the order details for a given array of order id and return the data in a promise
 const getOrderDetails = function(orderArr) {
   const output = {};
   return new Promise((resolve, reject) => {
-    for (const ele of orderArr) {
-      const orderId = ele.id;
+    for (const orderId of orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
@@ -31,27 +40,43 @@ const getOrderDetails = function(orderArr) {
   });
 };
 
-const findUpdatedOrder = function(newArr) {
-  let output = [];
+// const findUpdatedOrder = function(newArr) {
+//   let output = {new: [], gone: []};
+//   console.log('new ', newArr);
+//   console.log('cache ', newOrdersCache);
 
-  if (newOrdersCache === undefined) {
-    output = newArr;
-    newOrdersCache = newArr;
-  }
+//   if (newOrdersCache === undefined) {
+//     output.new = newArr;
+//     output.gone = [];
+//     newOrdersCache = newArr;
+//   } else {
+//     for (const orderId of newOrdersCache) {
+//       if (newArr.indexOf(orderId) === -1) {
+//         console.log('gone ', orderId);
+//         output.gone.push(orderId);
+//       }
+//     }
+//     for (const orderId of newArr) {
+//       if (newOrdersCache.indexOf(orderId) === -1) {
+//         console.log('new ', orderId);
+//         output.new.push(orderId);
+//       }
+//     }
+//   }
 
-  return output;
-};
+//   return output;
+// };
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  const updatedOrders = findUpdatedOrder(orderArr);
-  console.log(updatedOrders);
+  // const updatedOrders = findUpdatedOrder(orderArr);
+  // console.log(updatedOrders);
 
+  // $('#new_orders').empty();
   getOrderDetails(orderArr)
     .then((orderData) => {
-      for (const ele of orderArr) {
-        const orderId = ele.id;
+      for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
@@ -85,11 +110,11 @@ const renderNewOrders = function(orderArr) {
 };
 
 const renderPendingOrders = function(orderArr) {
-  for (const ele of orderArr) {
-    const orderId = ele.id;
-    getOrders(orderId)
-      .then(orderData => {
-        const { orderDetails, itemsFromOrder } = orderData;
+  // $('#pending_orders').empty();
+  getOrderDetails(orderArr)
+    .then(orderData => {
+      for (const orderId of orderArr) {
+        const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
@@ -112,21 +137,23 @@ const renderPendingOrders = function(orderArr) {
 
         $('#pending_orders').append($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
-      });
-  }
+      }
+    });
 };
 
 //get and render all active orders
 const renderAllOrders = function() {
-  $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
-      renderNewOrders(data.newOrders);
-      renderPendingOrders(data.pendingOrders);
+      $('ol').empty();
+      // console.log('new', destructOrderId(data.newOrders));
+      renderNewOrders(destructOrderId(data.newOrders));
+      renderPendingOrders(destructOrderId(data.pendingOrders));
     });
 };
 
 //driver code
 $().ready(() => {
   renderAllOrders();
+  $('ol').on('order_update_succeeded', renderAllOrders);
 });

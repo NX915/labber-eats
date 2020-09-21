@@ -40,8 +40,9 @@ module.exports = (db) => {
   });
 
   router.post('/', (req, res) =>{
-    console.log(req.body);
-    console.log(`HELLOOOOO`);
+    const orderDetails = req.body;
+    console.log(orderDetails)
+    dbHelpers.addOrder(orderDetails);
   });
 
   router.post("/:id", (req, res) => {
