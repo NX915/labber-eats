@@ -3,6 +3,7 @@ const selectedItems = {};
 let menuCache;
 
 $(document).ready(() => {
+  // $('#logo')
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
       menuCache = res;
