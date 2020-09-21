@@ -133,10 +133,13 @@ const updateSubtotal = function(el, quant, price) {
 };
 
 const submitOrder = (order) => {
+  console.log(order)
   return $.ajax({
     url: '/orders',
     type: 'post',
-    data: order
+    data: order,
+    dataType: 'json',
+    contentType: 'application/json'
   });
 };
 
