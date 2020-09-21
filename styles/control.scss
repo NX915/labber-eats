@@ -1,13 +1,10 @@
 // See: https://sass-lang.com/
 
-body {
-  background-color: #EEE;
+.order_container {
+  display: flex;
 
-  h1 {
-    color: #244751;
+  .order_type_container {
+    flex: 1 1 50%;
   }
 
-  h3 {
-    font-size: large;
-  }
 }
