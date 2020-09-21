@@ -6,7 +6,6 @@ $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
       menuCache = res;
-      console.log(menuCache)
       renderMenu(res);
     })
     .then(() => {

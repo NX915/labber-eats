@@ -49,8 +49,11 @@ const createCartItem = (itemObj, quant) => {
 };
 
 const renderMenu = arr => {
-  arr.forEach(item => $('main').append(createItemElement(item)));
+  arr.forEach(item => {$('main').append(createItemElement(item))});
+  $('.unavailable *').prop("disabled", true);
 };
+
+const disableElement = el => {el.prop("disabled", true)};
 
 const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
