@@ -85,21 +85,8 @@ $(document).ready(() => {
           const phone = $('#phone').val();
           const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
 
-          submitOrder(orderDetails);
-          renderOrderConfirmation();
-
-          // submitOrderDetails(orderDetails)
-          //   .done((data) => console.log(data));
-
-          // const req = $.ajax({
-          //   url: '/orders',
-          //   type: 'post',
-          //   dataType: 'json',
-          //   contentType: 'application/json; charset=utf-8',
-          //   data: orderDetails});
-          // req.done(() => {
-          //   console.log('hello')
-
+          submitOrder(orderDetails)
+            .then(() => renderOrderConfirmation());
         });
       });
     });
