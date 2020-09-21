@@ -83,11 +83,14 @@ $(document).ready(() => {
         // Add new order to database and shows confirmation page to client
         $('form').submit(function(event) {
           event.preventDefault();
-          const name = $('#name').val();
-          const phone = $('#phone').val();
+          const name = $('#name').val().trim();
+          const rawNum = $('#phone').val().trim();
+          const phone = convertNum(rawNum);
           const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
+          isValidPhone(rawNum);
+          isValidCart(selectedItems);
 
-          if (isValidName(name)) {
+          if (isValidName(name) && isValidPhone(rawNum) && isValidCart(selectedItems)) {
             submitOrder(orderDetails)
               .then(() => renderOrderConfirmation());
           }

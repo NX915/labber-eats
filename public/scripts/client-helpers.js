@@ -5,7 +5,7 @@
 const createItemElement = (itemObj) => {
   let $item = `
   <article class='menu-item' id=${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="500"></div>
+    <div><img src=${itemObj.image_url} width="300"></div>
     <div>
         <h3>${itemObj.name}</h3>
         <p>${itemObj.description}</p>
@@ -37,7 +37,7 @@ const renderMenu = arr => {
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class='menu-item' id=${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="500"></div>
+    <div><img src=${itemObj.image_url} width="300"></div>
     <div>
       <h3>${itemObj.name}</h3>
     </div>
@@ -86,7 +86,10 @@ const renderCartPage = (menu, items) => {
       <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx">
       <p></p>
     </div>
-    <div><button type="submit">Submit Order</button></div>
+    <div>
+      <button type="submit">Submit Order</button>
+      <p id='cart-err'></p>
+    </div>
   </form>
   `);
 };
@@ -184,5 +187,41 @@ const isValidName = name => {
     $('#user-name').find('p').text('Please enter a valid name.');
     return false;
   }
+  $('#user-name').find('p').empty();
   return true;
 };
+
+const isValidPhone = number => {
+  if (!number) {
+    // display error
+    $('#user-phone').find('p').text('Please enter your phone number.');
+    return false;
+
+  } else if (!/^[0-9- +()]*$/.test(number)) {
+    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    return false;
+
+  } else if (number.replace( /\s|-/g, "").length > 11) {
+    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    return false;
+  }
+  $('#user-phone').find('p').empty();
+  return true;
+};
+
+const convertNum = number => {
+  const newNum = number.replace(/\D/g,'');
+  if (newNum.length === 10) {
+    return newNum;
+  } else if (newNum.length === 11) {
+    return newNum.slice(1);
+  }
+};
+
+const isValidCart = obj => {
+  if (Object.keys(obj).length === 0) {
+    $('#cart-err').text('Please add items to your order.');
+    return false;
+  }
+  return true;
+}
