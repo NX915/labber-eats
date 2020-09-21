@@ -169,9 +169,7 @@ const getNewOrders = function(newArr, oldArr) {
 
 const removeOrders = function(orderIDArr) {
   for (const orderID of orderIDArr) {
-    const divID = `#order_id_${orderID}`;
-    console.log(divID);
-    $(divID).remove();
+    $(`#order_id_${orderID}`).remove();
   }
 };
 
@@ -193,10 +191,11 @@ const renderAllOrders = function() {
         console.log('update orders ');
         console.log('new order ', orderID.newOrders);
         console.log('cached new order ', orderIDCache.newOrders);
-        console.log(getMissingOrders(orderID.newOrders, orderIDCache.newOrders));
-        console.log(getNewOrders(orderID.newOrders, orderIDCache.newOrders));
+        console.log('removed new orders ', getMissingOrders(orderID.newOrders, orderIDCache.newOrders));
+        console.log('added new orders ', getNewOrders(orderID.newOrders, orderIDCache.newOrders));
 
         const removedOrders = getMissingOrders(orderID.newOrders, orderIDCache.newOrders);
+        removedOrders.push(getMissingOrders(orderID.pendingOrders, orderIDCache.pendingOrders));
         const addedOrders = getNewOrders(orderID.newOrders, orderIDCache.newOrders);
 
         removeOrders(removedOrders);
