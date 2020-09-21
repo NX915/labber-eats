@@ -1,7 +1,7 @@
-let orderIDCache;
-let orderDataCache;
-let newOrdersCache;
-let pendingOrdersCache;
+// let orderIDCache;
+// let orderDataCache;
+// let newOrdersCache;
+// let pendingOrdersCache;
 
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
