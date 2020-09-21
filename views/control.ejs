@@ -3,23 +3,23 @@
   <head>
     <title>Home Page</title>
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <%- include('partials/_head') %>
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+    <link rel="stylesheet" href="/styles/control.css" type="text/css" />
     <script type="text/javascript" src="/scripts/control.js"></script>
     <script type="text/javascript" src="/scripts/control-buttons.js"></script>
-    <!-- <script type="text/javascript" src="/scripts/app.js"></script> -->
   </head>
 
   <body>
-    <main>
-      <div>
+    <header>
+      <%- include('partials/_header') %>
+    </header>
+    <main class='order_container'>
+      <div class='order_type_container'>
         <h1>New Orders</h1>
         <ol id='new_orders'></ol>
       </div>
-      <div>
+      <div class='order_type_container'>
         <h1>In Progress</h1>
         <ol id='pending_orders'></ol>
       </div>

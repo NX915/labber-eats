@@ -1,0 +1,10 @@
+// See: https://sass-lang.com/
+
+.order_container {
+  display: flex;
+
+  .order_type_container {
+    flex: 1 1 50%;
+  }
+
+}

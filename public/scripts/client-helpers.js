@@ -3,7 +3,7 @@
 // const { selectedItems: { itemId: 'quantity' }, userDetails:{ name: 'qleqe', phone: '12341839254'}}
 
 const createItemElement = (itemObj) => {
-  const $item = `
+  let $item = `
   <article class='menu-item' id=${itemObj.id}>
     <div><img src=${itemObj.image_url} width="500"></div>
     <div>
@@ -11,13 +11,20 @@ const createItemElement = (itemObj) => {
         <p>${itemObj.description}</p>
         <p>$${itemObj.price / 100}</p>
     </div>
-    <div>
+  `;
+  if (!itemObj.available) {
+    $item += `
+      <div class='unavailable'>`;
+  } else {
+    $item += `
+    <div>`;
+  }
+  $item += `
       <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="0">
       <button class='inc-button'>+</button>
     </div>
-  </article>
-  `;
+  </article>`;
   return $item;
 };
 
@@ -42,8 +49,11 @@ const createCartItem = (itemObj, quant) => {
 };
 
 const renderMenu = arr => {
-  arr.forEach(item => $('main').append(createItemElement(item)));
+  arr.forEach(item => {$('main').append(createItemElement(item))});
+  $('.unavailable *').prop("disabled", true);
 };
+
+const disableElement = el => {el.prop("disabled", true)};
 
 const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
