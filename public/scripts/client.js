@@ -9,10 +9,9 @@ $(document).ready(() => {
       menuCache = res;
       renderMenu(res);
 
-      // Disable unavailable items
+      // Disable buttons/input for unavailable items
       $('.unavailable *').prop("disabled", true);
-    })
-    .then(() => {
+
       // Decrease quantity when '-' clicked
       $('.dec-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
@@ -37,6 +36,7 @@ $(document).ready(() => {
         const inputValue = $(`#${itemId}`).find('input').val();
 
         updateCart(selectedItems, itemId, inputValue);
+        console.log(selectedItems)
       });
 
       // When client clicks on cart, repopulate page with only their selection
@@ -97,5 +97,6 @@ $(document).ready(() => {
           }
         });
       });
-    });
+
+    })
 });
