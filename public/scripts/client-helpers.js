@@ -136,8 +136,6 @@ const submitOrder = (order) => {
   return $.ajax({
     url: '/orders',
     type: 'post',
-    dataType: 'json',
-    contentType: 'application/json; charset=utf-8',
     data: order
   });
 };

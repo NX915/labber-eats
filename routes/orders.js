@@ -7,6 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
+const { sendSMS } = require('../send_sms');
 
 module.exports = (db) => {
   const dbHelpers = require('../db/dbHelpers')(db);
@@ -41,8 +42,8 @@ module.exports = (db) => {
 
   router.post('/', (req, res) =>{
     const orderDetails = req.body;
-    console.log(orderDetails)
     dbHelpers.addOrder(orderDetails);
+    sendSMS('You have received a new order!');
   });
 
   router.post("/:id", (req, res) => {
