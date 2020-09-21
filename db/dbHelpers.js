@@ -4,21 +4,24 @@ module.exports = db => {
   const getMenu = () => {
     return db
       .query('SELECT * FROM items')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns all new orders id as an array
   const getNewOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted IS NULL ORDER BY created_at')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns all new orders id as an array
   const getPendingOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted = TRUE AND completed_at IS NULL ORDER BY created_at')
-      .then(res => res.rows);
+      .then(res => res.rows)
+      .catch(e => { throw e.message });
   }
 
   // returns an object with the order details
@@ -37,7 +40,12 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows[0]);
+      .then(res => {
+        if (res.rows[0]) {
+          return res.rows[0];
+        }
+        throw 'The order id does not exist'
+      })
   }
 
 
@@ -55,7 +63,12 @@ module.exports = db => {
     }
     return db
       .query(query)
-      .then(res => res.rows);
+      .then(res => {
+        if (res.rows.length > 0) {
+          return res.rows;
+        }
+        throw 'The order id does not exist'
+      })
   }
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
@@ -67,18 +80,21 @@ module.exports = db => {
 
       // confirming that the user has selected at least one item (not an empty object)
       if (Object.keys(selectedItems).length === 0) {
-        console.log('invalid selection')
-        return reject('It seems that the user did not select any item');
+        return reject('It seems that no item has been selected');
       }
       // confirming that both the name is filled
       if (!userDetails.name) {
-        console.log('invalid name')
         return reject('The name field does not contain a valid input');
       }
-      // confirming that the phone field is not empty, it has more than 10 characters and it contains valid numbers
-      if (!phone || phone.length < 10 || phone.length > 31) {
-        console.log('invalid phone number')
-        return reject('The phone number is either empty or incomplete');
+      // confirming that the phone field is not empty or invalid, it has more than 10 characters and it contains valid numbers
+      if (!phone) {
+        return reject('The phone number is empty or invalid');
+      }
+      if (phone.length < 10) {
+        return reject('The phone number is incomplete');
+      }
+      if (phone.length > 31) {
+        return reject('The phone number is longer than expected');
       }
       // confirming that every item has a valid quantity
       for (const itemID in selectedItems) {
@@ -134,9 +150,9 @@ module.exports = db => {
 
     // create a new let variable to hold the query text to create n rows in the order_items table, it will be updated with a for loop
     let assignItemsToOrderText = `INSERT INTO order_items (order_id, item_id, quantity)\nVALUES\n`;
-    // define a itemsID array to later check if all the requested item_id are available (will not check if it exists, because if it doesn't, the database will throw an error because it will violate foreign key constraint: item_id is not present in table items)
+    // define a itemsID array to later check if all the requested item_id are available and exist in our database
     const itemsID = [];
-    // create an array to hold the values to the new query. It will be populated with a for loop
+    // create an array to hold the values to the new query. It will be populated with a for loop and it will contain every pair of itemID and quantity
     const assignItemsToOrderValues = []
     for (const itemID in selectedItems) {
       itemsID.push(itemID);
@@ -144,10 +160,10 @@ module.exports = db => {
       assignItemsToOrderValues.push(itemID);
       assignItemsToOrderValues.push(selectedItems[itemID]);
     }
-    // delete the last row extra new line and comma, and add the command to finish the query
+    // delete the last row's extra new line and comma, and add the semicolon to finish the query
     assignItemsToOrderText = assignItemsToOrderText.slice(0, -2) + ';';
 
-    // check if the obj valid
+    // check if the obj is valid
     return checkErrors(obj, itemsID)
       // run the first query that will return the user_id
       .then(() => db.query(newUserQuery))
@@ -163,7 +179,7 @@ module.exports = db => {
         // run the last query to create n rows in the order_items table
         return db.query(assignItemsToOrderText, assignItemsToOrderValues);
       })
-      .catch(e => e)
+      .catch(e => { throw e })
   }
 
   // evaluate if the order was accepted and change the accepted column accordingly
@@ -182,9 +198,9 @@ module.exports = db => {
       .query(text, values)
       .then(res => {
         if (res.rows[0]) {
-          return console.log(obj.order_id, 'was marked as', accepted)
+          return 'The order acceptance was marked as ' + accepted
         }
-        throw 'The order id doesn\'t exist'
+        throw 'The order id does not exist'
       })
   }
 
@@ -203,9 +219,9 @@ module.exports = db => {
       .query(query)
       .then(res => {
         if (res.rows[0]) {
-          return console.log(order_id, 'was marked as completed')
+          return 'The order was marked as completed'
         }
-        throw 'The order id doesn\'t exist'
+        throw 'The order id does not exist'
       })
   }
 
