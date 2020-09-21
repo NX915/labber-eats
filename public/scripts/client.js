@@ -49,6 +49,7 @@ $(document).ready(() => {
           decreaseCounter($counter);
           removeFromCart(selectedItems, clickedItemId);
           updateSubtotal($subTotalEl, Number($counter.val()), price);
+          $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
         });
 
         // Increase quantity when '+' clicked and updates subtotal + total
@@ -61,6 +62,7 @@ $(document).ready(() => {
           increaseCounter($counter);
           addToCart(selectedItems, clickedItemId);
           updateSubtotal($subTotalEl, Number($counter.val()), price);
+          $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
         });
 
         // Update quantity when use types in the input field
@@ -72,6 +74,7 @@ $(document).ready(() => {
 
           updateCart(selectedItems, itemId, inputValue);
           updateSubtotal($subTotalEl, Number(inputValue), price);
+          $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
         });
 
         // Add new order to database and shows confirmation page to client

@@ -34,7 +34,7 @@ const createCartItem = (itemObj, quant) => {
       <button class='inc-button'>+</button>
     </div>
     <div>
-      <p class='subtotal'>$${itemObj.price * quant / 100}</p>
+      <p class='subtotal'>$${(itemObj.price * quant / 100).toFixed(2)}</p>
     </div>
   </article>
   `;
@@ -100,7 +100,7 @@ const renderCartPage = (menu, items) => {
   $('main').append(`
   <div>
     <h4>Total</h4>
-    <p>${calculateTotal(menu, items)}</p>
+    <p id='total'>$${calculateTotal(menu, items)}</p>
   </div>
   <form method='POST' action='/orders'>
     <label for="name">Name:</label>
@@ -125,7 +125,7 @@ const calculateTotal = (menu, itemObj) => {
       }
     }
   }
-  return sum / 100;
+  return (sum / 100).toFixed(2);
 };
 
 const updateSubtotal = function(el, quant, price) {
