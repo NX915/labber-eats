@@ -193,7 +193,6 @@ const isValidName = name => {
 
 const isValidPhone = number => {
   if (!number) {
-    // display error
     $('#user-phone').find('p').text('Please enter your phone number.');
     return false;
 
@@ -201,7 +200,7 @@ const isValidPhone = number => {
     $('#user-phone').find('p').text('Please enter a valid phone number.');
     return false;
 
-  } else if (number.replace( /\s|-/g, "").length > 11) {
+  } else if (number.replace(/\s|-/g, "").length > 11) {
     $('#user-phone').find('p').text('Please enter a valid phone number.');
     return false;
   }
@@ -224,4 +223,4 @@ const isValidCart = obj => {
     return false;
   }
   return true;
-}
+};
