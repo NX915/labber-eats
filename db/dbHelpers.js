@@ -93,7 +93,7 @@ module.exports = db => {
       if (phone.length < 10) {
         return reject('The phone number is incomplete');
       }
-      if (phone.length > 31) {
+      if (phone.length > 10) {
         return reject('The phone number is longer than expected');
       }
       // confirming that every item has a valid quantity

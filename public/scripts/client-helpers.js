@@ -83,7 +83,7 @@ const renderCartPage = (menu, items) => {
     </div>
     <div id='user-phone'>
       <label for="phone-num">Phone number:</label>
-      <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx">
+      <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
       <p></p>
     </div>
     <div>

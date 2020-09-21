@@ -88,7 +88,7 @@ $(document).ready(() => {
           const rawNum = $('#phone').val().trim();
           const phone = convertNum(rawNum);
           const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
-          isValidPhone(rawNum);
+          isValidPhone(phone);
           isValidCart(selectedItems);
 
           if (isValidName(name) && isValidPhone(rawNum) && isValidCart(selectedItems)) {
