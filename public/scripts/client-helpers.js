@@ -87,7 +87,7 @@ const renderCartPage = (menu, items) => {
       <p></p>
     </div>
     <div>
-      <button type="submit">Submit Order</button>
+      <button type="submit">Order Now</button>
       <p id='cart-err'></p>
     </div>
   </form>
@@ -223,4 +223,12 @@ const isValidCart = obj => {
     return false;
   }
   return true;
+};
+
+const showCartQuantity = obj => {
+  let amount = 0;
+  for (item in obj) {
+    amount += obj[item];
+  }
+  $('span').text(` ${amount} `);
 };
