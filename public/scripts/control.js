@@ -142,7 +142,7 @@ const renderPendingOrders = function(orderArr) {
 };
 
 //return array elements that is missing from new array compared to old array
-const getMissingOrders = function(newArr, oldArr) {
+const getRemovedOrders = function(newArr, oldArr) {
   const output = [];
 
   for (const ele of oldArr) {
@@ -155,7 +155,7 @@ const getMissingOrders = function(newArr, oldArr) {
 };
 
 //return array elements that is in new array compared to old array
-const getNewOrders = function(newArr, oldArr) {
+const getAddedOrders = function(newArr, oldArr) {
   const output = [];
 
   for (const ele of newArr) {
@@ -171,6 +171,14 @@ const removeOrders = function(orderIDArr) {
   for (const orderID of orderIDArr) {
     $(`#order_id_${orderID}`).remove();
   }
+};
+
+const addOrders = function(addedOrders, n) {
+  //add [5, 6]
+  //cache [1, 2, 3, 4, 7]
+  //after remove [1, 2, 4]
+  //new [1, 2, 5, 4, 6]
+
 };
 
 //get and render all active orders
@@ -194,12 +202,11 @@ const renderAllOrders = function() {
         console.log('removed new orders ', getMissingOrders(orderID.newOrders, orderIDCache.newOrders));
         console.log('added new orders ', getNewOrders(orderID.newOrders, orderIDCache.newOrders));
 
-        const removedOrders = getMissingOrders(orderID.newOrders, orderIDCache.newOrders);
-        removedOrders.push(getMissingOrders(orderID.pendingOrders, orderIDCache.pendingOrders));
-        const addedOrders = getNewOrders(orderID.newOrders, orderIDCache.newOrders);
+        const removedOrders = getRemovedOrders(orderID.newOrders, orderIDCache.newOrders);
+        const addedOrders = getAddedOrders(orderID.newOrders, orderIDCache.newOrders);
 
         removeOrders(removedOrders);
-        // addOrders(addedOrders);
+        addOrders(addedOrders);
 
       } else {
         console.log('all new orders ', orderID);
