@@ -7,12 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-let sendSMS;
-try {
-  sendSMS = require('../send_sms').sendSMS;
-} catch (err) {
-  console.log('twilio error');
-}
+const { sendSMSToUser, sendSMSToRestaurant } = require('../sms/smsHelpers');
 
 module.exports = (db) => {
   const dbHelpers = require('../db/dbHelpers')(db);
@@ -47,10 +42,9 @@ module.exports = (db) => {
 
   router.post('/', (req, res) =>{
     const orderDetails = req.body;
-    console.log(orderDetails)
     dbHelpers.addOrder(orderDetails);
-    res.json('ok')
-    // sendSMS('You have received a new order!');
+    res.json('ok');
+    sendSMSToRestaurant('You have received a new order!');
   });
 
   router.post("/:id", (req, res) => {
