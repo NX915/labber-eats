@@ -12,6 +12,7 @@ const getOrders = function(id) {
     .catch(err => console.log('error ', err));
 };
 
+//take in array [{id: 1}, {id: 2}] and output [1, 2]
 const destructOrderId = function(orderArr) {
   const output = [];
 
@@ -110,11 +111,10 @@ const renderNewOrders = function(orderArr) {
 
 const renderPendingOrders = function(orderArr) {
   // $('#pending_orders').empty();
-  for (const ele of orderArr) {
-    const orderId = ele.id;
-    getOrders(orderId)
-      .then(orderData => {
-        const { orderDetails, itemsFromOrder } = orderData;
+  getOrderDetails(orderArr)
+    .then(orderData => {
+      for (const orderId of orderArr) {
+        const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
@@ -137,8 +137,8 @@ const renderPendingOrders = function(orderArr) {
 
         $('#pending_orders').append($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
-      });
-  }
+      }
+    });
 };
 
 //get and render all active orders
@@ -146,10 +146,9 @@ const renderAllOrders = function() {
   getOrders()
     .then(data => {
       $('ol').empty();
-      console.log('new', destructOrderId(data.newOrders));
-      destructOrderId(data.newOrders);
+      // console.log('new', destructOrderId(data.newOrders));
       renderNewOrders(destructOrderId(data.newOrders));
-      renderPendingOrders(data.pendingOrders);
+      renderPendingOrders(destructOrderId(data.pendingOrders));
     });
 };
 
