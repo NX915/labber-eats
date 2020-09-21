@@ -26,8 +26,7 @@ const destructOrderId = function(orderArr) {
 const getOrderDetails = function(orderArr) {
   const output = {};
   return new Promise((resolve, reject) => {
-    for (const ele of orderArr) {
-      const orderId = ele.id;
+    for (const orderId of orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
@@ -41,33 +40,32 @@ const getOrderDetails = function(orderArr) {
   });
 };
 
-const findUpdatedOrder = function(newArr) {
-  let output = [];
+// const findUpdatedOrder = function(newArr) {
+//   let output = [];
 
-  if (newOrdersCache === undefined) {
-    output = newArr;
-    newOrdersCache = newArr;
-  } else {
-    //newArr = [{id:1}, {id:2}...]
-    for (const ele of newOrdersCache) {
-      const orderId = ele.id;
-      console.log(orderId);
-    }
-  }
+//   if (newOrdersCache === undefined) {
+//     output = newArr;
+//     newOrdersCache = newArr;
+//   } else {
+//     //newArr = [{id:1}, {id:2}...]
+//     for (const ele of newOrdersCache) {
+//       const orderId = ele.id;
+//       console.log(orderId);
+//     }
+//   }
 
-  return output;
-};
+//   return output;
+// };
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  const updatedOrders = findUpdatedOrder(orderArr);
-  console.log(updatedOrders);
+  // const updatedOrders = findUpdatedOrder(orderArr);
+  // console.log(updatedOrders);
 
   getOrderDetails(orderArr)
     .then((orderData) => {
-      for (const ele of orderArr) {
-        const orderId = ele.id;
+      for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <li id='order_id_${orderId}'>
@@ -138,8 +136,7 @@ const renderAllOrders = function() {
   getOrders()
     .then(data => {
       destructOrderId(data.newOrders);
-      destructOrderId(data.pendingOrders);
-      renderNewOrders(data.newOrders);
+      renderNewOrders(destructOrderId(data.newOrders));
       renderPendingOrders(data.pendingOrders);
     });
 };
