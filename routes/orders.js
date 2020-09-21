@@ -7,7 +7,12 @@
 
 const express = require('express');
 const router  = express.Router();
-const { sendSMS } = require('../send_sms');
+let sendSMS;
+try {
+  sendSMS = require('../send_sms').sendSMS;
+} catch (err) {
+  console.log('twilio error');
+}
 
 module.exports = (db) => {
   const dbHelpers = require('../db/dbHelpers')(db);
@@ -50,6 +55,8 @@ module.exports = (db) => {
 
   router.post("/:id", (req, res) => {
     const { id } = req.params;
+    const { input } = req.body;
+    console.log('accept order input', input);
 
     dbHelpers.processOrder({order_id: id})
       .then(() => {
@@ -62,6 +69,8 @@ module.exports = (db) => {
 
   router.post("/:id/decline", (req, res) => {
     const { id } = req.params;
+    const { input } = req.body;
+    console.log('decline order input', input);
 
     dbHelpers.processOrder({order_id: id, accepted: false})
       .then(() => {
@@ -74,6 +83,8 @@ module.exports = (db) => {
 
   router.post("/:id/done", (req, res) => {
     const { id } = req.params;
+    const { input } = req.body;
+    console.log('complete order input', input);
 
     dbHelpers.finishOrder(id)
       .then(() => {
