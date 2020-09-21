@@ -93,7 +93,7 @@ $(document).ready(() => {
           isValidPhone(phone);
           isValidCart(selectedItems);
 
-          if (isValidName(name) && isValidPhone(rawNum) && isValidCart(selectedItems)) {
+          if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
             submitOrder(orderDetails)
               .then(() => renderOrderConfirmation());
           }
