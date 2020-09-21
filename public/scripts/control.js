@@ -1,4 +1,4 @@
-// let orderIDCache;
+let orderIDCache = {};
 // let orderDataCache;
 // let newOrdersCache;
 // let pendingOrdersCache;
@@ -141,14 +141,75 @@ const renderPendingOrders = function(orderArr) {
     });
 };
 
+//return array elements that is missing from new array compared to old array
+const getMissingOrders = function(newArr, oldArr) {
+  const output = [];
+
+  for (const ele of oldArr) {
+    if (newArr.indexOf(ele) === -1) {
+      output.push(ele);
+    }
+  }
+
+  return output;
+};
+
+//return array elements that is in new array compared to old array
+const getNewOrders = function(newArr, oldArr) {
+  const output = [];
+
+  for (const ele of newArr) {
+    if (oldArr.indexOf(ele) === -1) {
+      output.push(ele);
+    }
+  }
+
+  return output;
+};
+
+const removeOrders = function(orderIDArr) {
+  for (const orderID of orderIDArr) {
+    const divID = `#order_id_${orderID}`;
+    console.log(divID);
+    $(divID).remove();
+  }
+};
+
 //get and render all active orders
 const renderAllOrders = function() {
   getOrders()
     .then(data => {
-      $('ol').empty();
+      // $('ol').empty();
       // console.log('new', destructOrderId(data.newOrders));
-      renderNewOrders(destructOrderId(data.newOrders));
-      renderPendingOrders(destructOrderId(data.pendingOrders));
+      // renderNewOrders(destructOrderId(data.newOrders));
+      // renderPendingOrders(destructOrderId(data.pendingOrders));
+
+      const orderID = {
+        newOrders: destructOrderId(data.newOrders),
+        pendingOrders: destructOrderId(data.pendingOrders)
+      };
+
+      if (orderIDCache.newOrders && orderIDCache.pendingOrders) {
+        console.log('update orders ');
+        console.log('new order ', orderID.newOrders);
+        console.log('cached new order ', orderIDCache.newOrders);
+        console.log(getMissingOrders(orderID.newOrders, orderIDCache.newOrders));
+        console.log(getNewOrders(orderID.newOrders, orderIDCache.newOrders));
+
+        const removedOrders = getMissingOrders(orderID.newOrders, orderIDCache.newOrders);
+        const addedOrders = getNewOrders(orderID.newOrders, orderIDCache.newOrders);
+
+        removeOrders(removedOrders);
+        // addOrders(addedOrders);
+
+      } else {
+        console.log('all new orders ', orderID);
+        $('ol').empty();
+        renderNewOrders(destructOrderId(data.newOrders));
+        renderPendingOrders(destructOrderId(data.pendingOrders));
+      }
+      orderIDCache.newOrders = orderID.newOrders;
+      orderIDCache.pendingOrders = orderID.pendingOrders;
     });
 };
 
