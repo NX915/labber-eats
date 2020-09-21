@@ -18,7 +18,6 @@ const destructOrderId = function(orderArr) {
   for (const ele of orderArr) {
     output.push(ele.id);
   }
-  console.log(output);
   return output;
 };
 
@@ -41,16 +40,26 @@ const getOrderDetails = function(orderArr) {
 };
 
 // const findUpdatedOrder = function(newArr) {
-//   let output = [];
+//   let output = {new: [], gone: []};
+//   console.log('new ', newArr);
+//   console.log('cache ', newOrdersCache);
 
 //   if (newOrdersCache === undefined) {
-//     output = newArr;
+//     output.new = newArr;
+//     output.gone = [];
 //     newOrdersCache = newArr;
 //   } else {
-//     //newArr = [{id:1}, {id:2}...]
-//     for (const ele of newOrdersCache) {
-//       const orderId = ele.id;
-//       console.log(orderId);
+//     for (const orderId of newOrdersCache) {
+//       if (newArr.indexOf(orderId) === -1) {
+//         console.log('gone ', orderId);
+//         output.gone.push(orderId);
+//       }
+//     }
+//     for (const orderId of newArr) {
+//       if (newOrdersCache.indexOf(orderId) === -1) {
+//         console.log('new ', orderId);
+//         output.new.push(orderId);
+//       }
 //     }
 //   }
 
@@ -63,6 +72,7 @@ const renderNewOrders = function(orderArr) {
   // const updatedOrders = findUpdatedOrder(orderArr);
   // console.log(updatedOrders);
 
+  // $('#new_orders').empty();
   getOrderDetails(orderArr)
     .then((orderData) => {
       for (const orderId of orderArr) {
@@ -99,6 +109,7 @@ const renderNewOrders = function(orderArr) {
 };
 
 const renderPendingOrders = function(orderArr) {
+  // $('#pending_orders').empty();
   for (const ele of orderArr) {
     const orderId = ele.id;
     getOrders(orderId)
@@ -132,9 +143,10 @@ const renderPendingOrders = function(orderArr) {
 
 //get and render all active orders
 const renderAllOrders = function() {
-  $('ol').on('order_update_succeeded', renderAllOrders);
   getOrders()
     .then(data => {
+      $('ol').empty();
+      console.log('new', destructOrderId(data.newOrders));
       destructOrderId(data.newOrders);
       renderNewOrders(destructOrderId(data.newOrders));
       renderPendingOrders(data.pendingOrders);
@@ -144,4 +156,5 @@ const renderAllOrders = function() {
 //driver code
 $().ready(() => {
   renderAllOrders();
+  $('ol').on('order_update_succeeded', renderAllOrders);
 });
