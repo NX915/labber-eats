@@ -4,48 +4,34 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 const twilioNumber = process.env.TWILIO_NUMBER;
 
+// id = order_id
+// phone = phone according to the database
+// type = 'confirmed' || 'ready' || 'declined'
+// estimatedTime should be passed as the result of evaluating type and msg or database
+const sendSMSToUser = (id, phone, type, estimatedTime, msg) => {
+  const predefinedText = {
+    'confirmed': `Thank you for your order \\o/\nIt should be ready in ${estimatedTime} minutes.\nYou will receive a new SMS when it's ready.`,
+    'ready': 'Your order is ready for pick-up!\nThank you! =]',
+    'declined': 'Sorry for any inconvenience =['
+  };
+  let body = msg ? msg : predefinedText[type];
 
-// expected obj = { phone: 1234567890, orderID: 1, time: 20 }
-const orderAccepted = obj => {
-  const msg = `Hi labber =D We just want to let you know that your order was accepted! The order id is #${obj.orderID} and it should be ready in ${obj.time} minutes. We will send another SMS when it is ready for pick-up.`
+  let sms = `Labber Eats order #${id}\nStatus: ${type}\n${body}`
+
   client.messages
     .create({
-      body: msg,
+      body: sms,
       from: twilioNumber,
-      to: '+1' + obj.phone
+      to: '+1' + phone
     })
     .then(message => console.log(message.sid));
-};
-// orderAccepted({ phone: 6475406051, orderID: 1, time: 20 })
 
-// expected obj = { phone: 1234567890, reason: 'Ice cream is out of stock' }
-const orderDeclined = obj => {
-  const reason = obj.reason ? ' ' + obj.reason.charAt(0).toUpperCase() + obj.reason.slice(1) + '.' : '';
-  const msg = `Sorry, we are not able to take your order today.${reason}`
-  client.messages
-    .create({
-      body: msg,
-      from: twilioNumber,
-      to: '+1' + obj.phone
-    })
-    .then(message => console.log(message.sid));
-};
-// orderDeclined({ phone: 6475406051, reason: 'we are out of stock' });
-// orderDeclined({ phone: 6475406051 });
+}
+// sendSMSToUser(1, 6475406051, 'confirmed', 20) // ==> ok
+// sendSMSToUser(2, 6475406051, 'declined', 20) // ==> ok
+// sendSMSToUser(3, 6475406051, 'ready', 20) // ==> ok
+// sendSMSToUser(4, 6475406051, 'confirmed', 20, '30 minutes') // ==> ok
+// sendSMSToUser(5, 6475406051, 'declined', 20, 'no service today') // ==> ok
+// sendSMSToUser(6, 6475406051, 'ready', 20, 'come and get it') // ==> ok
 
-
-// expected obj = { phone: 1234567890, orderID: 1 }
-const orderDone = obj => {
-  const labberEatsLocation = '5455 Gaspe Ave Suite 710, Montreal, Quebec H2T 3B3';
-  const msg = `Hi labber =] We are glad to inform that the order #${obj.orderID} is ready for pick-up. You can find us in: ${labberEatsLocation}.`
-  client.messages
-    .create({
-      body: msg,
-      from: twilioNumber,
-      to: '+1' + obj.phone
-    })
-    .then(message => console.log(message.sid));
-};
-// orderDone({phone: 6475406051, orderID: 1})
-
-module.exports = { orderAccepted, orderDeclined, orderDone };
+module.exports = { sendSMSToUser };
