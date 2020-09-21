@@ -19,6 +19,7 @@ $(document).ready(() => {
 
         decreaseCounter($counter);
         removeFromCart(selectedItems, clickedItemId);
+        showCartQuantity(selectedItems);
       });
 
       // Increase quantity when '+' clicked
@@ -28,6 +29,7 @@ $(document).ready(() => {
 
         increaseCounter($counter);
         addToCart(selectedItems, clickedItemId);
+        showCartQuantity(selectedItems);
       });
 
       // Update quantity when use types in the input field
@@ -36,7 +38,7 @@ $(document).ready(() => {
         const inputValue = $(`#${itemId}`).find('input').val();
 
         updateCart(selectedItems, itemId, inputValue);
-        console.log(selectedItems)
+        showCartQuantity(selectedItems);
       });
 
       // When client clicks on cart, repopulate page with only their selection
