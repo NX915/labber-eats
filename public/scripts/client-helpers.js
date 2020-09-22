@@ -3,31 +3,28 @@
 
 // Create the element for one menu item
 const createItemElement = (itemObj) => {
-  let $item = `
-  <article class='menu-item' id=${itemObj.id}>
+  let item;
+  if (!itemObj.available) {
+    item = `<article class='menu-item unavailable' id=${itemObj.id}>`
+  } else {
+    item = `<article class='menu-item' id=${itemObj.id}>`
+  }
+  item += `
     <div class='title'>
-      <h3>${itemObj.name}</h3>
-      <h3>$${itemObj.price / 100}</h3>
+      <h2>${itemObj.name}</h2>
+      <h2>$${itemObj.price / 100}</h2>
     </div>
     <div><img src=${itemObj.image_url} width="300"></div>
     <div class='item-desc'>
         <p>${itemObj.description}</p>
     </div>
-  `;
-  if (!itemObj.available) {
-    $item += `
-      <div class='counter unavailable'>`;
-  } else {
-    $item += `
-    <div class='counter'>`;
-  }
-  $item += `
+    <div class='counter'>
       <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="0">
       <button class='inc-button'>+</button>
-      </div>
-      </article>`;
-  return $item;
+    </div>
+  </article>`;
+  return item;
 };
 
 // Add items inside of main container
