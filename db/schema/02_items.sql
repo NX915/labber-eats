@@ -7,5 +7,6 @@ CREATE TABLE items (
   description TEXT,
   price INTEGER NOT NULL,
   image_url TEXT,
-  available BOOLEAN DEFAULT 't'
+  available BOOLEAN DEFAULT 't',
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
 );
