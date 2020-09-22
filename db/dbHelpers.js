@@ -75,8 +75,8 @@ module.exports = db => {
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
   const checkErrors = (obj, itemsID) => {
-    const { selectedItems, userDetails } = obj;
-    const phone = userDetails.phone ? userDetails.phone.toString().replace(/\D/g, "") : '';
+    const { selectedItems, orderDetails } = obj;
+    const phone = orderDetails.phone ? orderDetails.phone.toString().replace(/\D/g, "") : '';
 
     return new Promise((resolve, reject) => {
 
@@ -85,7 +85,7 @@ module.exports = db => {
         return reject('It seems that no item has been selected');
       }
       // confirming that both the name is filled
-      if (!userDetails.name) {
+      if (!orderDetails.name) {
         return reject('The name field does not contain a valid input');
       }
       // confirming that the phone field is not empty or invalid, it has more than 10 characters and it contains valid numbers
@@ -127,12 +127,12 @@ module.exports = db => {
 
   /* addOrder should react to a new order submission and update three tables: users, orders, and order_items
   expected input:
-    { selectedItems: { item_id: quantity, item_id: quantity }, userDetails: { name: 'name', phone: 'phone' } }
+    { selectedItems: { item_id: quantity, item_id: quantity }, orderDetails: { name: 'name', phone: 'phone' } }
   example:
-    { selectedItems: { 1:3, 3:5 }, userDetails: { name: 'Danilo', phone: '1234567890' } }
+    { selectedItems: { 1:3, 3:5 }, orderDetails: { name: 'Danilo', phone: '1234567890' } }
   */
   const addOrder = obj => {
-    const { selectedItems, userDetails } = obj;
+    const { selectedItems, orderDetails } = obj;
     // query to insert a new user, returning its id
     let userID;
     const newUserQuery = {
@@ -140,7 +140,7 @@ module.exports = db => {
       INSERT INTO users (name, phone)
       VALUES ($1, $2) RETURNING id;
       `,
-      values: [userDetails.name, userDetails.phone ? userDetails.phone.toString().replace(/\D/g, "") : '']
+      values: [orderDetails.name, orderDetails.phone ? orderDetails.phone.toString().replace(/\D/g, "") : '']
     }
 
     // the query text to insert a new order, returning its id
