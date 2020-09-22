@@ -1,13 +1,8 @@
 // See: https://sass-lang.com/
+$font-stack: 'Lato', sans-serif;
 
 body {
-  background-color: #EEE;
-
-  h1 {
-    color: #244751;
-  }
-
-  h2 {
-    color: #244751;
-  }
+  font-family: $font-stack;
+  background-color: white;
+  padding: 2rem;
 }

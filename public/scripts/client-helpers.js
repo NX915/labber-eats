@@ -3,40 +3,37 @@
 
 // Create the element for one menu item
 const createItemElement = (itemObj) => {
-  let $item = `
-  <article class='menu-item' id=${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="300"></div>
-    <div>
-        <h3>${itemObj.name}</h3>
-        <p>${itemObj.description}</p>
-        <p>$${itemObj.price / 100}</p>
-    </div>
-  `;
+  let item;
   if (!itemObj.available) {
-    $item += `
-      <div class='unavailable'>`;
+    item = `<article class='menu-item unavailable' id=${itemObj.id}>`
   } else {
-    $item += `
-    <div>`;
+    item = `<article class='menu-item' id=${itemObj.id}>`
   }
-  $item += `
+  item += `
+    <div class='title'>
+      <h2>${itemObj.name}</h2>
+      <h2>$${itemObj.price / 100}</h2>
+    </div>
+    <div><img src=${itemObj.image_url} width="300"></div>
+    <div class='counter'>
+      <p class='item-desc'>${itemObj.description}</p>
       <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="0">
       <button class='inc-button'>+</button>
-      </div>
-      </article>`;
-  return $item;
+    </div>
+  </article>`;
+  return item;
 };
 
 // Add items inside of main container
 const renderMenu = arr => {
-  arr.forEach(item => $('main').append(createItemElement(item)));
+  arr.forEach(item => $('#menu-container').append(createItemElement(item)));
 };
 
 // Create element for one item when checking out
 const createCartItem = (itemObj, quant) => {
   const $item = `
-  <article class='menu-item' id=${itemObj.id}>
+  <article id=${itemObj.id}>
     <div><img src=${itemObj.image_url} width="300"></div>
     <div>
       <h3>${itemObj.name}</h3>
@@ -68,7 +65,7 @@ const renderCartItems = (arr, cart) => {
 // Renders cart page once cart btn pressed
 const renderCartPage = (menu, items) => {
   $('main').empty();
-  $('main').append('<h1>Cart</h1>');
+  $('main').append('<h1>Your Cart</h1>');
   renderCartItems(menu, items);
   $('main').append(`
   <div>
