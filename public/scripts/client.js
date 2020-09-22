@@ -44,9 +44,10 @@ $(document).ready(() => {
       // When client clicks on cart, repopulate page with only their selection
       $('#cart-btn').click(() => {
         renderCartPage(menuCache, selectedItems);
+        $('#cart').toggleClass('hidden');
 
         // Decrease quantity when '-' clicked and updates subtotal + total
-        $('.dec-button').click(function() {
+        $('.dec-cart').click(function() {
           const clickedItemId = $(this).parent().parent().attr('id');
           let $counter = $(this).siblings('input');
           const $subTotalEl = $(this).parent().parent().find('.subtotal');
@@ -59,7 +60,7 @@ $(document).ready(() => {
         });
 
         // Increase quantity when '+' clicked and updates subtotal + total
-        $('.inc-button').click(function() {
+        $('.inc-cart').click(function() {
           const clickedItemId = $(this).parent().parent().attr('id');
           let $counter = $(this).siblings('input');
           const $subTotalEl = $(this).parent().parent().find('.subtotal');

@@ -39,9 +39,9 @@ const createCartItem = (itemObj, quant) => {
       <h3>${itemObj.name}</h3>
     </div>
     <div>
-      <button class='dec-button'>-</button>
+      <button class='dec-cart'>-</button>
       <input type="number" name="quantity" value="${quant}">
-      <button class='inc-button'>+</button>
+      <button class='inc-cart'>+</button>
     </div>
     <div>
       <p class='subtotal'>$${(itemObj.price * quant / 100).toFixed(2)}</p>
@@ -56,7 +56,7 @@ const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
     for (const itemId in cart) {
       if (menuItem.id === parseInt(itemId)) {
-        $('main').append(createCartItem(menuItem, cart[itemId]));
+        $('#cart_items_container').append(createCartItem(menuItem, cart[itemId]));
       }
     }
   }
@@ -64,10 +64,10 @@ const renderCartItems = (arr, cart) => {
 
 // Renders cart page once cart btn pressed
 const renderCartPage = (menu, items) => {
-  $('main').empty();
-  $('main').append('<h1>Your Cart</h1>');
+  $('#cart').empty();
+  $('#cart').append('<h1>Your Cart</h1><div id="cart_items_container" class="scroll"></div>');
   renderCartItems(menu, items);
-  $('main').append(`
+  $('#cart').append(`
   <div>
     <h4>Total</h4>
     <p id='total'>$${calculateTotal(menu, items)}</p>
