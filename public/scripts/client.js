@@ -90,10 +90,9 @@ $(document).ready(() => {
           const name = $('#name').val().trim();
           const rawNum = $('#phone').val().trim();
           const phone = convertNum(rawNum);
-          const orderDetails = JSON.stringify({selectedItems, orderdetails: {name, phone}});
+          const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone}});
           isValidPhone(phone);
           isValidCart(selectedItems);
-
           if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
             submitOrder(orderDetails)
               .then(() => renderOrderConfirmation());
