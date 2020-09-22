@@ -79,23 +79,21 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <li id='order_id_${orderId}'>
-            <h2>Order ${orderId}</h2>
-            <p>@ ${orderDetails.created_at}</p>
-            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
-            <ul></ul>
-            <p>Order Total: $${orderDetails.total / 100}</p>
-            <form method='POST' action='/orders/${orderId}'>
-              <label for='wait-time'>Wait Time: </label>
-              <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
-              <input type='submit' value='Accept'>
-            </form>
-            <form method='POST' action='/orders/${orderId}/decline'>
-              <label for='decline'>Message: </label>
-              <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
-              <input type='submit' value='Decline'>
-            </form>
-          </li>
+          <h2>Order ${orderId}</h2>
+          <p>@ ${orderDetails.created_at}</p>
+          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <ul></ul>
+          <p>Order Total: $${orderDetails.total / 100}</p>
+          <form method='POST' action='/orders/${orderId}'>
+            <label for='wait-time'>Wait Time: </label>
+            <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
+            <input type='submit' value='Accept'>
+          </form>
+          <form method='POST' action='/orders/${orderId}/decline'>
+            <label for='decline'>Message: </label>
+            <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
+            <input type='submit' value='Decline'>
+          </form>
         `;
         let $itemsDiv = '';
 
@@ -103,7 +101,7 @@ const renderNewOrders = function(orderArr) {
           $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
-        $('#new_orders').append($orderDiv);
+        $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
@@ -116,18 +114,16 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <li id='order_id_${orderId}'>
-            <h2>Order ${orderId}</h2>
-            <p>@ ${orderDetails.created_at}</p>
-            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
-            <ul></ul>
-            <p>Order Total: $${orderDetails.total / 100}</p>
-            <form method='POST' action='/orders/${orderId}/done'>
-              <label for='done'>Message: </label>
-              <input type='text' name='done' class='user_input' placeholder='Your order is ready!'>
-              <input type='submit' value='Done'>
-            </form>
-          </li>
+          <h2>Order ${orderId}</h2>
+          <p>@ ${orderDetails.created_at}</p>
+          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <ul></ul>
+          <p>Order Total: $${orderDetails.total / 100}</p>
+          <form method='POST' action='/orders/${orderId}/done'>
+            <label for='done'>Message: </label>
+            <input type='text' name='done' class='user_input' placeholder='Your order is ready!'>
+            <input type='submit' value='Done'>
+          </form>
         `;
         let $itemsDiv = '';
 
@@ -135,7 +131,8 @@ const renderPendingOrders = function(orderArr) {
           $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
-        $('#pending_orders').append($orderDiv);
+        // $('#pending_orders').append($orderDiv);
+        $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
@@ -178,7 +175,7 @@ const addOrders = function(addedOrders, newOrders, parentDivID) {
   //cache [1, 2, 3, 4, 7]
   //after remove [1, 2, 4]
   //new [99, 1, 2, 5, 4, 6]
-  let displayedOrders = [1, 2, 4];
+  // let displayedOrders = [1, 2, 4];
 
   // for (const orderID of addedOrders) {
   //   let appendToID;
@@ -201,7 +198,7 @@ const addOrders = function(addedOrders, newOrders, parentDivID) {
       $(parentDivID).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
       // $(`#new_orders`).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
     } else {
-      console.log(`#order_id_${appendToID} after <li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+      // console.log(`#order_id_${appendToID} after <li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
       $(`#order_id_${appendToID}`).after(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
     }
   }
@@ -241,12 +238,16 @@ const renderAllOrders = function() {
         removeOrders(removedOrders);
         addOrders(addedNewOrders, orderID.newOrders, '#new_orders');
         addOrders(addedPendingOrders, orderID.pendingOrders, '#pending_orders');
+        renderNewOrders(addedNewOrders);
+        renderPendingOrders(addedPendingOrders);
 
       } else {
         console.log('all new orders ', orderID);
         $('ol').empty();
-        renderNewOrders(destructOrderId(data.newOrders));
-        renderPendingOrders(destructOrderId(data.pendingOrders));
+        addOrders(orderID.newOrders, orderID.newOrders, '#new_orders');
+        addOrders(orderID.pendingOrders, orderID.pendingOrders, '#pending_orders');
+        renderNewOrders(orderID.newOrders);
+        renderPendingOrders(orderID.pendingOrders);
       }
       orderIDCache.newOrders = orderID.newOrders;
       orderIDCache.pendingOrders = orderID.pendingOrders;
@@ -257,4 +258,5 @@ const renderAllOrders = function() {
 $().ready(() => {
   renderAllOrders();
   $('ol').on('order_update_succeeded', renderAllOrders);
+  window.setInterval(renderAllOrders, 5000);
 });
