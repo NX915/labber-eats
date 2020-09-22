@@ -1,15 +1,16 @@
 main {
   display: flex;
   flex-direction: column;
+  padding: 2rem;
 
 }
 
 article.menu-item {
   position: relative;
-  border: black solid;
   color: white;
-  margin-bottom: 1rem;
   max-width: 500px;
+  margin-bottom: 0.5rem;
+  border: black solid;
 
   &.unavailable {
     opacity: 0.5;
