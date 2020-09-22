@@ -56,7 +56,7 @@ const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
     for (const itemId in cart) {
       if (menuItem.id === parseInt(itemId)) {
-        $('main').append(createCartItem(menuItem, cart[itemId]));
+        $('#cart').append(createCartItem(menuItem, cart[itemId]));
       }
     }
   }
@@ -64,10 +64,10 @@ const renderCartItems = (arr, cart) => {
 
 // Renders cart page once cart btn pressed
 const renderCartPage = (menu, items) => {
-  $('main').empty();
-  $('main').append('<h1>Your Cart</h1>');
+  $('#cart').empty();
+  $('#cart').append('<h1>Your Cart</h1>');
   renderCartItems(menu, items);
-  $('main').append(`
+  $('#cart').append(`
   <div>
     <h4>Total</h4>
     <p id='total'>$${calculateTotal(menu, items)}</p>
