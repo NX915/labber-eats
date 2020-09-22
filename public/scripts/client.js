@@ -48,8 +48,8 @@ $(document).ready(() => {
         // Decrease quantity when '-' clicked and updates subtotal + total
         $('.dec-button').click(function() {
           const clickedItemId = $(this).parent().parent().attr('id');
-          const $subTotalEl = $(this).parent().parent().find('.subtotal');
           let $counter = $(this).siblings('input');
+          const $subTotalEl = $(this).parent().parent().find('.subtotal');
           const price = findPrice(clickedItemId, menuCache);
 
           decreaseCounter($counter);
@@ -61,8 +61,8 @@ $(document).ready(() => {
         // Increase quantity when '+' clicked and updates subtotal + total
         $('.inc-button').click(function() {
           const clickedItemId = $(this).parent().parent().attr('id');
-          const $subTotalEl = $(this).parent().parent().find('.subtotal');
           let $counter = $(this).siblings('input');
+          const $subTotalEl = $(this).parent().parent().find('.subtotal');
           const price = findPrice(clickedItemId, menuCache);
 
           increaseCounter($counter);
@@ -100,5 +100,5 @@ $(document).ready(() => {
         });
       });
 
-    })
+    });
 });
