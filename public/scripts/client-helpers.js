@@ -10,7 +10,7 @@ const createItemElement = (itemObj) => {
       <h3>$${itemObj.price / 100}</h3>
     </div>
     <div><img src=${itemObj.image_url} width="300"></div>
-    <div>
+    <div class='item-desc'>
         <p>${itemObj.description}</p>
     </div>
   `;
