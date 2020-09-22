@@ -35,7 +35,7 @@ const renderMenu = arr => {
 // Create element for one item when checking out
 const createCartItem = (itemObj, quant) => {
   const $item = `
-  <article class='menu-item' id=${itemObj.id}>
+  <article id=${itemObj.id}>
     <div><img src=${itemObj.image_url} width="300"></div>
     <div>
       <h3>${itemObj.name}</h3>
