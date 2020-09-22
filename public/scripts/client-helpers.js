@@ -15,10 +15,8 @@ const createItemElement = (itemObj) => {
       <h2>$${itemObj.price / 100}</h2>
     </div>
     <div><img src=${itemObj.image_url} width="300"></div>
-    <div class='item-desc'>
-        <p>${itemObj.description}</p>
-    </div>
     <div class='counter'>
+      <p class='item-desc'>${itemObj.description}</p>
       <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="0">
       <button class='inc-button'>+</button>
@@ -67,7 +65,7 @@ const renderCartItems = (arr, cart) => {
 // Renders cart page once cart btn pressed
 const renderCartPage = (menu, items) => {
   $('main').empty();
-  $('main').append('<h1>Cart</h1>');
+  $('main').append('<h1>Your Cart</h1>');
   renderCartItems(menu, items);
   $('main').append(`
   <div>

@@ -9,9 +9,14 @@ article.menu-item {
   border: black solid;
   color: white;
   margin-bottom: 1rem;
+  max-width: 500px;
 
   &.unavailable {
     opacity: 0.5;
+
+    .item-desc {
+      display: block;
+    }
   }
 
   div {
@@ -28,13 +33,13 @@ article.menu-item {
       padding: 0;
     }
     img {
-      // width:100%;
-      // height: 100%;
+      width:100%;
+      height: 100%;
     }
   }
 
   &:hover .item-desc {
-    visibility: visible;
+    display: block;
   }
 
 }
@@ -49,10 +54,6 @@ article.menu-item {
 
 .item-desc {
   bottom: 4rem;
-  visibility: hidden;
-}
-
-.counter {
-  bottom: 0;
+  display: none;
 }
 

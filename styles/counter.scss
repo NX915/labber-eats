@@ -1,0 +1,40 @@
+.counter {
+  bottom: 0;
+  text-align: center;
+
+  button {
+    border-radius: 50%;
+    outline: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-style: hidden;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+
+  input[type=number] {
+    width: 2rem;
+    background-color: transparent;
+    margin: 0.25rem;
+    color: white;
+    border-style: hidden;
+    outline: none;
+    text-align: center;
+    font-size: 1.25rem;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
