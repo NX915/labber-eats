@@ -3,7 +3,9 @@ module.exports = db => {
   // gets all available items to be displayed to the user. It returns an array
   const getMenu = () => {
     return db
-      .query('SELECT * FROM items')
+      .query(`SELECT items.*, categories.name AS category, categories.description AS category_description
+      FROM items JOIN categories ON category_id = categories.id
+      ORDER BY category_id, items.name`)
       .then(res => res.rows)
       .catch(e => { throw e.message });
   }

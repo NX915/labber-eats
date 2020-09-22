@@ -44,7 +44,7 @@ module.exports = (db) => {
     const orderDetails = req.body;
     dbHelpers.addOrder(orderDetails);
     res.json('ok');
-    // sendSMSToRestaurant('You have received a new order!');
+    sendSMSToRestaurant('You have received a new order!');
   });
 
   router.post("/:id", (req, res) => {

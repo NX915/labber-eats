@@ -41,3 +41,6 @@ Labber Eats
 - git
 - Bootstraps
 
+## Acknowledgment
+
+To populate the menu, we used photos taken from [unsplash](https://unsplash.com/).
