@@ -71,7 +71,7 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order ${orderId}</h2>
+          <h2>Order# ${orderId}</h2>
           <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
@@ -106,7 +106,7 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order ${orderId}</h2>
+          <h2>Order# ${orderId}</h2>
           <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>

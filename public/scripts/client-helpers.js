@@ -56,7 +56,7 @@ const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
     for (const itemId in cart) {
       if (menuItem.id === parseInt(itemId)) {
-        $('#cart').append(createCartItem(menuItem, cart[itemId]));
+        $('#cart_items_container').append(createCartItem(menuItem, cart[itemId]));
       }
     }
   }
@@ -65,7 +65,7 @@ const renderCartItems = (arr, cart) => {
 // Renders cart page once cart btn pressed
 const renderCartPage = (menu, items) => {
   $('#cart').empty();
-  $('#cart').append('<h1>Your Cart</h1>');
+  $('#cart').append('<h1>Your Cart</h1><div id="cart_items_container" class="scroll"></div>');
   renderCartItems(menu, items);
   $('#cart').append(`
   <div>
