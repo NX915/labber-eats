@@ -67,6 +67,13 @@ const getOrderDetails = function(orderArr) {
 //   return output;
 // };
 
+
+// a function to parse timestamps returned from the database
+const parseTimestamp = timestamp => {
+  return new Date(timestamp).toTimeString().slice(0, 8)
+}
+
+
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
@@ -81,7 +88,7 @@ const renderNewOrders = function(orderArr) {
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
-            <p>@ ${orderDetails.created_at}</p>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
             <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
             <ul></ul>
             <p>Order Total: $${orderDetails.total / 100}</p>
@@ -118,7 +125,7 @@ const renderPendingOrders = function(orderArr) {
         const $orderDiv = `
           <li id='order_id_${orderId}'>
             <h2>Order ${orderId}</h2>
-            <p>@ ${orderDetails.created_at}</p>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
             <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
             <ul></ul>
             <p>Order Total: $${orderDetails.total / 100}</p>
