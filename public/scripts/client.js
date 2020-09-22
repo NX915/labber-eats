@@ -7,6 +7,7 @@ $(document).ready(() => {
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
       menuCache = res;
+      console.log(res);
       renderMenu(res);
 
       // Disable buttons/input for unavailable items

@@ -27,7 +27,16 @@ const createItemElement = (itemObj) => {
 
 // Add items inside of main container
 const renderMenu = arr => {
-  arr.forEach(item => $('#menu-container').append(createItemElement(item)));
+  const addedCategories = {}
+  arr.forEach(item => {
+    const {category, category_id} = item
+    if (addedCategories[category] === undefined) {
+      // console.log('new category:', category);
+      addedCategories[category] = '';
+      $('#menu-container').append(`<div id='category-${category_id}'><h2>${category}</h2></div>`)
+    }
+    $(`#category-${category_id}`).append(createItemElement(item))
+  });
 };
 
 // Create element for one item when checking out
@@ -91,17 +100,17 @@ const renderCartPage = (menu, items) => {
   `);
 };
 
-const decreaseCounter = function(el) {
+const decreaseCounter = function (el) {
   if (el.val() > 0) {
     el.val(parseInt(el.val()) - 1);
   }
 };
 
-const increaseCounter = function(el) {
+const increaseCounter = function (el) {
   el.val(parseInt(el.val()) + 1);
 };
 
-const removeFromCart = function(cart, id) {
+const removeFromCart = function (cart, id) {
   if (cart[id]) {
     if (cart[id] > 1) {
       cart[id]--;
@@ -111,7 +120,7 @@ const removeFromCart = function(cart, id) {
   }
 };
 
-const addToCart = function(cart, id) {
+const addToCart = function (cart, id) {
   if (cart[id]) {
     cart[id]++;
   } else {
@@ -119,7 +128,7 @@ const addToCart = function(cart, id) {
   }
 };
 
-const updateCart = function(cart, id, value) {
+const updateCart = function (cart, id, value) {
   if (value && value !== '0') {
     cart[id] = parseInt(value);
   } else {
@@ -145,7 +154,7 @@ const calculateTotal = (menu, itemObj) => {
   return (sum / 100).toFixed(2);
 };
 
-const updateSubtotal = function(el, quant, price) {
+const updateSubtotal = function (el, quant, price) {
   el.text(`$${(quant * price / 100).toFixed(2)}`);
 };
 
@@ -206,7 +215,7 @@ const isValidPhone = number => {
 };
 
 const convertNum = number => {
-  const newNum = number.replace(/\D/g,'');
+  const newNum = number.replace(/\D/g, '');
   if (newNum.length === 10) {
     return newNum;
   } else if (newNum.length === 11) {
