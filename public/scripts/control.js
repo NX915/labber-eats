@@ -173,13 +173,29 @@ const removeOrders = function(orderIDArr) {
   }
 };
 
-const addOrders = function(addedOrders, n) {
-  //add [5, 6]
+const addOrders = function(addedOrders, newOrders) {
+  //add [5, 6, 99]
   //cache [1, 2, 3, 4, 7]
   //after remove [1, 2, 4]
-  //new [1, 2, 5, 4, 6]
+  //new [99, 1, 2, 5, 4, 6]
+  let displayedOrders = [1, 2, 4];
 
+  for (const orderID of addedOrders) {
+    let appendToID;
+    let indexToAppend;
+    console.log('id to add', orderID);
+    appendToID = newOrders[newOrders.indexOf(orderID) - 1];
+    console.log('id of previous', appendToID);
+    indexToAppend = appendToID === undefined ? 0 : displayedOrders.indexOf(appendToID) + 1;
+    console.log('index of ele to append ', indexToAppend);
+    displayedOrders.splice(indexToAppend, 0, orderID);
+    console.log('displayed ', displayedOrders);
+  }
+
+  // console.log('displayed ', displayedOrders);
 };
+addOrders([5, 6, 99], [99, 1, 2, 5, 4, 6]);
+
 
 //get and render all active orders
 const renderAllOrders = function() {
@@ -199,14 +215,14 @@ const renderAllOrders = function() {
         console.log('update orders ');
         console.log('new order ', orderID.newOrders);
         console.log('cached new order ', orderIDCache.newOrders);
-        console.log('removed new orders ', getMissingOrders(orderID.newOrders, orderIDCache.newOrders));
-        console.log('added new orders ', getNewOrders(orderID.newOrders, orderIDCache.newOrders));
+        console.log('removed new orders ', getRemovedOrders(orderID.newOrders, orderIDCache.newOrders));
+        console.log('added new orders ', getAddedOrders(orderID.newOrders, orderIDCache.newOrders));
 
         const removedOrders = getRemovedOrders(orderID.newOrders, orderIDCache.newOrders);
         const addedOrders = getAddedOrders(orderID.newOrders, orderIDCache.newOrders);
 
         removeOrders(removedOrders);
-        addOrders(addedOrders);
+        addOrders(addedOrders, orderID.newOrders);
 
       } else {
         console.log('all new orders ', orderID);
