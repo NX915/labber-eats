@@ -1,7 +1,4 @@
 let orderIDCache = {};
-// let orderDataCache;
-// let newOrdersCache;
-// let pendingOrdersCache;
 
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
@@ -40,34 +37,6 @@ const getOrderDetails = function(orderArr) {
   });
 };
 
-// const findUpdatedOrder = function(newArr) {
-//   let output = {new: [], gone: []};
-//   console.log('new ', newArr);
-//   console.log('cache ', newOrdersCache);
-
-//   if (newOrdersCache === undefined) {
-//     output.new = newArr;
-//     output.gone = [];
-//     newOrdersCache = newArr;
-//   } else {
-//     for (const orderId of newOrdersCache) {
-//       if (newArr.indexOf(orderId) === -1) {
-//         console.log('gone ', orderId);
-//         output.gone.push(orderId);
-//       }
-//     }
-//     for (const orderId of newArr) {
-//       if (newOrdersCache.indexOf(orderId) === -1) {
-//         console.log('new ', orderId);
-//         output.new.push(orderId);
-//       }
-//     }
-//   }
-
-//   return output;
-// };
-
-
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
   return new Date(timestamp).toTimeString().slice(0, 8)
@@ -77,10 +46,7 @@ const parseTimestamp = timestamp => {
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
-  // const updatedOrders = findUpdatedOrder(orderArr);
-  // console.log(updatedOrders);
 
-  // $('#new_orders').empty();
   getOrderDetails(orderArr)
     .then((orderData) => {
       for (const orderId of orderArr) {
@@ -178,50 +144,23 @@ const removeOrders = function(orderIDArr) {
 };
 
 const addOrders = function(addedOrders, newOrders, parentDivID) {
-  //add [5, 6, 99]
-  //cache [1, 2, 3, 4, 7]
-  //after remove [1, 2, 4]
-  //new [99, 1, 2, 5, 4, 6]
-  // let displayedOrders = [1, 2, 4];
-
-  // for (const orderID of addedOrders) {
-  //   let appendToID;
-  //   let indexToAppend;
-
-  //   console.log('id to add', orderID);
-  //   appendToID = newOrders[newOrders.indexOf(orderID) - 1];
-  //   console.log('id of previous', appendToID);
-  //   indexToAppend = appendToID === undefined ? 0 : displayedOrders.indexOf(appendToID) + 1;
-  //   console.log('index of ele to append ', indexToAppend);
-  //   displayedOrders.splice(indexToAppend, 0, orderID);
-  //   console.log('displayed ', displayedOrders);
-  // }
 
   for (const orderID of addedOrders) {
     let appendToID;
 
     appendToID = newOrders[newOrders.indexOf(orderID) - 1];
     if (appendToID === undefined) {
-      $(parentDivID).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
-      // $(`#new_orders`).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+      $(parentDivID).prepend(`<li id='order_id_${orderID}'></li>`);
     } else {
-      // console.log(`#order_id_${appendToID} after <li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
-      $(`#order_id_${appendToID}`).after(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+      $(`#order_id_${appendToID}`).after(`<li id='order_id_${orderID}'></li>`);
     }
   }
-  // console.log('displayed ', displayedOrders);
 };
-// addOrders([5, 6, 99], [99, 1, 2, 5, 4, 6]);
-
 
 //get and render all active orders
 const renderAllOrders = function() {
   getOrders()
     .then(data => {
-      // $('ol').empty();
-      // console.log('new', destructOrderId(data.newOrders));
-      // renderNewOrders(destructOrderId(data.newOrders));
-      // renderPendingOrders(destructOrderId(data.pendingOrders));
 
       const orderID = {
         newOrders: destructOrderId(data.newOrders),
@@ -250,7 +189,7 @@ const renderAllOrders = function() {
 
       } else {
         console.log('all new orders ', orderID);
-        $('ol').empty();
+        // $('ol').empty();
         addOrders(orderID.newOrders, orderID.newOrders, '#new_orders');
         addOrders(orderID.pendingOrders, orderID.pendingOrders, '#pending_orders');
         renderNewOrders(orderID.newOrders);
