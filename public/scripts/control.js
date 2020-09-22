@@ -173,28 +173,41 @@ const removeOrders = function(orderIDArr) {
   }
 };
 
-const addOrders = function(addedOrders, newOrders) {
+const addOrders = function(addedOrders, newOrders, parentDivID) {
   //add [5, 6, 99]
   //cache [1, 2, 3, 4, 7]
   //after remove [1, 2, 4]
   //new [99, 1, 2, 5, 4, 6]
   let displayedOrders = [1, 2, 4];
 
+  // for (const orderID of addedOrders) {
+  //   let appendToID;
+  //   let indexToAppend;
+
+  //   console.log('id to add', orderID);
+  //   appendToID = newOrders[newOrders.indexOf(orderID) - 1];
+  //   console.log('id of previous', appendToID);
+  //   indexToAppend = appendToID === undefined ? 0 : displayedOrders.indexOf(appendToID) + 1;
+  //   console.log('index of ele to append ', indexToAppend);
+  //   displayedOrders.splice(indexToAppend, 0, orderID);
+  //   console.log('displayed ', displayedOrders);
+  // }
+
   for (const orderID of addedOrders) {
     let appendToID;
-    let indexToAppend;
-    console.log('id to add', orderID);
-    appendToID = newOrders[newOrders.indexOf(orderID) - 1];
-    console.log('id of previous', appendToID);
-    indexToAppend = appendToID === undefined ? 0 : displayedOrders.indexOf(appendToID) + 1;
-    console.log('index of ele to append ', indexToAppend);
-    displayedOrders.splice(indexToAppend, 0, orderID);
-    console.log('displayed ', displayedOrders);
-  }
 
+    appendToID = newOrders[newOrders.indexOf(orderID) - 1];
+    if (appendToID === undefined) {
+      $(parentDivID).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+      // $(`#new_orders`).prepend(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+    } else {
+      console.log(`#order_id_${appendToID} after <li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+      $(`#order_id_${appendToID}`).after(`<li id='order_id_${orderID}'>ORDER ${orderID}</li>`);
+    }
+  }
   // console.log('displayed ', displayedOrders);
 };
-addOrders([5, 6, 99], [99, 1, 2, 5, 4, 6]);
+// addOrders([5, 6, 99], [99, 1, 2, 5, 4, 6]);
 
 
 //get and render all active orders
@@ -212,17 +225,22 @@ const renderAllOrders = function() {
       };
 
       if (orderIDCache.newOrders && orderIDCache.pendingOrders) {
-        console.log('update orders ');
-        console.log('new order ', orderID.newOrders);
-        console.log('cached new order ', orderIDCache.newOrders);
-        console.log('removed new orders ', getRemovedOrders(orderID.newOrders, orderIDCache.newOrders));
-        console.log('added new orders ', getAddedOrders(orderID.newOrders, orderIDCache.newOrders));
-
         const removedOrders = getRemovedOrders(orderID.newOrders, orderIDCache.newOrders);
-        const addedOrders = getAddedOrders(orderID.newOrders, orderIDCache.newOrders);
+        removedOrders.push(getRemovedOrders(orderID.pendingOrders, orderIDCache.pendingOrders));
+        const addedNewOrders = getAddedOrders(orderID.newOrders, orderIDCache.newOrders);
+        const addedPendingOrders = getAddedOrders(orderID.pendingOrders, orderIDCache.pendingOrders);
+
+        console.log('update orders ');
+        console.log('new orders ', orderID.newOrders);
+        console.log('pending orders ', orderID.pendingOrders);
+        console.log('cached new orders ', orderIDCache.newOrders);
+        console.log('removed new orders ', removedOrders);
+        console.log('added new orders ', addedNewOrders);
+        console.log('added pending orders ', addedPendingOrders);
 
         removeOrders(removedOrders);
-        addOrders(addedOrders, orderID.newOrders);
+        addOrders(addedNewOrders, orderID.newOrders, '#new_orders');
+        addOrders(addedPendingOrders, orderID.pendingOrders, '#pending_orders');
 
       } else {
         console.log('all new orders ', orderID);
