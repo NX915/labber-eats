@@ -39,9 +39,9 @@ const createCartItem = (itemObj, quant) => {
       <h3>${itemObj.name}</h3>
     </div>
     <div>
-      <button class='dec-button'>-</button>
+      <button class='dec-cart'>-</button>
       <input type="number" name="quantity" value="${quant}">
-      <button class='inc-button'>+</button>
+      <button class='inc-cart'>+</button>
     </div>
     <div>
       <p class='subtotal'>$${(itemObj.price * quant / 100).toFixed(2)}</p>
