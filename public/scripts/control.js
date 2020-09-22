@@ -67,6 +67,13 @@ const getOrderDetails = function(orderArr) {
 //   return output;
 // };
 
+
+// a function to parse timestamps returned from the database
+const parseTimestamp = timestamp => {
+  return new Date(timestamp).toTimeString().slice(0, 8)
+}
+
+
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
 const renderNewOrders = function(orderArr) {
@@ -79,6 +86,7 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
+<<<<<<< HEAD
           <h2>Order ${orderId}</h2>
           <p>@ ${orderDetails.created_at}</p>
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
@@ -94,6 +102,25 @@ const renderNewOrders = function(orderArr) {
             <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
             <input type='submit' value='Decline'>
           </form>
+=======
+          <li id='order_id_${orderId}'>
+            <h2>Order ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+            <ul></ul>
+            <p>Order Total: $${orderDetails.total / 100}</p>
+            <form method='POST' action='/orders/${orderId}'>
+              <label for='wait-time'>Wait Time: </label>
+              <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
+              <input type='submit' value='Accept'>
+            </form>
+            <form method='POST' action='/orders/${orderId}/decline'>
+              <label for='decline'>Message: </label>
+              <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
+              <input type='submit' value='Decline'>
+            </form>
+          </li>
+>>>>>>> origin/master
         `;
         let $itemsDiv = '';
 
@@ -114,6 +141,7 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
+<<<<<<< HEAD
           <h2>Order ${orderId}</h2>
           <p>@ ${orderDetails.created_at}</p>
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
@@ -124,6 +152,20 @@ const renderPendingOrders = function(orderArr) {
             <input type='text' name='done' class='user_input' placeholder='Your order is ready!'>
             <input type='submit' value='Done'>
           </form>
+=======
+          <li id='order_id_${orderId}'>
+            <h2>Order ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+            <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+            <ul></ul>
+            <p>Order Total: $${orderDetails.total / 100}</p>
+            <form method='POST' action='/orders/${orderId}/done'>
+              <label for='done'>Message: </label>
+              <input type='text' name='done' class='user_input' placeholder='Your order is ready!'>
+              <input type='submit' value='Done'>
+            </form>
+          </li>
+>>>>>>> origin/master
         `;
         let $itemsDiv = '';
 

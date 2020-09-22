@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-// const { selectedItems: { itemId: 'quantity' }, userDetails:{ name: 'qleqe', phone: '12341839254'}}
 
+// Create the element for one menu item
 const createItemElement = (itemObj) => {
   let $item = `
   <article class='menu-item' id=${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="500"></div>
+    <div><img src=${itemObj.image_url} width="300"></div>
     <div>
         <h3>${itemObj.name}</h3>
         <p>${itemObj.description}</p>
@@ -23,15 +23,21 @@ const createItemElement = (itemObj) => {
       <button class='dec-button'>-</button>
       <input type="number" name="quantity" value="0">
       <button class='inc-button'>+</button>
-    </div>
-  </article>`;
+      </div>
+      </article>`;
   return $item;
 };
 
+// Add items inside of main container
+const renderMenu = arr => {
+  arr.forEach(item => $('main').append(createItemElement(item)));
+};
+
+// Create element for one item when checking out
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class='menu-item' id=${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="500"></div>
+    <div><img src=${itemObj.image_url} width="300"></div>
     <div>
       <h3>${itemObj.name}</h3>
     </div>
@@ -48,13 +54,7 @@ const createCartItem = (itemObj, quant) => {
   return $item;
 };
 
-const renderMenu = arr => {
-  arr.forEach(item => {$('main').append(createItemElement(item))});
-  $('.unavailable *').prop("disabled", true);
-};
-
-const disableElement = el => {el.prop("disabled", true)};
-
+// Renders the cart items
 const renderCartItems = (arr, cart) => {
   for (const menuItem of arr) {
     for (const itemId in cart) {
@@ -63,6 +63,35 @@ const renderCartItems = (arr, cart) => {
       }
     }
   }
+};
+
+// Renders cart page once cart btn pressed
+const renderCartPage = (menu, items) => {
+  $('main').empty();
+  $('main').append('<h1>Cart</h1>');
+  renderCartItems(menu, items);
+  $('main').append(`
+  <div>
+    <h4>Total</h4>
+    <p id='total'>$${calculateTotal(menu, items)}</p>
+  </div>
+  <form method='POST' action='/orders'>
+    <div id='user-name'>
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" placeholder="Name">
+      <p></p>
+    </div>
+    <div id='user-phone'>
+      <label for="phone-num">Phone number:</label>
+      <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
+      <p></p>
+    </div>
+    <div>
+      <button type="submit">Order Now</button>
+      <p id='cart-err'></p>
+    </div>
+  </form>
+  `);
 };
 
 const decreaseCounter = function(el) {
@@ -103,25 +132,6 @@ const updateCart = function(cart, id, value) {
   }
 };
 
-const renderCartPage = (menu, items) => {
-  $('main').empty();
-  $('main').append('<h1>Cart</h1>');
-  renderCartItems(menu, items);
-  $('main').append(`
-  <div>
-    <h4>Total</h4>
-    <p id='total'>$${calculateTotal(menu, items)}</p>
-  </div>
-  <form method='POST' action='/orders'>
-    <label for="name">Name:</label>
-    <input type="text" name="name" id="name" placeholder="Name">
-    <label for="phone-num">Phone number:</label>
-    <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx">
-    <button type="submit">Submit Order</button>
-  </form>
-  `);
-};
-
 const calculateTotal = (menu, itemObj) => {
   let sum = 0;
   for (const itemId in itemObj) {
@@ -143,7 +153,6 @@ const updateSubtotal = function(el, quant, price) {
 };
 
 const submitOrder = (order) => {
-  console.log(order)
   return $.ajax({
     url: '/orders',
     type: 'post',
@@ -167,4 +176,59 @@ const findPrice = (id, menu) => {
       return item.price;
     }
   }
+};
+
+const isValidName = name => {
+  if (!name) {
+    // display error
+    $('#user-name').find('p').text('Please enter your name.');
+    return false;
+  } else if (!/^[a-zA-Z- ]*$/.test(name)) {
+    $('#user-name').find('p').text('Please enter a valid name.');
+    return false;
+  }
+  $('#user-name').find('p').empty();
+  return true;
+};
+
+const isValidPhone = number => {
+  if (!number) {
+    $('#user-phone').find('p').text('Please enter your phone number.');
+    return false;
+
+  } else if (!/^[0-9- +()]*$/.test(number)) {
+    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    return false;
+
+  } else if (number.replace(/\s|-/g, "").length > 11) {
+    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    return false;
+  }
+  $('#user-phone').find('p').empty();
+  return true;
+};
+
+const convertNum = number => {
+  const newNum = number.replace(/\D/g,'');
+  if (newNum.length === 10) {
+    return newNum;
+  } else if (newNum.length === 11) {
+    return newNum.slice(1);
+  }
+};
+
+const isValidCart = obj => {
+  if (Object.keys(obj).length === 0) {
+    $('#cart-err').text('Please add items to your order.');
+    return false;
+  }
+  return true;
+};
+
+const showCartQuantity = obj => {
+  let amount = 0;
+  for (item in obj) {
+    amount += obj[item];
+  }
+  $('span').text(` ${amount} `);
 };

@@ -44,13 +44,19 @@ module.exports = (db) => {
     const orderDetails = req.body;
     dbHelpers.addOrder(orderDetails);
     res.json('ok');
-    sendSMSToRestaurant('You have received a new order!');
+    // sendSMSToRestaurant('You have received a new order!');
   });
 
   router.post("/:id", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('accept order input', input);
+    dbHelpers.getOrderDetails(id)
+    .then(res => {
+      const {phone, estimated_wait} = res;
+      const obj = {id, phone, type:'confirmed', input, estimated_wait }
+      sendSMSToUser(obj);
+    });
 
     dbHelpers.processOrder({order_id: id})
       .then(() => {
@@ -65,6 +71,12 @@ module.exports = (db) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('decline order input', input);
+    dbHelpers.getOrderDetails(id)
+    .then(res => {
+      const {phone} = res;
+      const obj = {id, phone, type:'declined', input }
+      sendSMSToUser(obj);
+    });
 
     dbHelpers.processOrder({order_id: id, accepted: false})
       .then(() => {
@@ -79,6 +91,13 @@ module.exports = (db) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('complete order input', input);
+    dbHelpers.getOrderDetails(id)
+    .then(res => {
+      const {phone} = res;
+      const obj = {id, phone, type:'ready', input }
+      sendSMSToUser(obj);
+    });
+
 
     dbHelpers.finishOrder(id)
       .then(() => {

@@ -28,13 +28,13 @@ module.exports = db => {
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, estimated_wait, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone;
+        GROUP BY order_id, created_at, users.name, phone, estimated_wait;
       `,
       values: [order_id]
     }
@@ -93,7 +93,7 @@ module.exports = db => {
       if (phone.length < 10) {
         return reject('The phone number is incomplete');
       }
-      if (phone.length > 31) {
+      if (phone.length > 10) {
         return reject('The phone number is longer than expected');
       }
       // confirming that every item has a valid quantity

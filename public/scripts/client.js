@@ -3,12 +3,15 @@ const selectedItems = {};
 let menuCache;
 
 $(document).ready(() => {
+  // $('#logo')
   $.ajax({url: '/items', method: 'get'})
     .then(res => {
       menuCache = res;
       renderMenu(res);
-    })
-    .then(() => {
+
+      // Disable buttons/input for unavailable items
+      $('.unavailable *').prop("disabled", true);
+
       // Decrease quantity when '-' clicked
       $('.dec-button').click(function() {
         const clickedItemId = $(this).parent().parent().attr('id');
@@ -16,6 +19,7 @@ $(document).ready(() => {
 
         decreaseCounter($counter);
         removeFromCart(selectedItems, clickedItemId);
+        showCartQuantity(selectedItems);
       });
 
       // Increase quantity when '+' clicked
@@ -25,6 +29,7 @@ $(document).ready(() => {
 
         increaseCounter($counter);
         addToCart(selectedItems, clickedItemId);
+        showCartQuantity(selectedItems);
       });
 
       // Update quantity when use types in the input field
@@ -33,6 +38,7 @@ $(document).ready(() => {
         const inputValue = $(`#${itemId}`).find('input').val();
 
         updateCart(selectedItems, itemId, inputValue);
+        showCartQuantity(selectedItems);
       });
 
       // When client clicks on cart, repopulate page with only their selection
@@ -80,13 +86,19 @@ $(document).ready(() => {
         // Add new order to database and shows confirmation page to client
         $('form').submit(function(event) {
           event.preventDefault();
-          const name = $('#name').val();
-          const phone = $('#phone').val();
+          const name = $('#name').val().trim();
+          const rawNum = $('#phone').val().trim();
+          const phone = convertNum(rawNum);
           const orderDetails = JSON.stringify({selectedItems, userDetails: {name, phone}});
+          isValidPhone(phone);
+          isValidCart(selectedItems);
 
-          submitOrder(orderDetails)
-            .then(() => renderOrderConfirmation());
+          if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
+            submitOrder(orderDetails)
+              .then(() => renderOrderConfirmation());
+          }
         });
       });
-    });
+
+    })
 });
