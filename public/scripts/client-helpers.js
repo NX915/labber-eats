@@ -5,19 +5,21 @@
 const createItemElement = (itemObj) => {
   let $item = `
   <article class='menu-item' id=${itemObj.id}>
+    <div class='title'>
+      <h3>${itemObj.name}</h3>
+      <h3>$${itemObj.price / 100}</h3>
+    </div>
     <div><img src=${itemObj.image_url} width="300"></div>
     <div>
-        <h3>${itemObj.name}</h3>
         <p>${itemObj.description}</p>
-        <p>$${itemObj.price / 100}</p>
     </div>
   `;
   if (!itemObj.available) {
     $item += `
-      <div class='unavailable'>`;
+      <div class='counter unavailable'>`;
   } else {
     $item += `
-    <div>`;
+    <div class='counter'>`;
   }
   $item += `
       <button class='dec-button'>-</button>
@@ -30,7 +32,7 @@ const createItemElement = (itemObj) => {
 
 // Add items inside of main container
 const renderMenu = arr => {
-  arr.forEach(item => $('main').append(createItemElement(item)));
+  arr.forEach(item => $('#menu-container').append(createItemElement(item)));
 };
 
 // Create element for one item when checking out
