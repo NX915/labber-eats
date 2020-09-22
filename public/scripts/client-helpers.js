@@ -25,15 +25,24 @@ const createItemElement = (itemObj) => {
   return item;
 };
 
+const createCategoryElement = (item) => {
+  const { category, category_id, category_description } = item
+  const element = `
+    <div id='category-${category_id}' class='category-container'>
+      <h2>${category}</h2>
+      <h3 class='category-description'>${category_description}</h3>
+    </div>`
+  return element;
+}
+
 // Add items inside of main container
 const renderMenu = arr => {
   const addedCategories = {}
   arr.forEach(item => {
-    const {category, category_id} = item
+    const { category, category_id } = item
     if (addedCategories[category] === undefined) {
-      // console.log('new category:', category);
       addedCategories[category] = '';
-      $('#menu-container').append(`<div id='category-${category_id}'><h2>${category}</h2></div>`)
+      $('#menu-container').append(createCategoryElement(item))
     }
     $(`#category-${category_id}`).append(createItemElement(item))
   });
