@@ -71,11 +71,11 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order# ${orderId}</h2>
+          <h2># ${orderId}</h2>
           <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
-          <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
@@ -109,11 +109,13 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order# ${orderId}</h2>
-          <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <div>
+            <h2># ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+          </div>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
-          <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
