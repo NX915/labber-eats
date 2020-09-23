@@ -201,7 +201,7 @@ const renderOrderConfirmation = () => {
   <h1>Thank you for your order!</h1>
   <p>You will receive an SMS soon!</p>
   <div id='map_container'>
-  <img id='map' src="https://www.mtlblog.com/u/2018/06/08/92e55894b1014e2ff5d47a3863613a1ed2872534.jpg_1200x630.jpg">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.152207143168!2d-73.59829188454364!3d45.52714253726242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9197c8d8469ed%3A0x8269e006f5c4199b!2s5455%20Gaspe%20Ave%2C%20Montreal%2C%20QC%20H2T%203B3!5e0!3m2!1sen!2sca!4v1600902491898!5m2!1sen!2sca" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
   </div`);
 };
 
