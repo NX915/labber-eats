@@ -102,7 +102,7 @@ const addCartElement = ($container, menu, id, cart) => {
 
       updateCart(selectedItems, itemId, 1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
 
@@ -115,7 +115,7 @@ const addCartElement = ($container, menu, id, cart) => {
 
       updateCart(selectedItems, itemId, $cartCount.val());
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
   }
