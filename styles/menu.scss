@@ -1,8 +1,12 @@
 main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 2rem;
 
+}
+
+.hidden {
+  display:none
 }
 
 article.menu-item {
@@ -58,28 +62,40 @@ article.menu-item {
   display: none;
 }
 
+#menu-container {
+  flex: 1 1 60%;
+}
+
+#cart-container {
+  flex: 1 1 40%;
+}
+
 #cart {
-  position: fixed;
-  height: 100vh;
+  position: -webkit-sticky;
+  position: sticky;
+  // position: fixed;
+  max-height: 100vh;
+  padding: 1rem;
+  margin: 1rem;
   top: 0px;
   right: 0px;
   display: flex;
   flex-direction: column;
-  background-color: rgb(126, 126, 126);
-
-  &.hidden {
-    display:none
-  }
+  // background-color: rgb(126, 126, 126);
+  background-color: black;
+  color: white;
 
   div.scroll {
     margin:4px, 4px;
     padding:4px;
-    background-color: green;
-    width: 500px;
+    background-color: rgb(24, 24, 24);
+    // width: 500px;
     flex: 1 1 70%;
     overflow-x: hidden;
     overflow-y: auto;
     text-align:justify;
+    scrollbar-color: white grey;
+    scrollbar-width: thin;
   }
 }
 

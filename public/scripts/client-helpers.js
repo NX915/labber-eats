@@ -52,7 +52,7 @@ const renderMenu = arr => {
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class=cart-${itemObj.id}>
-    <div><img src=${itemObj.image_url} width="300"></div>
+    <!--<div><img src=${itemObj.image_url} width="300"></div>-->
     <div>
       <h3>${itemObj.name}</h3>
     </div>
