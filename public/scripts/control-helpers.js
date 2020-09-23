@@ -84,6 +84,7 @@ const renderNewOrders = function(orderArr) {
           <form method='POST' action='/orders/${orderId}/decline'>
             <label for='decline'>Message: </label>
             <input type='text' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
+            <output></output>
             <input type='submit' value='Decline'>
           </form>
         `;
@@ -129,3 +130,34 @@ const renderPendingOrders = function(orderArr) {
       }
     });
 };
+
+// counter that add and remove class to a counter element if user input goes over 140 characters
+const charCounter = function(ele) {
+  const textInput = $(ele).val();
+  const counter = $(ele).parent().find("output");
+  const limit = 150;
+  const count = limit - textInput.length;
+
+  if (count < 0) {
+    $(counter).addClass("over-limit");
+  } else {
+    $(counter).removeClass("over-limit");
+  }
+  if (count === 150) {
+    counter.html('');
+  } else {
+    counter.html(count);
+  }
+};
+
+$(document).ready(function() {
+  $(".order_container").on('input', function(e) {
+    // console.log('input trigger');
+    // console.log(e);
+    charCounter(e.target);
+  });
+  $("form").on('order_update_succeeded', function(event) {
+    // event.stopPropagation();
+    charCounter();
+  });
+});

@@ -62,13 +62,13 @@ const renderAllOrders = function() {
         const addedNewOrders = getAddedOrders(orderID.newOrders, orderIDCache.newOrders);
         const addedPendingOrders = getAddedOrders(orderID.pendingOrders, orderIDCache.pendingOrders);
 
-        console.log('update orders ');
-        console.log('new orders ', orderID.newOrders);
-        console.log('pending orders ', orderID.pendingOrders);
-        console.log('cached new orders ', orderIDCache.newOrders);
-        console.log('removed new orders ', removedOrders);
-        console.log('added new orders ', addedNewOrders);
-        console.log('added pending orders ', addedPendingOrders);
+        // console.log('update orders ');
+        // console.log('new orders ', orderID.newOrders);
+        // console.log('pending orders ', orderID.pendingOrders);
+        // console.log('cached new orders ', orderIDCache.newOrders);
+        // console.log('removed new orders ', removedOrders);
+        // console.log('added new orders ', addedNewOrders);
+        // console.log('added pending orders ', addedPendingOrders);
 
         removeOrders(removedOrders);
         addOrders(addedNewOrders, orderID.newOrders, '#new_orders');
