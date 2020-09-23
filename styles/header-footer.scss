@@ -1,7 +1,13 @@
 header {
   background-color: black;
   margin: 0;
+  display: flex;
+  align-items: center;
+  height: 6rem;
   padding: 2rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 
   a {
     color: white;
@@ -13,12 +19,19 @@ header {
   }
 }
 
+nav {
+  margin-left: 1.5rem;
+  display: flex;
+  align-items: center;
+  a{
+    padding: 0.5rem;
+  }
+}
+
 #cart-btn {
   cursor: pointer;
   position: fixed;
-  top: 5%;
   right: 5%;
-  z-index: 1;
 }
 
 i {

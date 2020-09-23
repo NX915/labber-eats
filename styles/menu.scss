@@ -2,7 +2,7 @@ main {
   display: flex;
   flex-direction: row;
   padding: 2rem;
-
+  padding-top: 6rem;
 }
 
 .hidden {
@@ -85,7 +85,7 @@ article.menu-item {
   background-color: black;
   color: white;
 
-  div.scroll {
+    div.scroll {
     margin:4px, 4px;
     padding:4px;
     background-color: rgb(24, 24, 24);

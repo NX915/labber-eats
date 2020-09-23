@@ -5,3 +5,7 @@ body {
   font-family: $font-stack;
   background-color: white;
 }
+
+html {
+  scroll-padding-top: 6rem; /* height of sticky header */
+}
