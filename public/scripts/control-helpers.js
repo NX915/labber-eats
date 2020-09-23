@@ -10,7 +10,7 @@ const attachButtonListener = function() {
 
     $.ajax({url: action, method: method, data: userInput})
       .then(res => {
-        console.log(res);
+        // console.log(res);
         $(parentElement).trigger('order_update_succeeded');
       })
       .catch(err => {
@@ -71,8 +71,10 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2># ${orderId}</h2>
-          <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+          <div>
+            <h2># ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+          </div>
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
@@ -105,7 +107,7 @@ const renderPendingOrders = function(orderArr) {
   // $('#pending_orders').empty();
   getOrderDetails(orderArr)
     .then(orderData => {
-      console.log(orderData)
+      // console.log(orderData)
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
@@ -135,5 +137,11 @@ const renderPendingOrders = function(orderArr) {
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
+};
+
+const renderOrderCounts = function(orderIDObj) {
+  const { newOrders, pendingOrders } = orderIDObj;
+  $('#new_order_header').html(`New Orders (${newOrders.length})`);
+  $('#pending_order_header').html(`In Progress (${pendingOrders.length})`);
 };
 
