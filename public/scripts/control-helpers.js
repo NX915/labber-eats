@@ -20,13 +20,36 @@ const attachButtonListener = function() {
   });
 };
 
+const renderError = function(err) {
+  const errorDiv = '#control_error';
+
+  if (err === undefined && $(errorDiv).html().length > 0) {
+    $(errorDiv).slideUp(200, () => {
+      $(errorDiv).addClass('hidden');
+      $(errorDiv).html('');
+    });
+  } else if (err) {
+    $(errorDiv).slideUp(200, () => {
+      $(errorDiv).removeClass('hidden');
+      $(errorDiv).html(`${err.message}`);
+      $(errorDiv).slideDown(200);
+    });
+  }
+};
+
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
   const url = id === undefined ? '/orders' : `/orders/${id}`;
 
   return $.ajax({url: url, method: 'get'})
-    .then(res => res)
-    .catch(err => console.log('error ', err));
+    .then(res => {
+      renderError();
+      return res;
+    })
+    .catch(err => {
+      err.message = 'Cannot connect to server';
+      renderError(err);
+    });
 };
 
 //take in array [{id: 1}, {id: 2}] and output [1, 2]
