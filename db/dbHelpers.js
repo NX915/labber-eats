@@ -48,6 +48,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => console.log(e.message));
   }
 
 
@@ -71,6 +72,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => console.log(e.message));
   }
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
@@ -194,12 +196,13 @@ module.exports = db => {
     const values = [obj.order_id];
     const accepted = obj.accepted !== undefined && obj.accepted === false ? false : true;
     values.push(accepted);
-    let text = 'UPDATE orders\n'
+    let text = `UPDATE orders
+    SET `
     if (accepted && obj.input) {
-      text += `SET informed_time = $3\n`;
+      text += `informed_time = $3,\n`;
       values.push(obj.input);
     }
-    text += `SET accepted = $2
+    text += `accepted = $2
     WHERE orders.id = $1
     RETURNING *
     `
@@ -212,6 +215,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => console.log(e.message));
   }
 
   // mark the order as completed (change the completed_at column to now())
@@ -233,6 +237,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => console.log(e.message));
   }
 
   return {
