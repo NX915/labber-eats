@@ -48,7 +48,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
-      .catch(e => console.log(e.message));
+      .catch(e => { throw e.message });
   }
 
 
@@ -72,7 +72,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
-      .catch(e => console.log(e.message));
+      .catch(e => { throw e.message });
   }
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
@@ -215,7 +215,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
-      .catch(e => console.log(e.message));
+      .catch(e => { throw e.message });
   }
 
   // mark the order as completed (change the completed_at column to now())
@@ -237,7 +237,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
-      .catch(e => console.log(e.message));
+      .catch(e => { throw e.message });
   }
 
   return {
