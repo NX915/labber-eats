@@ -98,9 +98,10 @@ const findQuantity = (id, itemObj) => {
   return 0;
 };
 
-const updateCounter = function (itemObj, id, element) {
+const updateCounter = function (itemObj, id, menuEl, cartEl) {
   const newQuant = findQuantity(id, itemObj);
-  element.val(newQuant);
+  menuEl.val(newQuant);
+  cartEl.val(newQuant);
 };
 
 const updateCart = function (cart, id, value) {
