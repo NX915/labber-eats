@@ -5,9 +5,9 @@
 const createItemElement = (itemObj) => {
   let item;
   if (!itemObj.available) {
-    item = `<article class='menu-item unavailable' id=${itemObj.id}>`
+    item = `<article class='menu-item unavailable' id=${itemObj.id}>`;
   } else {
-    item = `<article class='menu-item' id=${itemObj.id}>`
+    item = `<article class='menu-item' id=${itemObj.id}>`;
   }
   item += `
     <div class='title'>
@@ -26,7 +26,7 @@ const createItemElement = (itemObj) => {
 };
 
 const createCategoryElement = (item) => {
-  const { category, category_id, category_description } = item
+  const { category, category_id, category_description } = item;
   const element = `
     <div id='category-${category_id}' class='category-container'>
       <h2>${category}</h2>
@@ -91,6 +91,15 @@ const renderCartPage = (menu, items) => {
     <p id='total'>$${calculateTotal(menu, items)}</p>
   </div>
   <form method='POST' action='/orders'>
+     <div id='user-comment'>
+      <div>
+        <label for="comment">Special Instructions:</label>
+        <p>250</p>
+      </div>
+      <div>
+        <textarea name="comment" id="comment" maxlength="250" placeholder="Add a note (allergies, extras), etc."></textarea>
+      </div>
+    </div>
     <div id='user-name'>
       <label for="name">Name:</label>
       <input type="text" name="name" id="name" placeholder="Name">
@@ -109,7 +118,7 @@ const renderCartPage = (menu, items) => {
   `);
 };
 
-const updateCounter = function(itemObj, id, element) {
+const updateCounter = function (itemObj, id, element) {
   const newQuant = findQuantity(id, itemObj);
   element.val(newQuant);
 }
