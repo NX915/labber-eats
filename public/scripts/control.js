@@ -91,6 +91,7 @@ const renderAllOrders = function() {
 //driver code
 $().ready(() => {
   renderAllOrders();
+  $(".order_container").on('input', (e) => charCounter(e.target));
   attachButtonListener();
   $('ol').on('order_update_succeeded', renderAllOrders);
   window.setInterval(renderAllOrders, 5000);
