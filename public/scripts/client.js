@@ -10,32 +10,23 @@ $(document).ready(() => {
     // Disable unavailable items
     $('.unavailable *').prop("disabled", true);
 
-
-    // Decrease quantity when '-' clicked
-    $('.dec-button').click(function() {
+    // Change quantity of cart and update totals
+    $('.menu-item button').click(function() {
       const itemId = $(this).parent().parent().attr('id');
       const $menuCount = $(this).siblings('input');
       const $cartCount = $(`.cart-${itemId} input`);
       const $subTotalEl = $(`.cart-${itemId} .subtotal`);
 
-      updateCart(selectedItems, itemId, -1);
+      if ($(this).hasClass('inc-button')) {
+        updateCart(selectedItems, itemId, 1);
+        addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+      } else {
+        updateCart(selectedItems, itemId, -1);
+      }
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
-    });
 
-    // Increase quantity when '+' clicked
-    $('.inc-button').click(function() {
-      const itemId = $(this).parent().parent().attr('id');
-      const $menuCount = $(this).siblings('input');
-      const $cartCount = $(`.cart-${itemId} input`);
-      const $subTotalEl = $(`.cart-${itemId} .subtotal`);
-
-      updateCart(selectedItems, itemId, 1);
-      addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
-      updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      showCartQuantity(selectedItems);
-      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
     });
 
     // Update quantity when use types in the input field
@@ -70,15 +61,14 @@ $(document).ready(() => {
       isValidPhone(phone);
       isValidCart(selectedItems);
       if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
-        submitOrder(orderDetails)
-          .then(() => renderOrderConfirmation());
+        submitOrder(orderDetails);
+        renderOrderConfirmation();
       }
     });
 
     // Cart toggles on click
     $('#cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
-
     });
   });
 });
