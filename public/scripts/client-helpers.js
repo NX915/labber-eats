@@ -52,7 +52,6 @@ const renderMenu = arr => {
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class=cart-${itemObj.id}>
-    <!--<div><img src=${itemObj.image_url} width="300"></div>-->
     <div>
       <h3>${itemObj.name}</h3>
     </div>
@@ -69,59 +68,40 @@ const createCartItem = (itemObj, quant) => {
   return $item;
 };
 
-// Renders the cart items
-const renderCartItems = (arr, cart) => {
-  for (const menuItem of arr) {
-    for (const itemId in cart) {
-      if (menuItem.id === parseInt(itemId)) {
-        $('#cart_items_container').append(createCartItem(menuItem, cart[itemId]));
-      }
-    }
+// Add item details to cart
+const addCartElement = ($container, menu, id, cart) => {
+  const quantity = findQuantity(id, cart);
+  let itemObj = getItemDetails(id, menu);
+
+  // Check whether item element already exists in cart
+  if ($container.children(`.cart-${id}`).length === 0) {
+    $($container).append(createCartItem(itemObj, quantity));
   }
+  // else if ($container.children().find(`.cart-${id}`)) { @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // }
 };
 
-// Renders cart page once cart btn pressed
-const renderCartPage = (menu, items) => {
-  $('#cart').empty();
-  $('#cart').append('<h1>Your Cart</h1><div id="cart_items_container" class="scroll"></div>');
-  renderCartItems(menu, items);
-  $('#cart').append(`
-  <div>
-    <h4>Total</h4>
-    <p id='total'>$${calculateTotal(menu, items)}</p>
-  </div>
-  <form method='POST' action='/orders'>
-     <div id='user-comment'>
-      <div>
-        <label for="comment">Special Instructions:</label>
-        <p>250</p>
-      </div>
-      <div>
-        <textarea name="comment" id="comment" maxlength="250" placeholder="Add a note (allergies, extras), etc."></textarea>
-      </div>
-    </div>
-    <div id='user-name'>
-      <label for="name">Name:</label>
-      <input type="text" name="name" id="name" placeholder="Name">
-      <p></p>
-    </div>
-    <div id='user-phone'>
-      <label for="phone-num">Phone number:</label>
-      <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
-      <p></p>
-    </div>
-    <div>
-      <button type="submit">Order Now</button>
-      <p id='cart-err'></p>
-    </div>
-  </form>
-  `);
+const getItemDetails = (itemId, menu) => {
+  for (item of menu) {
+    if (item.id === Number(itemId)) {
+      return item;
+    }
+  }
+}
+
+const findQuantity = (id, itemObj) => {
+  for (const item in itemObj) {
+    if (item === id) {
+      return itemObj[item];
+    }
+  }
+  return 0;
 };
 
 const updateCounter = function (itemObj, id, element) {
   const newQuant = findQuantity(id, itemObj);
   element.val(newQuant);
-}
+};
 
 const updateCart = function (cart, id, value) {
   // non empty value from input field
@@ -243,12 +223,3 @@ const showCartQuantity = obj => {
   }
   $('span').text(` ${amount} `);
 };
-
-const findQuantity = (id, itemObj) => {
-  for (const item in itemObj) {
-    if (item === id) {
-      return itemObj[item];
-    }
-  }
-  return 0;
-}
