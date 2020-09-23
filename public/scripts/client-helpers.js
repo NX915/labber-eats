@@ -30,7 +30,7 @@ const createCategoryElement = (item) => {
   const element = `
     <div id='category-${category_id}' class='category-container'>
       <h2>${category}</h2>
-      <h3 class='category-description'>${category_description}</h3>
+      <h3>${category_description}</h3>
     </div>`
   return element;
 }
@@ -43,6 +43,7 @@ const renderMenu = arr => {
     if (addedCategories[category] === undefined) {
       addedCategories[category] = '';
       $('#menu-container').append(createCategoryElement(item))
+      $('header').append(`<a href='#category-${category_id}'>${category}</a>`)
     }
     $(`#category-${category_id}`).append(createItemElement(item))
   });
