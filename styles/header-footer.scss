@@ -22,10 +22,7 @@ header {
 nav {
   margin-left: 1.5rem;
   display: flex;
-  align-items: center;
-  a{
-    padding: 0.5rem;
-  }
+  flex-direction: column;
 }
 
 #cart-btn {
@@ -53,11 +50,19 @@ and (max-width : 320px) {
 /* Styles */
 }
 
-/* Tablers ----------- */
+/* Tablets ----------- */
 @media only screen
 and (min-width : 768px) {
   footer{
     flex-direction: row;
+  }
+  nav {
+    flex-direction: row;
+    align-items: center;
+
+    a{
+      padding: 0.5rem;
+    }
   }
 }
 
