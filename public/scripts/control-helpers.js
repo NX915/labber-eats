@@ -10,7 +10,7 @@ const attachButtonListener = function() {
 
     $.ajax({url: action, method: method, data: userInput})
       .then(res => {
-        console.log(res);
+        // console.log(res);
         $(parentElement).trigger('order_update_succeeded');
       })
       .catch(err => {
@@ -20,13 +20,36 @@ const attachButtonListener = function() {
   });
 };
 
+const renderError = function(err) {
+  const errorDiv = '#control_error';
+
+  if (err === undefined && $(errorDiv).html().length > 0) {
+    $(errorDiv).slideUp(200, () => {
+      $(errorDiv).addClass('hidden');
+      $(errorDiv).html('');
+    });
+  } else if (err) {
+    $(errorDiv).slideUp(200, () => {
+      $(errorDiv).removeClass('hidden');
+      $(errorDiv).html(`${err.message}`);
+      $(errorDiv).slideDown(200);
+    });
+  }
+};
+
 //make ajax request for all the active order id, or get order details for one order if an id is passed in
 const getOrders = function(id) {
   const url = id === undefined ? '/orders' : `/orders/${id}`;
 
   return $.ajax({url: url, method: 'get'})
-    .then(res => res)
-    .catch(err => console.log('error ', err));
+    .then(res => {
+      renderError();
+      return res;
+    })
+    .catch(err => {
+      err.message = 'Cannot connect to server';
+      renderError(err);
+    });
 };
 
 //take in array [{id: 1}, {id: 2}] and output [1, 2]
@@ -71,11 +94,13 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order# ${orderId}</h2>
-          <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <div>
+            <h2># ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+          </div>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
-          <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
@@ -105,15 +130,17 @@ const renderPendingOrders = function(orderArr) {
   // $('#pending_orders').empty();
   getOrderDetails(orderArr)
     .then(orderData => {
-      console.log(orderData)
+      // console.log(orderData)
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <h2>Order# ${orderId}</h2>
-          <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-          <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
+          <div>
+            <h2># ${orderId}</h2>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+          </div>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
-          <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
@@ -133,5 +160,11 @@ const renderPendingOrders = function(orderArr) {
         $(`#order_id_${orderId} ul`).append($itemsDiv);
       }
     });
+};
+
+const renderOrderCounts = function(orderIDObj) {
+  const { newOrders, pendingOrders } = orderIDObj;
+  $('#new_order_header').html(`New Orders (${newOrders.length})`);
+  $('#pending_order_header').html(`In Progress (${pendingOrders.length})`);
 };
 
