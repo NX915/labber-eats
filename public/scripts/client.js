@@ -47,51 +47,10 @@ $(document).ready(() => {
       showCartQuantity(selectedItems);
     });
 
-    // When client clicks on cart, repopulate page with only their selection
+
+    // Cart toggles on click
     $('#cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
-
-      // Decrease quantity when '-' clicked and updates subtotal + total
-      $('.dec-cart').click(function() {
-        const itemId = $(this).parent().parent().attr('class').replace("cart-","");
-        const $cartCount = $(this).siblings('input');
-        const $menuCount = $(`#${itemId} input`);
-        const $subTotalEl = $(this).parent().parent().find('.subtotal');
-        const price = findPrice(itemId, menuCache);
-
-        updateCart(selectedItems, itemId, -1);
-        updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-        updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-        $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
-      });
-
-      // Increase quantity when '+' clicked and updates subtotal + total
-      $('.inc-cart').click(function() {
-        const itemId = $(this).parent().parent().attr('class').replace("cart-","");
-        const $cartCount = $(this).siblings('input');
-        const $menuCount = $(`#${itemId} input`);
-        const $subTotalEl = $(this).parent().parent().find('.subtotal');
-        const price = findPrice(itemId, menuCache);
-
-        updateCart(selectedItems, itemId, 1);
-        updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-        updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-        $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
-      });
-
-      // Update quantity when user types in the input field
-      $('input[name$="quantity"]').on('input', function() {
-        const itemId = $(this).parent().parent().attr('class').replace("cart-","");
-        const $cartCount = $(`.cart-${itemId}`).find('input');
-        const $menuCount = $(`#${itemId} input`);
-        const $subTotalEl = $(this).parent().parent().find('.subtotal');
-        const price = findPrice(itemId, menuCache);
-
-        updateCart(selectedItems, itemId, $cartCount.val());
-        updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-        updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-        $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
-      });
 
       //Update comment character counter
       $('#comment').on('input', () => {
