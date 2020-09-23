@@ -78,19 +78,17 @@ const addCartElement = ($container, menu, id, cart) => {
     const $item = $(createCartItem(itemObj, quantity));
     $($container).append($item);
 
-    // ADD EVENT LISTENERS
+    // ADD EVENT LISTENERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@update to unhardcode
     // Decrease quantity when '-' clicked and updates subtotal + total
     $item.find('.dec-cart').click(function() {
       const itemId = $(this).parent().parent().attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
-      const price = findPrice(itemId, menuCache);
 
       updateCart(selectedItems, itemId, -1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-      $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
+      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
 
@@ -100,12 +98,10 @@ const addCartElement = ($container, menu, id, cart) => {
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
-      const price = findPrice(itemId, menuCache);
 
       updateCart(selectedItems, itemId, 1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-      $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
+      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
 
@@ -115,12 +111,10 @@ const addCartElement = ($container, menu, id, cart) => {
       const $cartCount = $(`.cart-${itemId}`).find('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
-      const price = findPrice(itemId, menuCache);
 
       updateCart(selectedItems, itemId, $cartCount.val());
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateSubtotal($subTotalEl, Number($cartCount.val()), price);
-      $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
+      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
   }
@@ -182,8 +176,11 @@ const calculateTotal = (menu, itemObj) => {
   return (sum / 100).toFixed(2);
 };
 
-const updateSubtotal = function (el, quant, price) {
-  el.text(`$${(quant * price / 100).toFixed(2)}`);
+const updateTotals = function ($subtotal, $total, id, menu, cart) {
+  const price = findPrice(id, menu);
+  const quantity = findQuantity(id, cart);
+  $subtotal.text(`$${(quantity * price / 100).toFixed(2)}`);
+  $total.text(`$${calculateTotal(menuCache, selectedItems)}`);
 };
 
 const submitOrder = (order) => {
