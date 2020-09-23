@@ -4,7 +4,6 @@
     <title>🍔🍟🍕🌭Labber Eats Home Page</title>
     <%- include('partials/_head') %>
     <link rel="stylesheet" href="/styles/counter.css" type="text/css"/>
-    <link rel="stylesheet" href="/styles/header-footer.css" type="text/css"/>
     <link rel="stylesheet" href="/styles/menu.css" type="text/css"/>
 
     <script type="text/javascript" src="/scripts/client-helpers.js"></script>
@@ -23,7 +22,39 @@
         <div><h1>Menu</h1></div>
       </div>
       <div id='cart-container' class="hidden">
-        <div id='cart'></div>
+        <div id='cart'>
+          <div><h1>Your Cart</h1></div>
+          <div id="cart_items_container" class="scroll"></div>
+          <div>
+            <h4>Total</h4>
+            <p id='total'>$0.00</p>
+          </div>
+          <form method='POST' action='/orders'>
+             <div id='user-comment'>
+              <div>
+                <label for="comment">Special Instructions:</label>
+                <p>250</p>
+              </div>
+              <div>
+                <textarea name="comment" id="comment" maxlength="250" placeholder="Add a note (allergies, extras), etc."></textarea>
+              </div>
+            </div>
+            <div id='user-name'>
+              <label for="name">Name:</label>
+              <input type="text" name="name" id="name" placeholder="Name">
+              <p></p>
+            </div>
+            <div id='user-phone'>
+              <label for="phone-num">Phone number:</label>
+              <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
+              <p></p>
+            </div>
+            <div>
+              <button type="submit">Order Now</button>
+              <p id='cart-err'></p>
+            </div>
+          </form>
+        </div>
       </div>
     </main>
     <footer>
