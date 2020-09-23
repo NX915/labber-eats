@@ -30,13 +30,13 @@ module.exports = db => {
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, estimated_wait, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, estimated_wait, comment, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone, estimated_wait;
+        GROUP BY order_id, created_at, users.name, phone, estimated_wait, comment;
       `,
       values: [order_id]
     }
