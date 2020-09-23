@@ -2,7 +2,7 @@ main {
   display: flex;
   flex-direction: row;
   padding: 2rem;
-
+  padding-top: 6rem;
 }
 
 .hidden {
@@ -82,8 +82,9 @@ article.menu-item {
   // background-color: rgb(126, 126, 126);
   background-color: black;
   color: white;
+  z-index: 2;
 
-  div.scroll {
+    div.scroll {
     margin:4px, 4px;
     padding:4px;
     background-color: rgb(24, 24, 24);
@@ -128,11 +129,11 @@ and (min-width : 768px) {
     position: -webkit-sticky;
     position: sticky;
     width: 100%;
-    max-height: 100vh;
+    max-height: calc(100vh - 6rem);
     padding: 1rem;
     margin: 1rem;
-    top: 0px;
     right: 0px;
+    top: 6rem;
   }
 }
 
