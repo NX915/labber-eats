@@ -5,6 +5,10 @@ main {
 
 }
 
+.hidden {
+  display:none
+}
+
 article.menu-item {
   position: relative;
   color: white;
@@ -64,17 +68,13 @@ article.menu-item {
 
 #cart-container {
   flex: 1 1 40%;
-
-  &.hidden {
-    display:none
-  }
 }
 
 #cart {
   position: -webkit-sticky;
   position: sticky;
   // position: fixed;
-  height: 100vh;
+  max-height: 100vh;
   top: 0px;
   right: 0px;
   display: flex;
