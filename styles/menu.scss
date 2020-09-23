@@ -1,6 +1,6 @@
 main {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 2rem;
 
 }
@@ -58,8 +58,22 @@ article.menu-item {
   display: none;
 }
 
+#menu-container {
+  flex: 1 1 60%;
+}
+
+#cart-container {
+  flex: 1 1 40%;
+
+  &.hidden {
+    display:none
+  }
+}
+
 #cart {
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
+  // position: fixed;
   height: 100vh;
   top: 0px;
   right: 0px;
@@ -67,15 +81,11 @@ article.menu-item {
   flex-direction: column;
   background-color: rgb(126, 126, 126);
 
-  &.hidden {
-    display:none
-  }
-
   div.scroll {
     margin:4px, 4px;
     padding:4px;
     background-color: green;
-    width: 500px;
+    // width: 500px;
     flex: 1 1 70%;
     overflow-x: hidden;
     overflow-y: auto;

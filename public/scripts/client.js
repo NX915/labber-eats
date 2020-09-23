@@ -44,7 +44,7 @@ $(document).ready(() => {
       // When client clicks on cart, repopulate page with only their selection
       $('#cart-btn').click(() => {
         renderCartPage(menuCache, selectedItems);
-        $('#cart').toggleClass('hidden');
+        $('#cart-container').toggleClass('hidden');
 
         // Decrease quantity when '-' clicked and updates subtotal + total
         $('.dec-cart').click(function() {
