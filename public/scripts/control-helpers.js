@@ -76,6 +76,7 @@ const renderNewOrders = function(orderArr) {
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
             <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
@@ -104,6 +105,7 @@ const renderPendingOrders = function(orderArr) {
   // $('#pending_orders').empty();
   getOrderDetails(orderArr)
     .then(orderData => {
+      console.log(orderData)
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
@@ -112,6 +114,7 @@ const renderPendingOrders = function(orderArr) {
           <p>Customer: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Order Total: $${orderDetails.total / 100}</p>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
