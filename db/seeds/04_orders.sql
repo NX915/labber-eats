@@ -25,3 +25,8 @@ VALUES (1, TRUE, now()),
 INSERT INTO orders (user_id, accepted)
 VALUES (1, FALSE),
 (1, FALSE);
+
+-- orders with comments
+INSERT INTO orders (user_id, comment)
+VALUES (1, 'No ice!'),
+(3, 'No spicy and dip apart. Please make sure to follow this instruction. The last time I ordered I could not eat because of how spicy it was!!')

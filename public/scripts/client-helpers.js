@@ -51,7 +51,7 @@ const renderMenu = arr => {
 // Create element for one item when checking out
 const createCartItem = (itemObj, quant) => {
   const $item = `
-  <article id=${itemObj.id}>
+  <article class=cart-${itemObj.id}>
     <div><img src=${itemObj.image_url} width="300"></div>
     <div>
       <h3>${itemObj.name}</h3>
@@ -109,41 +109,25 @@ const renderCartPage = (menu, items) => {
   `);
 };
 
-const decreaseCounter = function (el) {
-  if (el.val() > 0) {
-    el.val(parseInt(el.val()) - 1);
-  }
-};
-
-const increaseCounter = function (el) {
-  el.val(parseInt(el.val()) + 1);
-};
-
-const removeFromCart = function (cart, id) {
-  if (cart[id]) {
-    if (cart[id] > 1) {
-      cart[id]--;
-    } else if (cart[id] === 1) {
-      delete cart[id];
-    }
-  }
-};
-
-const addToCart = function (cart, id) {
-  if (cart[id]) {
-    cart[id]++;
-  } else {
-    cart[id] = 1;
-  }
-};
+const updateCounter = function(itemObj, id, element) {
+  const newQuant = findQuantity(id, itemObj);
+  element.val(newQuant);
+}
 
 const updateCart = function (cart, id, value) {
-  if (value && value !== '0') {
+  // non empty value from input field
+  if (value && typeof value === 'string' && value !== '0') {
     cart[id] = parseInt(value);
-  } else {
+  } else if (value === -1 && cart[id] + value > 0) { //decrease button clicked
+    cart[id] += value;
+  } else if (value === 1) { //increase button clicked
     if (cart[id]) {
-      delete cart[id];
+      cart[id] += 1;
+    } else {
+      cart[id] = 1;
     }
+  } else {
+    delete cart[id];
   }
 };
 
@@ -250,3 +234,12 @@ const showCartQuantity = obj => {
   }
   $('span').text(` ${amount} `);
 };
+
+const findQuantity = (id, itemObj) => {
+  for (const item in itemObj) {
+    if (item === id) {
+      return itemObj[item];
+    }
+  }
+  return 0;
+}

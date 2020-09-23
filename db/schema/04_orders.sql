@@ -7,5 +7,6 @@ CREATE TABLE orders (
   accepted BOOLEAN,
   created_at TIMESTAMP DEFAULT now(),
   completed_at TIMESTAMP,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  comment VARCHAR(255)
 );
