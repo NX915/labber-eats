@@ -20,7 +20,27 @@ footer {
   background-color: black;
   color: white;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 3rem;
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* Tablers (portrait and landscape) ----------- */
+@media only screen
+and (min-width : 768px) {
+  footer{
+    flex-direction: row;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
 }
