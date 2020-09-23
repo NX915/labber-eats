@@ -182,7 +182,10 @@ const renderOrderConfirmation = () => {
   $('main').empty();
   $('main').append(`
   <h1>Thank you for your order!</h1>
-  <p>You will receive an SMS soon!</p>`);
+  <p>You will receive an SMS soon!</p>
+  <div id='map_container'>
+  <img id='map' src="https://www.mtlblog.com/u/2018/06/08/92e55894b1014e2ff5d47a3863613a1ed2872534.jpg_1200x630.jpg">
+  </div`);
 };
 
 const findPrice = (id, menu) => {
