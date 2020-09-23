@@ -10,6 +10,7 @@ $(document).ready(() => {
     // Disable unavailable items
     $('.unavailable *').prop("disabled", true);
 
+
     // Decrease quantity when '-' clicked
     $('.dec-button').click(function() {
       const itemId = $(this).parent().parent().attr('id');
@@ -53,31 +54,31 @@ $(document).ready(() => {
       updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
     });
 
+    //Update comment character counter
+    $('#comment').on('input', () => {
+      changeCharCounter($('#user-comment').find('p'), 250, $('#comment').val().length);
+    });
+
+    // Add new order to database and shows confirmation page to client
+    $('form').submit(function(event) {
+      event.preventDefault();
+      const name = $('#name').val().trim();
+      const phone = convertNum($('#phone').val());
+      const comment = $('#comment').val();
+      const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone, comment}});
+
+      isValidPhone(phone);
+      isValidCart(selectedItems);
+      if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
+        submitOrder(orderDetails)
+          .then(() => renderOrderConfirmation());
+      }
+    });
 
     // Cart toggles on click
     $('#cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
 
-      //Update comment character counter
-      $('#comment').on('input', () => {
-        changeCharCounter($('#user-comment').find('p'), 250, $('#comment').val().length);
-      });
-
-      // Add new order to database and shows confirmation page to client
-      $('form').submit(function(event) {
-        event.preventDefault();
-        const name = $('#name').val().trim();
-        const phone = convertNum($('#phone').val());
-        const comment = $('#comment').val();
-        const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone, comment}});
-
-        isValidPhone(phone);
-        isValidCart(selectedItems);
-        if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
-          submitOrder(orderDetails)
-            .then(() => renderOrderConfirmation());
-        }
-      });
     });
   });
 });
