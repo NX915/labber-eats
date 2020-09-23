@@ -84,9 +84,13 @@ module.exports = db => {
       if (Object.keys(selectedItems).length === 0) {
         return reject('It seems that no item has been selected');
       }
-      // confirming that both the name is filled
+      // confirming that a name was given
       if (!orderDetails.name) {
         return reject('The name field does not contain a valid input');
+      }
+      // confirming that a name was given
+      if (orderDetails.comment && orderDetails.comment.length > 255) {
+        return reject('The comment is longer than expected');
       }
       // confirming that the phone field is not empty or invalid, it has more than 10 characters and it contains valid numbers
       if (!phone) {
@@ -146,8 +150,8 @@ module.exports = db => {
     // the query text to insert a new order, returning its id
     let orderID;
     const newOrderQuery = `
-      INSERT INTO orders (user_id)
-      VALUES ($1) RETURNING id;
+      INSERT INTO orders (user_id, comment)
+      VALUES ($1, $2) RETURNING id;
     `;
 
     // create a new let variable to hold the query text to create n rows in the order_items table, it will be updated with a for loop
@@ -171,8 +175,9 @@ module.exports = db => {
       .then(() => db.query(newUserQuery))
       .then(res => {
         userID = res.rows[0].id;
+        const comment = orderDetails.comment || '';
         // run the second query to create a new order related to the user_id that submitted the order
-        return db.query(newOrderQuery, [userID]);
+        return db.query(newOrderQuery, [userID, comment]);
       })
       .then(res => {
         orderID = res.rows[0].id;
