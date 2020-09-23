@@ -1,7 +1,13 @@
 header {
   background-color: black;
   margin: 0;
+  display: flex;
+  align-items: center;
+  height: 6rem;
   padding: 2rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 
   a {
     color: white;
@@ -13,12 +19,18 @@ header {
   }
 }
 
+nav {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
 #cart-btn {
   cursor: pointer;
   position: fixed;
-  top: 5%;
   right: 5%;
-  z-index: 1;
+  top: 4%;
+  z-index:3;
 }
 
 i {
@@ -33,17 +45,25 @@ footer {
   padding: 3rem;
 }
 
-/* Smartphones (portrait) ----------- */
+/* Smartphones ----------- */
 @media only screen
 and (max-width : 320px) {
 /* Styles */
 }
 
-/* Tablers (portrait and landscape) ----------- */
+/* Tablets ----------- */
 @media only screen
 and (min-width : 768px) {
   footer{
     flex-direction: row;
+  }
+  nav {
+    flex-direction: row;
+    align-items: center;
+
+    a{
+      padding: 0.4rem;
+    }
   }
 }
 

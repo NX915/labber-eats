@@ -2,7 +2,7 @@ main {
   display: flex;
   flex-direction: row;
   padding: 2rem;
-
+  padding-top: 6rem;
 }
 
 .hidden {
@@ -63,20 +63,18 @@ article.menu-item {
 }
 
 #menu-container {
-  flex: 1 1 60%;
+  width: 100%;
 }
 
 #cart-container {
-  flex: 1 1 40%;
+  width: 0%;
 }
 
 #cart {
-  position: -webkit-sticky;
-  position: sticky;
-  // position: fixed;
-  max-height: 100vh;
+  position: fixed;
+  height: 100vh;
+  width: 90vw;
   padding: 1rem;
-  margin: 1rem;
   top: 0px;
   right: 0px;
   display: flex;
@@ -84,8 +82,9 @@ article.menu-item {
   // background-color: rgb(126, 126, 126);
   background-color: black;
   color: white;
+  z-index: 2;
 
-  div.scroll {
+    div.scroll {
     margin:4px, 4px;
     padding:4px;
     background-color: rgb(24, 24, 24);
@@ -106,4 +105,40 @@ article.menu-item {
   img {
     width: 100%;
   }
+}
+
+/* Smartphones ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* Tablers ----------- */
+@media only screen
+and (min-width : 768px) {
+
+  #menu-container {
+    flex: 1 1 60%;
+  }
+
+  #cart-container {
+    flex: 1 1 40%;
+  }
+
+  #cart {
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    max-height: calc(100vh - 6rem);
+    padding: 1rem;
+    margin: 1rem;
+    right: 0px;
+    top: 6rem;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
 }
