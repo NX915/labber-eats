@@ -206,7 +206,6 @@ module.exports = db => {
     WHERE orders.id = $1
     RETURNING *
     `
-    console.log(text);
     return db
       .query(text, values)
       .then(res => {
