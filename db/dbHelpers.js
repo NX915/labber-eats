@@ -194,18 +194,21 @@ module.exports = db => {
     const values = [obj.order_id];
     const accepted = obj.accepted !== undefined && obj.accepted === false ? false : true;
     values.push(accepted);
-    const text =
-      `
-    UPDATE orders
-    SET accepted = $2
+    let text = 'UPDATE orders\n'
+    if (accepted && obj.input) {
+      text += `SET informed_time = $3\n`;
+      values.push(obj.input);
+    }
+    text += `SET accepted = $2
     WHERE orders.id = $1
     RETURNING *
     `
+    console.log(text);
     return db
       .query(text, values)
       .then(res => {
         if (res.rows[0]) {
-          return 'The order acceptance was marked as ' + accepted
+          return `The order acceptance was marked as ${accepted}${obj.input ? `and the informed_time was registered as ${obj.input}` : ''}`;
         }
         throw 'The order id does not exist'
       })
@@ -232,27 +235,6 @@ module.exports = db => {
       })
   }
 
-   // in case the restaurant inform to the client a different time than the estimated_time
-   const registerInformedTime = obj => {
-    query = {
-      text: `
-      UPDATE orders
-      SET informed_time = $1
-      WHERE orders.id = $2
-      RETURNING *
-      `,
-      values: [obj.input, obj.order_id]
-    }
-    return db
-      .query(query)
-      .then(res => {
-        if (res.rows[0]) {
-          return 'The order was updated with the specified time'
-        }
-        throw 'The order id does not exist'
-      })
-  }
-
   return {
     getMenu,
     getNewOrders,
@@ -261,7 +243,6 @@ module.exports = db => {
     getItemsFromOrder,
     addOrder,
     processOrder,
-    finishOrder,
-    registerInformedTime
+    finishOrder
   }
 };
