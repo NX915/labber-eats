@@ -63,20 +63,18 @@ article.menu-item {
 }
 
 #menu-container {
-  flex: 1 1 60%;
+  width: 100%;
 }
 
 #cart-container {
-  flex: 1 1 40%;
+  width: 0%;
 }
 
 #cart {
-  position: -webkit-sticky;
-  position: sticky;
-  // position: fixed;
-  max-height: 100vh;
+  position: fixed;
+  height: 100vh;
+  width: 90vw;
   padding: 1rem;
-  margin: 1rem;
   top: 0px;
   right: 0px;
   display: flex;
@@ -106,4 +104,40 @@ article.menu-item {
   img {
     width: 100%;
   }
+}
+
+/* Smartphones ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* Tablers ----------- */
+@media only screen
+and (min-width : 768px) {
+
+  #menu-container {
+    flex: 1 1 60%;
+  }
+
+  #cart-container {
+    flex: 1 1 40%;
+  }
+
+  #cart {
+    position: -webkit-sticky;
+    position: sticky;
+    width: 100%;
+    max-height: 100vh;
+    padding: 1rem;
+    margin: 1rem;
+    top: 0px;
+    right: 0px;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
 }

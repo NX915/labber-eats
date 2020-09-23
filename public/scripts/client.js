@@ -85,13 +85,18 @@ $(document).ready(() => {
           $('#total').text(`$${calculateTotal(menuCache, selectedItems)}`);
         });
 
+        $('#comment').on('input', () => {
+          changeCharCounter($('#user-comment').find('p'), 250, $('#comment').val().length);
+        });
+
         // Add new order to database and shows confirmation page to client
         $('form').submit(function(event) {
           event.preventDefault();
           const name = $('#name').val().trim();
-          const rawNum = $('#phone').val().trim();
-          const phone = convertNum(rawNum);
-          const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone}});
+          const phone = convertNum($('#phone').val());
+          const comment = $('#comment').val();
+          const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone, comment}});
+
           isValidPhone(phone);
           isValidCart(selectedItems);
           if (isValidName(name) && isValidPhone(phone) && isValidCart(selectedItems)) {
