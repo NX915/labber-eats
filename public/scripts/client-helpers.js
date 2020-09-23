@@ -79,7 +79,7 @@ const addCartElement = ($container, menu, id, cart) => {
     const $item = $(createCartItem(itemObj, quantity));
     $($container).append($item);
 
-    // ADD EVENT LISTENERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@update to unhardcode
+    // ADD EVENT LISTENERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@update to unhardcode
     // Decrease quantity when '-' clicked and updates subtotal + total
     $item.find('.dec-cart').click(function() {
       const itemId = $(this).parent().parent().attr('class').replace("cart-","");
