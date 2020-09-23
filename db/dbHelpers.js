@@ -30,13 +30,13 @@ module.exports = db => {
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, estimated_wait, comment, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, comment, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone, estimated_wait, comment;
+        GROUP BY order_id, created_at, users.name, phone, comment;
       `,
       values: [order_id]
     }
@@ -232,6 +232,27 @@ module.exports = db => {
       })
   }
 
+   // in case the restaurant inform to the client a different time than the estimated_time
+   const registerInformedTime = obj => {
+    query = {
+      text: `
+      UPDATE orders
+      SET informed_time = $1
+      WHERE orders.id = $2
+      RETURNING *
+      `,
+      values: [obj.input, obj.order_id]
+    }
+    return db
+      .query(query)
+      .then(res => {
+        if (res.rows[0]) {
+          return 'The order was updated with the specified time'
+        }
+        throw 'The order id does not exist'
+      })
+  }
+
   return {
     getMenu,
     getNewOrders,
@@ -240,6 +261,7 @@ module.exports = db => {
     getItemsFromOrder,
     addOrder,
     processOrder,
-    finishOrder
+    finishOrder,
+    registerInformedTime
   }
 };

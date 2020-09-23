@@ -10,5 +10,5 @@ CREATE TABLE items (
   available BOOLEAN DEFAULT 't',
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
   acronym VARCHAR(5) NOT NULL,
-  prep_time INTEGER
+  prep_time INTEGER NOT NULL
 );
