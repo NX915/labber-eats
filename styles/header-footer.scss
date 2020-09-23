@@ -3,6 +3,11 @@ header {
   margin: 0;
   padding: 3rem;
 
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
   h1 {
     margin: 0;
   }
@@ -10,6 +15,10 @@ header {
 
 #cart-btn {
   cursor: pointer;
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  z-index: 1;
 }
 
 i {
