@@ -72,7 +72,14 @@ $(document).ready(() => {
     $('.cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
       $('.checkout-btn').show();
+
+      // hide user form
       $('.toggle').hide();
+
+      // erase all error msgs
+      $('.cart-err').empty();
+      $('input[name=phone]').parent().find('p').empty();
+      $('input[name=name]').parent().find('p').empty();
 
     });
 
