@@ -111,7 +111,7 @@ const renderNewOrders = function(orderArr) {
           </form>
           <form class='accept-form hidden' method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time</label>
-            <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
+            <input type='number' step='1' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
             <input type='submit' value='Accept'>
           </form>
           <form class='decline-form hidden' method='POST' action='/orders/${orderId}/decline'>
@@ -160,7 +160,7 @@ const renderPendingOrders = function(orderArr) {
           <form class='done-form' method='POST' action='/orders/${orderId}/done'>
             <label for='done'><div>Message <output></output></div></label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
-            <input type='submit' value='Done'>
+            <input type='submit' value='Ready'>
           </form>
         `;
         let $itemsDiv = '';
