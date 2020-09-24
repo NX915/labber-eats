@@ -30,13 +30,13 @@ module.exports = db => {
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, estimated_wait, comment, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, comment, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone, estimated_wait, comment;
+        GROUP BY order_id, created_at, users.name, phone, comment;
       `,
       values: [order_id]
     }
@@ -48,6 +48,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => { throw e.message });
   }
 
 
@@ -71,6 +72,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => { throw e.message });
   }
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
@@ -194,10 +196,13 @@ module.exports = db => {
     const values = [obj.order_id];
     const accepted = obj.accepted !== undefined && obj.accepted === false ? false : true;
     values.push(accepted);
-    const text =
-      `
-    UPDATE orders
-    SET accepted = $2
+    let text = `UPDATE orders
+    SET `
+    if (accepted && obj.input) {
+      text += `informed_time = $3,\n`;
+      values.push(obj.input);
+    }
+    text += `accepted = $2
     WHERE orders.id = $1
     RETURNING *
     `
@@ -205,10 +210,11 @@ module.exports = db => {
       .query(text, values)
       .then(res => {
         if (res.rows[0]) {
-          return 'The order acceptance was marked as ' + accepted
+          return `The order acceptance was marked as ${accepted}${obj.input ? `and the informed_time was registered as ${obj.input}` : ''}`;
         }
         throw 'The order id does not exist'
       })
+      .catch(e => { throw e.message });
   }
 
   // mark the order as completed (change the completed_at column to now())
@@ -230,6 +236,7 @@ module.exports = db => {
         }
         throw 'The order id does not exist'
       })
+      .catch(e => { throw e.message });
   }
 
   return {

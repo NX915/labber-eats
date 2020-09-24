@@ -83,6 +83,9 @@ const renderAllOrders = function() {
         renderNewOrders(orderID.newOrders);
         renderPendingOrders(orderID.pendingOrders);
       }
+
+      renderOrderCounts(orderID);
+
       orderIDCache.newOrders = orderID.newOrders;
       orderIDCache.pendingOrders = orderID.pendingOrders;
     });

@@ -41,7 +41,6 @@ const sendSMSToUser = obj => {
       console.log(err);
     }
   } else {
-    console.log(obj);
     console.log('SMS sent to costumer:')
     console.log(sms);
   }

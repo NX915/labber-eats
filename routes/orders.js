@@ -58,7 +58,7 @@ module.exports = (db) => {
       sendSMSToUser(obj);
     });
 
-    dbHelpers.processOrder({order_id: id})
+    dbHelpers.processOrder({order_id: id, input})
       .then(() => {
         res.status(200).send(`Successful POST to orders/${id}`);
       })

@@ -130,3 +130,11 @@
 // dbHelpers.finishOrder(13)
 // .then(res => console.log('outside then response for finishing order 13:', res))
 // .catch(e => console.log('outside catch response for finishing order 13:',e))
+
+// dbHelpers.registerInformedTime({ order_id: 1, input: 15} )
+// .then(res => console.log('registerInformedTime 1, 15 then:', res))
+// .catch(e => console.log('registerInformedTime 1, 15 catch:', e))
+
+// dbHelpers.registerInformedTime({ order_id: 15, input: 15} )
+// .then(res => console.log('registerInformedTime 15, 15 then:', res))
+// .catch(e => console.log('registerInformedTime 15, 15 catch:', e))
