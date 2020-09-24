@@ -31,6 +31,7 @@ const createCategoryElement = (item) => {
     <div id='${category}' class='category-container'>
       <h2>${category}</h2>
       <h3>${category_description}</h3>
+      <div class='items-container'></div>
     </div>`;
   return element;
 };
@@ -45,7 +46,7 @@ const renderMenu = arr => {
       $('.menu-container').append(createCategoryElement(item))
       $('nav').append(`<a href='#${category}'>${category}</a>`)
     }
-    $(`#${category}`).append(createItemElement(item))
+    $(`#${category} .items-container`).append(createItemElement(item))
   });
 };
 

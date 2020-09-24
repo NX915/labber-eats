@@ -34,8 +34,8 @@ nav {
 .cart-btn {
   cursor: pointer;
   position: fixed;
-  right: 5%;
-  top: 4%;
+  right: 1rem;
+  top: 2rem;
   z-index:3;
   background-color: transparent;
   border: none;
@@ -72,9 +72,10 @@ and (min-width : 768px) {
   nav {
     flex-direction: row;
     align-items: center;
+    margin-left: 0.5rem;
 
     a{
-      margin: 1rem;
+      margin: 0.5rem;
     }
   }
 }
