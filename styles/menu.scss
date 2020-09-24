@@ -95,6 +95,16 @@ and (min-width : 768px) {
   .menu-container {
     flex: 1 1 60%;
   }
+  article.menu-item {
+    max-width: 350px;
+    min-width: 350px;
+    margin: 0.5rem;
+  }
+  .items-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
 }
 
 /* Desktops and laptops ----------- */
