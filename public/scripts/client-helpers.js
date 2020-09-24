@@ -35,21 +35,21 @@ const createCategoryElement = (item) => {
   return element;
 }
 
-// Add items inside of main container
+// Add items inside of each category container
 const renderMenu = arr => {
-  const addedCategories = {}
+  const addedCategories = {};
   arr.forEach(item => {
-    const { category, category_id } = item
+    const { category, category_id } = item;
     if (addedCategories[category] === undefined) {
       addedCategories[category] = '';
-      $('#menu-container').append(createCategoryElement(item))
-      $('nav').append(`<a href='#category-${category_id}'>${category}</a>`)
+      $('#menu-container').append(createCategoryElement(item));
+      $('nav').append(`<a href='#category-${category_id}'>${category}</a>`);
     }
-    $(`#category-${category_id}`).append(createItemElement(item))
+    $(`#category-${category_id}`).append(createItemElement(item));
   });
 };
 
-// Create element for one item when checking out
+// Create element for cart item
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class=cart-${itemObj.id}>
@@ -72,17 +72,40 @@ const createCartItem = (itemObj, quant) => {
   return $item;
 };
 
-// Add item details to cart
+
+
+
+
+// Add item element to cart if does not exist
 const addCartElement = ($container, menu, id, cart) => {
   const quantity = findQuantity(id, cart);
   let itemObj = getItemDetails(id, menu);
 
-  // if item does not exist in cart, append it
   if ($container.children(`.cart-${id}`).length === 0) {
     const $item = $(createCartItem(itemObj, quantity));
     $($container).append($item);
 
-    // ADD EVENT LISTENERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@update to unhardcode
+    // // Change quantity of cart and update totals
+    // $('#cart_items_container button').click(function() {
+    //   const itemId = $(this).parent().parent().attr('id');
+    //   const $menuCount = $(this).siblings('input');
+    //   const $cartCount = $(`.cart-${itemId} input`);
+    //   const $subTotalEl = $(`.cart-${itemId} .subtotal`);
+
+    //   // check whether it is an increase or decrease button
+    //   if ($(this).hasClass('inc-button')) {
+    //     updateCart(selectedItems, itemId, 1);
+    //     addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+    //   } else {
+    //     updateCart(selectedItems, itemId, -1);
+    //   }
+
+    //   updateCounter(selectedItems, itemId, $menuCount, $cartCount);
+    //   showCartQuantity(selectedItems);
+    //   updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
+
+    // });
+
     // Decrease quantity when '-' clicked and updates subtotal + total
     $item.find('.dec-cart').click(function() {
       const itemId = $(this).parents('article').attr('class').replace("cart-","");

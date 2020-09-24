@@ -17,12 +17,14 @@ $(document).ready(() => {
       const $cartCount = $(`.cart-${itemId} input`);
       const $subTotalEl = $(`.cart-${itemId} .subtotal`);
 
+      // check whether it is an increase or decrease button
       if ($(this).hasClass('inc-button')) {
         updateCart(selectedItems, itemId, 1);
         addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
       } else {
         updateCart(selectedItems, itemId, -1);
       }
+
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
