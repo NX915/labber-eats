@@ -17,6 +17,7 @@ article.menu-item {
   // Item title and price
   h2 {
     margin: 0;
+    font-size: 1.5rem;
   }
 
   div {
@@ -102,10 +103,11 @@ article.menu-item {
 }
 
 .category-container {
-  h2 {
+  & > h2 {
     padding: 0.5rem;
     border-bottom: black solid thick;
     font-style: italic;
+    font-size: 1.75rem;
   }
 }
 
