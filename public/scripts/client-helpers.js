@@ -205,6 +205,7 @@ const submitOrder = (order) => {
 const renderOrderConfirmation = () => {
   $('nav').empty();
   $('main').empty();
+  $('.cart-btn').empty();
   $('main').append(`<div id="confirmation-container">
     <h1>Thank you for your order!</h1>
     <p>You will receive an SMS soon!</p>
