@@ -82,8 +82,14 @@ const getOrderDetails = function(orderArr) {
 
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
-  return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+  return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
+
+const getArrivalTime = (startTime, mins) => {
+  const milliSinceEpoch = new Date(startTime).getTime();
+  const timeToAdd = mins * 60000;
+  return new Date(milliSinceEpoch + timeToAdd).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+};
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
@@ -96,7 +102,7 @@ const renderNewOrders = function(orderArr) {
         const $orderDiv = `
           <div class='order_header'>
             <h2># ${orderId}</h2>
-            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+            <p>${parseTimestamp(orderDetails.created_at)}</p>
           </div>
           <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
           <ul></ul>
@@ -154,8 +160,7 @@ const renderPendingOrders = function(orderArr) {
           <div class='order_header'>
             <h2># ${orderId}</h2>
             <div>
-              <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-              <p>Informed Wait: ${orderDetails.informed_time} min</p>
+              <p>Due at ${getArrivalTime(orderDetails.created_at, orderDetails.informed_time)}</p>
             </div>
           </div>
           <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
