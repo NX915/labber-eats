@@ -82,7 +82,7 @@ const getOrderDetails = function(orderArr) {
 
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
-  return new Date(timestamp).toTimeString().slice(0, 8)
+  return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
 }
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
