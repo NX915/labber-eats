@@ -236,7 +236,8 @@ module.exports = db => {
     const query = {
       text: `
       UPDATE orders
-      SET ready_at = now()
+      SET ready_at = now(),
+      accepted = TRUE
       WHERE orders.id = $1
       RETURNING *
       `,
