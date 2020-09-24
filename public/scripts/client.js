@@ -69,7 +69,7 @@ $(document).ready(() => {
     });
 
     // Cart toggles on click
-    $('#cart-btn').click(() => {
+    $('.cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
     });
   });

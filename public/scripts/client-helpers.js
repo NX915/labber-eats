@@ -265,5 +265,5 @@ const showCartQuantity = obj => {
   for (item in obj) {
     amount += obj[item];
   }
-  $('span').text(` ${amount} `);
+  $('.cart-btn span').text(` ${amount} `);
 };
