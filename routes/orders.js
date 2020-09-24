@@ -6,7 +6,7 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 const { sendSMSToUser, sendSMSToRestaurant } = require('../sms/smsHelpers');
 
 module.exports = (db) => {
@@ -40,7 +40,7 @@ module.exports = (db) => {
       });
   });
 
-  router.post('/', (req, res) =>{
+  router.post('/', (req, res) => {
     const orderDetails = req.body;
     dbHelpers.addOrder(orderDetails);
     res.json('ok');
@@ -52,13 +52,13 @@ module.exports = (db) => {
     const { input } = req.body;
     console.log('accept order input', input);
     dbHelpers.getOrderDetails(id)
-    .then(res => {
-      const {phone, estimated_wait} = res;
-      const obj = {id, phone, type:'confirmed', input, estimated_wait }
-      sendSMSToUser(obj);
-    });
+      .then(res => {
+        const { phone, estimated_wait } = res;
+        const obj = { id, phone, type: 'confirmed', input, estimated_wait }
+        sendSMSToUser(obj);
+      });
 
-    dbHelpers.processOrder({order_id: id, input})
+    dbHelpers.processOrder({ order_id: id, input })
       .then(() => {
         res.status(200).send(`Successful POST to orders/${id}`);
       })
@@ -72,13 +72,13 @@ module.exports = (db) => {
     const { input } = req.body;
     console.log('decline order input', input);
     dbHelpers.getOrderDetails(id)
-    .then(res => {
-      const {phone} = res;
-      const obj = {id, phone, type:'declined', input }
-      sendSMSToUser(obj);
-    });
+      .then(res => {
+        const { phone } = res;
+        const obj = { id, phone, type: 'declined', input }
+        sendSMSToUser(obj);
+      });
 
-    dbHelpers.processOrder({order_id: id, accepted: false})
+    dbHelpers.processOrder({ order_id: id, accepted: false })
       .then(() => {
         res.send(`Successful POST to orders/${id}/decline`);
       })
@@ -113,23 +113,9 @@ module.exports = (db) => {
         const { ready_at } = res;
         if (ready_at === undefined) {
           return dbHelpers.readyAt(id)
-            .then(() => dbHelpers.finishOrder(id))
-            .then(() => {
-              res.send(`Successful POST to orders/:${req.params.id}/done`);
-            })
-            .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
         }
-        dbHelpers.finishOrder(id)
-          .then(() => {
-            res.send(`Successful POST to orders/:${req.params.id}/done`);
-          })
-          .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
-      });
-
-
-
-
-    dbHelpers.finishOrder(id)
+      })
+      .then(() => dbHelpers.finishOrder(id))
       .then(() => {
         res.send(`Successful POST to orders/:${req.params.id}/done`);
       })
