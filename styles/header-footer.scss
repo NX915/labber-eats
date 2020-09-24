@@ -1,3 +1,5 @@
+@import 'globals';
+
 header {
   background-color: black;
   margin: 0;
@@ -20,7 +22,7 @@ header {
 }
 
 i, span {
-  color: #4CAF50;
+  color: $logo-color;
 }
 
 nav {
@@ -72,7 +74,7 @@ and (min-width : 768px) {
     align-items: center;
 
     a{
-      padding: 0.4rem;
+      margin: 1rem;
     }
   }
 }
