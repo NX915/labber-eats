@@ -91,6 +91,11 @@
 }
 
 form {
+  p {
+    color: red;
+    margin: 0.5rem 0;
+  }
+
   .user{
     display: flex;
     flex-direction: row;
@@ -112,6 +117,10 @@ form {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+
+      p {
+        color: white;
+      }
     }
   }
 
