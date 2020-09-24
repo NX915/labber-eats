@@ -123,7 +123,7 @@ const renderNewOrders = function(orderArr) {
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
+          $itemsDiv += `<li title='${ele.name}'>x${ele.quantity} ${ele.acronym}</li>`;
         }
 
         $(`#order_id_${orderId}`).html($orderDiv);
@@ -165,7 +165,7 @@ const renderPendingOrders = function(orderArr) {
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
+          $itemsDiv += `<li title='${ele.name}'>x${ele.quantity} ${ele.acronym}</li>`;
         }
 
         // $('#pending_orders').append($orderDiv);
