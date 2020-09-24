@@ -87,7 +87,7 @@ module.exports = (db) => {
       });
   });
 
-  router.post("/:id/ready"), (req, res) => {
+  router.post("/:id/ready", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('ready order input', input)
@@ -99,10 +99,10 @@ module.exports = (db) => {
       });
     dbHelpers.readyAt(id)
       .then(() => {
-        res.send(`Successful POST to orders/:${req.params.id}/done`);
+        res.send(`Successful POST to orders/:${req.params.id}/ready`);
       })
-      .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
-  };
+      .catch(err => res.send(`Unsuccessful POST to orders/${id}/ready ${err.message}`));
+  });
 
   router.post("/:id/done", (req, res) => {
     const { id } = req.params;
