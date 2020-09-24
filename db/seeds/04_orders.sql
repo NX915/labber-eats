@@ -32,6 +32,6 @@ VALUES (1, 'No ice!'),
 (3, 'No spicy and dip apart. Please make sure to follow this instruction. The last time I ordered I could not eat because of how spicy it was!!');
 
 -- some orders that are ready
-INSERT INTO orders (user_id, ready_at, accepted)
-VALUES (1, now(), TRUE),
-(1, now(), TRUE);
+INSERT INTO orders (user_id, ready_at, accepted, informed_time)
+VALUES (1, now(), TRUE, 0),
+(1, now(), TRUE, 0);

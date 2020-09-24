@@ -237,7 +237,8 @@ module.exports = db => {
       text: `
       UPDATE orders
       SET ready_at = now(),
-      accepted = TRUE
+      accepted = TRUE,
+      informed_time = 0
       WHERE orders.id = $1
       RETURNING *
       `,
