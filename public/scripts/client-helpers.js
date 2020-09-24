@@ -14,7 +14,7 @@ const createItemElement = (itemObj) => {
       <h2>${itemObj.name}</h2>
       <h2>$${itemObj.price / 100}</h2>
     </div>
-    <div><img src=${itemObj.image_url} width="300"></div>
+    <div><img src=${itemObj.image_url}></div>
     <div class='counter'>
       <p class='item-desc'>${itemObj.description}</p>
       <button class='dec-button'>-</button>
