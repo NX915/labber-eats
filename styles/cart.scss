@@ -95,7 +95,9 @@ form {
     // make name and phone input wider
     & > * {
       width: 50%;
-      margin: 0.2rem;
+    }
+    & > div:first-child {
+      margin-right: 0.2em;
     }
 
   .user-comment {
