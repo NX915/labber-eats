@@ -90,19 +90,43 @@ module.exports = (db) => {
   router.post("/:id/ready"), (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
-    console.log('ready order input', input);
+    console.log('ready order input', input)
+    dbHelpers.getOrderDetails(id)
+      .then(res => {
+        const { phone } = res;
+        const obj = { id, phone, type: 'ready', input }
+        sendSMSToUser(obj);
+      });
+    dbHelpers.readyAt(id)
+      .then(() => {
+        res.send(`Successful POST to orders/:${req.params.id}/done`);
+      })
+      .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
   };
 
   router.post("/:id/done", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('complete order input', input);
-    // dbHelpers.getOrderDetails(id)
-    // .then(res => {
-    //   const {phone} = res;
-    //   const obj = {id, phone, type:'ready', input }
-    //   sendSMSToUser(obj);
-    // });
+    dbHelpers.getOrderDetails(id)
+      .then(res => {
+        const { ready_at } = res;
+        if (ready_at === undefined) {
+          return dbHelpers.readyAt(id)
+            .then(() => dbHelpers.finishOrder(id))
+            .then(() => {
+              res.send(`Successful POST to orders/:${req.params.id}/done`);
+            })
+            .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
+        }
+        dbHelpers.finishOrder(id)
+          .then(() => {
+            res.send(`Successful POST to orders/:${req.params.id}/done`);
+          })
+          .catch(err => res.send(`Unsuccessful POST to orders/${id}/done ${err.message}`));
+      });
+
+
 
 
     dbHelpers.finishOrder(id)

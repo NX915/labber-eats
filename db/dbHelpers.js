@@ -30,13 +30,13 @@ module.exports = db => {
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, comment, informed_time, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, comment, informed_time, ready_at, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone, comment, informed_time;
+        GROUP BY order_id, created_at, users.name, phone, comment, informed_time, ready_at;
       `,
       values: [order_id]
     }
@@ -239,7 +239,7 @@ module.exports = db => {
       .catch(e => { throw e.message });
   }
 
-  // mark the order as completed (change the completed_at column to now(). If the order was not previously marked as complete, it will also fill the ready_at column)
+  // mark the order as completed (change the completed_at column to now().
   const finishOrder = order_id => {
     query = {
       text: `
