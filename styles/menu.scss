@@ -1,0 +1,91 @@
+main {
+  display: flex;
+  flex-direction: row;
+  padding: 2rem;
+  padding-top: 6rem;
+}
+
+article.menu-item {
+  position: relative;
+  color: white;
+  max-width: 400px;
+  margin-bottom: 0.5rem;
+  border: black solid;
+
+  h2 {
+    margin: 0.5rem;
+  }
+
+  &.unavailable {
+    opacity: 0.5;
+
+    .item-desc {
+      display: block;
+    }
+  }
+
+  div {
+    position: absolute;
+    width: 100%;
+    background-color: black;
+    opacity: 0.8;
+    padding: 1rem;
+
+
+    &:nth-child(2) {
+      position: static;
+      opacity: 1;
+      padding: 0;
+    }
+    img {
+      width:100%;
+      height: 100%;
+    }
+  }
+
+  &:hover .item-desc {
+    display: block;
+  }
+
+}
+
+
+.title {
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.item-desc {
+  bottom: 4rem;
+  display: none;
+}
+
+.menu-container {
+  width: 100%;
+}
+
+button[type=submit] {
+  width: 100%;
+}
+
+/* Smartphones ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* Tablets ----------- */
+@media only screen
+and (min-width : 768px) {
+  .menu-container {
+    flex: 1 1 60%;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
+}

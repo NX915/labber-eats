@@ -4,7 +4,8 @@
     <title>🍔🍟🍕🌭Labber Eats Home Page</title>
     <%- include('partials/_head') %>
     <link rel="stylesheet" href="/styles/counter.css" type="text/css"/>
-    <link rel="stylesheet" href="/styles/menu-cart.css" type="text/css"/>
+    <link rel="stylesheet" href="/styles/menu.css" type="text/css"/>
+    <link rel="stylesheet" href="/styles/cart.css" type="text/css"/>
     <link rel="stylesheet" href="/styles/thank-you-page.css" type="text/css"/>
 
 
@@ -27,34 +28,37 @@
         <div class='cart'>
           <div><h2>Your Cart</h2></div>
           <div id="cart_items_container" class="scroll"></div>
-          <div class='total'>
-            <h3>Total</h3>
-            <h3>$0.00</h3>
+          <div><button class='checkout-btn'>Checkout</button></div>
+          <div class='toggle'>
+            <div class='total'>
+              <h3>Total</h3>
+              <h3>$0.00</h3>
+            </div>
+            <form method='POST' action='/orders'>
+               <div class='user-comment'>
+                <div>
+                  <label for="comment">Special Instructions:</label>
+                  <p>250</p>
+                </div>
+                <div>
+                  <textarea name="comment" id="comment" maxlength="250" placeholder="Add a note (allergies, extras), etc."></textarea>
+                </div>
+              </div>
+              <div class='user'>
+                <div>
+                  <input type="text" name="name" id="name" placeholder="Name">
+                  <p></p>
+                </div>
+                <div>
+                  <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
+                  <p></p>
+                </div>
+              </div>
+                <p class='cart-err'></p>
+                <button type="submit">Order Now</button>
+              </form>
+            </div>
           </div>
-          <form method='POST' action='/orders'>
-             <div class='user-comment'>
-              <div>
-                <label for="comment">Special Instructions:</label>
-                <p>250</p>
-              </div>
-              <div>
-                <textarea name="comment" id="comment" maxlength="250" placeholder="Add a note (allergies, extras), etc."></textarea>
-              </div>
-            </div>
-            <div class='user'>
-              <div>
-                <input type="text" name="name" id="name" placeholder="Name">
-                <p></p>
-              </div>
-              <div>
-                <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
-                <p></p>
-              </div>
-            </div>
-              <p class='cart-err'></p>
-              <button type="submit">Order Now</button>
-            </div>
-          </form>
         </div>
       </div>
     </main>

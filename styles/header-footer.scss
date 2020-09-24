@@ -37,10 +37,12 @@ nav {
   z-index:3;
   background-color: transparent;
   border: none;
+  outline: none;
 
   span {
     font-size: 1.5rem;
     font-weight: bold;
+    margin-left: 0.5rem;
   }
 }
 
