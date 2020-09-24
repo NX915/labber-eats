@@ -85,51 +85,25 @@ const addCartElement = ($container, menu, id, cart) => {
     const $item = $(createCartItem(itemObj, quantity));
     $($container).append($item);
 
-    // // Change quantity of cart and update totals
-    // $('#cart_items_container button').click(function() {
-    //   const itemId = $(this).parent().parent().attr('id');
-    //   const $menuCount = $(this).siblings('input');
-    //   const $cartCount = $(`.cart-${itemId} input`);
-    //   const $subTotalEl = $(`.cart-${itemId} .subtotal`);
-
-    //   // check whether it is an increase or decrease button
-    //   if ($(this).hasClass('inc-button')) {
-    //     updateCart(selectedItems, itemId, 1);
-    //     addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
-    //   } else {
-    //     updateCart(selectedItems, itemId, -1);
-    //   }
-
-    //   updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-    //   showCartQuantity(selectedItems);
-    //   updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
-
-    // });
-
-    // Decrease quantity when '-' clicked and updates subtotal + total
-    $item.find('.dec-cart').click(function() {
+    // Change quantity of cart and update totals
+    $('#cart_items_container button').click(function() {
       const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
 
-      updateCart(selectedItems, itemId, -1);
-      updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
-      showCartQuantity(selectedItems);
-    });
+      // check whether it is an increase or decrease button
+      if ($(this).hasClass('inc-cart')) {
+        updateCart(selectedItems, itemId, 1);
+        addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+      } else {
+        updateCart(selectedItems, itemId, -1);
+      }
 
-    // Increase quantity when '+' clicked and updates subtotal + total
-    $item.find('.inc-cart').click(function() {
-      const itemId = $(this).parents('article').attr('class').replace("cart-","");
-      const $cartCount = $(this).siblings('input');
-      const $menuCount = $(`#${itemId} input`);
-      const $subTotalEl = $(this).parent().parent().find('.subtotal');
-
-      updateCart(selectedItems, itemId, 1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
+
     });
 
     // Update quantity when user types in the input field
