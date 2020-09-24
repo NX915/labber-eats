@@ -97,6 +97,7 @@ and (min-width : 768px) {
   }
   article.menu-item {
     margin: 0 0.5rem 0.5rem;
+    display: flex;
   }
   .items-container {
     display: flex;
