@@ -1,9 +1,10 @@
-// See: https://sass-lang.com/
+@import 'globals';
 $font-stack: 'Lato', sans-serif;
 
 body {
   font-family: $font-stack;
   background-color: white;
+  min-width: 490px;
 }
 
 html {

@@ -68,9 +68,18 @@ $(document).ready(() => {
       }
     });
 
-    // Cart toggles on click
+    // Show/hide cart
     $('.cart-btn').click(() => {
       $('#cart-container').toggleClass('hidden');
+      $('.checkout-btn').show();
+      $('.toggle').hide();
+
+    });
+
+    //Show/hide user input
+    $('.checkout-btn').click(() => {
+      $('.checkout-btn').hide();
+      $('.toggle').show();
     });
   });
 });
