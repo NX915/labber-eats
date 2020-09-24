@@ -53,16 +53,19 @@ const renderMenu = arr => {
 const createCartItem = (itemObj, quant) => {
   const $item = `
   <article class=cart-${itemObj.id}>
+    <div><img src=${itemObj.image_url} width="100"></div>
     <div>
-      <h3>${itemObj.name}</h3>
-    </div>
-    <div>
-      <button class='dec-cart'>-</button>
-      <input type="number" name="quantity" value="${quant}">
-      <button class='inc-cart'>+</button>
-    </div>
-    <div>
-      <p class='subtotal'>$${(itemObj.price * quant / 100).toFixed(2)}</p>
+      <div>
+        <h3>${itemObj.name}</h3>
+      </div>
+      <div>
+        <button class='dec-cart'>-</button>
+        <input type="number" name="quantity" value="${quant}">
+        <button class='inc-cart'>+</button>
+      </div>
+      <div>
+        <h3 class='subtotal'>$${(itemObj.price * quant / 100).toFixed(2)}</h3>
+      </div>
     </div>
   </article>
   `;
@@ -82,40 +85,40 @@ const addCartElement = ($container, menu, id, cart) => {
     // ADD EVENT LISTENERS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@update to unhardcode
     // Decrease quantity when '-' clicked and updates subtotal + total
     $item.find('.dec-cart').click(function() {
-      const itemId = $(this).parent().parent().attr('class').replace("cart-","");
+      const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
 
       updateCart(selectedItems, itemId, -1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('#total'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
 
     // Increase quantity when '+' clicked and updates subtotal + total
     $item.find('.inc-cart').click(function() {
-      const itemId = $(this).parent().parent().attr('class').replace("cart-","");
+      const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
 
       updateCart(selectedItems, itemId, 1);
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
 
     // Update quantity when user types in the input field
     $item.find('input[name$="quantity"]').on('input', function() {
-      const itemId = $(this).parent().parent().attr('class').replace("cart-","");
+      const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(`.cart-${itemId}`).find('input');
       const $menuCount = $(`#${itemId} input`);
       const $subTotalEl = $(this).parent().parent().find('.subtotal');
 
       updateCart(selectedItems, itemId, $cartCount.val());
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
-      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
       showCartQuantity(selectedItems);
     });
   }

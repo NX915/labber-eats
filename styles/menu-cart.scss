@@ -84,7 +84,6 @@ article.menu-item {
   right: 0px;
   display: flex;
   flex-direction: column;
-  // background-color: rgb(126, 126, 126);
   background-color: black;
   color: white;
   z-index: 2;
@@ -92,8 +91,7 @@ article.menu-item {
     div.scroll {
     margin:4px, 4px;
     padding:4px;
-    background-color: rgb(24, 24, 24);
-    // width: 500px;
+    // background-color: rgb(24, 24, 24);
     flex: 1 1 70%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -102,11 +100,62 @@ article.menu-item {
     scrollbar-width: thin;
   }
 }
+#cart_items_container {
+  border-top: gray solid;
 
-#total {
+  article {
+    display: flex;
+    flex-direction: row;
+    border-bottom: gray solid;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    div:last-child {
+      margin-left: 1rem;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  button {
+    border-radius: 50%;
+    outline: none;
+    width: 2rem;
+    height: 2rem;
+    border-style: hidden;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+
+  input[type=number] {
+    width: 3rem;
+    background-color: transparent;
+    margin: 0.25rem;
+    color: white;
+    border-style: hidden;
+    outline: none;
+    text-align: center;
+    font-size: 1.25rem;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+
+  h3 {
+    margin: 0.3rem;
+  }
+
+}
+
+.total {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  border-top: gray solid;
 }
 
 form {
@@ -117,7 +166,7 @@ form {
 
     & > * {
       width: 50%;
-      margin: 0.1rem;
+      margin: 0.2rem;
     }
   }
 

@@ -25,7 +25,7 @@ $(document).ready(() => {
       }
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
-      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
 
     });
 
@@ -42,7 +42,7 @@ $(document).ready(() => {
       }
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
-      updateTotals($subTotalEl, $('#total p'), itemId, menuCache, selectedItems);
+      updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
     });
 
     //Update comment character counter
