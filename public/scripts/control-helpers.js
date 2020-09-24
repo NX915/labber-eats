@@ -70,7 +70,7 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          // console.log(output);
+          console.log(output);
           if (Object.keys(output).length === orderArr.length) {
             // console.log('resolved');
             resolve(output);
@@ -104,7 +104,7 @@ const renderNewOrders = function(orderArr) {
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
           <form method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
-            <input type='number' step='5' name='wait-time' class='user_input' placeholder='Default 20'>
+            <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}'>
             <input type='submit' value='Accept'>
           </form>
           <form method='POST' action='/orders/${orderId}/decline'>
@@ -122,6 +122,8 @@ const renderNewOrders = function(orderArr) {
 
         $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
+
+        $(`#order_id_${orderId} [type="number"]`).val(orderDetails.estimated_wait);
       }
     });
 };
