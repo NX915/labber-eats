@@ -2,7 +2,6 @@ const attachOrderSubmitListener = function() {
   $('ol').on('submit', (e) => {
     e.preventDefault();
     const { action, method, parentElement } = e.target;
-    console.log(action);
     const userInput = {input: $(e.target).find('input.user_input').val()};
     // console.log(e);
     // let order_id = parentElement.id.split('_').pop();
