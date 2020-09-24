@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const attachOrderSubmitListener = function() {
   $('ol').on('submit', (e) => {
     e.preventDefault();
@@ -83,7 +85,7 @@ const getOrderDetails = function(orderArr) {
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
   return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-}
+};
 
 const getArrivalTime = (startTime, mins) => {
   const milliSinceEpoch = new Date(startTime).getTime();

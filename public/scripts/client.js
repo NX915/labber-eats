@@ -9,9 +9,7 @@ $(document).ready(() => {
 
     // Disable unavailable items
     $('.unavailable *').prop("disabled", true);
-
-    // Change quantity of cart and update totals
-    $('.menu-item button').click(function() {
+    const updateQuantity = function() {
       const itemId = $(this).parent().parent().attr('id');
       const $menuCount = $(this).siblings('input');
       const $cartCount = $(`.cart-${itemId} input`);
@@ -29,7 +27,9 @@ $(document).ready(() => {
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
 
-    });
+    }
+    // Change quantity of cart and update totals
+    $('.menu-item button').click(updateQuantity);
 
     // Update quantity when use types in the input field
     $('input').on('input', function() {
@@ -57,8 +57,9 @@ $(document).ready(() => {
       event.preventDefault();
       const name = $('#name').val().trim();
       const phone = convertNum($('#phone').val());
-      const comment = $('#comment').val();
+      const comment = checkComment($('#comment'));
       const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone, comment}});
+      console.log(orderDetails);
 
       isValidPhone(phone);
       isValidCart(selectedItems);
