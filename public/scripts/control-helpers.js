@@ -101,10 +101,10 @@ const renderNewOrders = function(orderArr) {
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
           <form method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
-            <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}'>
+            <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
             <input type='submit' value='Accept'>
           </form>
           <form method='POST' action='/orders/${orderId}/decline'>
@@ -139,12 +139,12 @@ const renderPendingOrders = function(orderArr) {
           <div>
             <h2># ${orderId}</h2>
             <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-            <p>Informed Wait: ${orderDetails.informed_time}</p>
+            <p>Informed Wait: ${orderDetails.informed_time} min</p>
           </div>
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
           <form method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
