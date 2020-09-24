@@ -87,6 +87,12 @@ module.exports = (db) => {
       });
   });
 
+  router.post("/:id/ready"), (req, res) => {
+    const { id } = req.params;
+    const { input } = req.body;
+    console.log('ready order input', input);
+  };
+
   router.post("/:id/done", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
