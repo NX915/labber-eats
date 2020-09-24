@@ -91,10 +91,16 @@
 }
 
 form {
+  p {
+    color: red;
+    margin: 0.5rem 0;
+  }
+
   .user{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top:0.75rem;
 
     // make name and phone input wider
     & > * {
@@ -103,21 +109,24 @@ form {
     & > div:first-child {
       margin-right: 0.2em;
     }
+  }
 
   .user-comment {
-    & div:first-child {
+    div:first-child {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+
+      p {
+        color: white;
+      }
     }
   }
 
   input {
     width: 100%;
   }
-
-}
 
   textarea {
     width: 100%;
