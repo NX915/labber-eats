@@ -4,11 +4,44 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  justify-content: center;
-
+  align-items: center;
+  h1 {
+    font-size: 7vw;
+  }
+  p{
+    font-size: 5.5vw;
+  }
 }
 
 iframe {
   width: 100%;
-  max-width: 800px;
+  margin: 4vw;
+}
+
+.confirmation-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  main {
+    padding: 0 2rem;
+  }
+  header {
+    position: unset;
+  }
+}
+
+
+@media only screen
+and (min-width : 768px) {
+  #confirmation-container {
+    h1 {
+      font-size: 3rem;
+    }
+    p{
+      font-size: 2rem;
+    }
+  }
+
 }
