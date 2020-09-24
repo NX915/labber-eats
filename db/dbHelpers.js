@@ -56,7 +56,7 @@ module.exports = db => {
   const getItemsFromOrder = order_id => {
     const query = {
       text: `
-        SELECT name, quantity
+        SELECT name, quantity, acronym
         FROM orders
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
