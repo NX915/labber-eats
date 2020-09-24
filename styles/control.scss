@@ -126,7 +126,7 @@ header {
 
   input {
 
-    &[value*="Accept"],&[value*="Done"] {
+    &[value*="Accept"],&[value*="Ready"],&[value*="Done"] {
       color: white;
       background-color: $logo-color;
     }
