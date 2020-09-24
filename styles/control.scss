@@ -17,6 +17,7 @@ header {
 
 .order_container {
   display: flex;
+  padding: 1rem;
 
 
   .order_header {
@@ -40,9 +41,6 @@ header {
     flex: 1 1 50%;
     padding-left: 1rem;
     padding-right: 1rem;
-    // height:auto;
-    // overflow-x: hidden;
-    // overflow-y: auto;
   }
 
   p {
@@ -50,6 +48,8 @@ header {
   }
 
   ol {
+    height: calc(100vh - 14rem);
+    overflow: auto;
     padding-inline-start: 0px;
   }
 
@@ -170,3 +170,13 @@ header {
     }
   }
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+
