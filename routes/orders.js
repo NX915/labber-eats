@@ -91,12 +91,12 @@ module.exports = (db) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('complete order input', input);
-    dbHelpers.getOrderDetails(id)
-    .then(res => {
-      const {phone} = res;
-      const obj = {id, phone, type:'ready', input }
-      sendSMSToUser(obj);
-    });
+    // dbHelpers.getOrderDetails(id)
+    // .then(res => {
+    //   const {phone} = res;
+    //   const obj = {id, phone, type:'ready', input }
+    //   sendSMSToUser(obj);
+    // });
 
 
     dbHelpers.finishOrder(id)

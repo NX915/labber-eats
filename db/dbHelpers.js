@@ -217,7 +217,29 @@ module.exports = db => {
       .catch(e => { throw e.message });
   }
 
-  // mark the order as completed (change the completed_at column to now())
+  // mark the order as ready (change the ready_at column to now())
+  const readyAt = order_id => {
+    query = {
+      text: `
+      UPDATE orders
+      SET ready_at = now()
+      WHERE orders.id = $1
+      RETURNING *
+      `,
+      values: [order_id]
+    }
+    return db
+      .query(query)
+      .then(res => {
+        if (res.rows[0]) {
+          return 'The order was marked as ready'
+        }
+        throw 'The order id does not exist'
+      })
+      .catch(e => { throw e.message });
+  }
+
+  // mark the order as completed (change the completed_at column to now(). If the order was not previously marked as complete, it will also fill the ready_at column)
   const finishOrder = order_id => {
     query = {
       text: `
@@ -247,6 +269,7 @@ module.exports = db => {
     getItemsFromOrder,
     addOrder,
     processOrder,
+    readyAt,
     finishOrder
   }
 };
