@@ -18,10 +18,27 @@ header {
 .order_container {
   display: flex;
 
+
+  .order_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      text-align: right;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
+    }
+  }
+
   .order_type_container {
     flex: 1 1 50%;
     padding-left: 1rem;
     padding-right: 1rem;
+    // height:auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
   }
 
   ol {
@@ -40,17 +57,44 @@ header {
     height: $button-height;
     // width: 100%;
     display: flex;
+    margin-bottom: 1rem;
     // justify-content: stretch;
     // align-items: stretch;
 
-    &.decline-form {
-      flex-direction: column;
-      height: auto;
+    // &.decline-form {
+    background-color: black;
+    color: white;
+    flex-direction: column;
+    height: auto;
+    text-align: center;
 
-      [type="text"] {
-        height: $button-height;
+    label {
+      height: $button-height;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    input {
+      height: $button-height;
+      background-color: black;
+      color: white;
+      border: none;
+      outline: none;
+      text-align: center;
+
+      &:hover {
+        filter:brightness(1.5);
       }
     }
+    // }
+    // &.accept-form{
+    //   background-color: black;
+    //   color: white;
+    //   flex-direction: column;
+    //   height: auto;
+
+    // }
     &.hidden {
       display: none;
     }
@@ -81,7 +125,7 @@ header {
 
   input {
 
-    &[value*="Accept"] {
+    &[value*="Accept"],&[value*="Done"] {
       color: white;
       background-color: $logo-color;
     }

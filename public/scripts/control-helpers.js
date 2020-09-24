@@ -94,7 +94,7 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <div>
+          <div class='order_header'>
             <h2># ${orderId}</h2>
             <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
           </div>
@@ -110,7 +110,7 @@ const renderNewOrders = function(orderArr) {
             </div>
           </form>
           <form class='accept-form hidden' method='POST' action='/orders/${orderId}'>
-            <label for='wait-time'>Wait Time: </label>
+            <label for='wait-time'>Wait Time</label>
             <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
             <input type='submit' value='Accept'>
           </form>
@@ -123,7 +123,7 @@ const renderNewOrders = function(orderArr) {
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li title='${ele.name}'>x${ele.quantity} ${ele.acronym}</li>`;
+          $itemsDiv += `<li title='${ele.acronym}'>x${ele.quantity} ${ele.name}</li>`;
         }
 
         $(`#order_id_${orderId}`).html($orderDiv);
@@ -146,26 +146,27 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <div>
+          <div class='order_header'>
             <h2># ${orderId}</h2>
-            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-            <p>Informed Wait: ${orderDetails.informed_time} min</p>
+            <div>
+              <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+              <p>Informed Wait: ${orderDetails.informed_time} min</p>
+            </div>
           </div>
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
           <form class='done-form' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'>Message: </label>
+            <label for='done'><div>Message <output></output></div></label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
-            <output></output>
             <input type='submit' value='Done'>
           </form>
         `;
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li title='${ele.name}'>x${ele.quantity} ${ele.acronym}</li>`;
+          $itemsDiv += `<li title='${ele.acronym}'>x${ele.quantity} ${ele.name}</li>`;
         }
 
         // $('#pending_orders').append($orderDiv);
