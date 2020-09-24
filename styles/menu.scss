@@ -3,7 +3,7 @@
 main {
   display: flex;
   flex-direction: row;
-  padding: 2rem;
+  // padding: 2rem;
   padding-top: 6rem;
 }
 
@@ -67,6 +67,8 @@ article.menu-item {
 
 .menu-container {
   width: 100%;
+  min-width: 400px;
+  padding: 0 2rem;
 
   div:first-child {
     text-align: center;
