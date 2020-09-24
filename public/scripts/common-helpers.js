@@ -19,3 +19,11 @@ const charCounter = function(ele) {
     counter.html(count);
   }
 };
+
+//escape string to prevent CSX attack
+const escape =  function(str) {
+  let div = document.createElement('div');
+
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
