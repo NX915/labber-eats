@@ -144,7 +144,7 @@ const renderPendingOrders = function(orderArr) {
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
           <form method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
