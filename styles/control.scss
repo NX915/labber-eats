@@ -24,6 +24,10 @@ header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color: black;
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     p {
       text-align: right;
@@ -41,13 +45,19 @@ header {
     // overflow-y: auto;
   }
 
+  p {
+    margin: 1rem;
+  }
+
   ol {
     padding-inline-start: 0px;
   }
 
   ol > li {
     list-style-type: none;
-    border-top: solid black;
+    border: solid thin black;
+    border-right: solid thin black;
+    // padding-left: 1rem;
     margin-bottom: 1rem;
     // color: white;
     // background-color: grey;
@@ -57,7 +67,7 @@ header {
     height: $button-height;
     // width: 100%;
     display: flex;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     // justify-content: stretch;
     // align-items: stretch;
 
@@ -128,6 +138,7 @@ header {
     &[value*="Accept"],&[value*="Ready"],&[value*="Done"] {
       color: white;
       background-color: $logo-color;
+      // border-bottom: solid thin black;
     }
     &[value*="Decline"] {
       color: white;
@@ -145,6 +156,7 @@ header {
   .new_order_button_container {
     display: flex;
     width: 100%;
+    border-top: solid thin black;
     // height: $button-height;
     // flex-direction: row;
     // justify-content: stretch;
