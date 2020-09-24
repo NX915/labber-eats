@@ -9,9 +9,9 @@ VALUES (1),
 
 -- some orders that were already accepted, but not completed
 INSERT INTO orders (user_id, accepted, informed_time)
-VALUES (1, TRUE, 35),
-(3, TRUE, 35),
-(4, TRUE, 25);
+VALUES (1, TRUE, 20),
+(3, TRUE, 10),
+(4, TRUE, 15);
 
 
 
