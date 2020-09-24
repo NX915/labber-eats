@@ -27,6 +27,10 @@
     scrollbar-color: white grey;
     scrollbar-width: thin;
   }
+
+  & :nth-child(3) {
+    height: 2.5rem;
+  }
 }
 #cart_items_container {
   border-top: gray solid;
@@ -123,7 +127,7 @@ form {
 
 .checkout-btn, button[type=submit] {
   width: 100%;
-  height: 150%;
+  height: 100%;
   background-color: $logo-color;
   color: white;
   cursor: pointer;
