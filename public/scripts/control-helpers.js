@@ -139,7 +139,7 @@ const renderPendingOrders = function(orderArr) {
           <div>
             <h2># ${orderId}</h2>
             <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
-            <p>Informed Wait: ${orderDetails.informed_time}</p>
+            <p>Informed Wait: ${orderDetails.informed_time} min</p>
           </div>
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>

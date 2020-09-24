@@ -18,5 +18,18 @@ header {
 
   .order_type_container {
     flex: 1 1 50%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  ol {
+    padding-inline-start: 0px;
+  }
+
+  ol > li {
+    list-style-type: none;
+    border-top: solid black;
+    // color: white;
+    // background-color: grey;
   }
 }
