@@ -8,9 +8,13 @@ main {
 article.menu-item {
   position: relative;
   color: white;
-  max-width: 500px;
+  max-width: 400px;
   margin-bottom: 0.5rem;
   border: black solid;
+
+  h2 {
+    margin: 0.5rem;
+  }
 
   &.unavailable {
     opacity: 0.5;
@@ -62,6 +66,7 @@ article.menu-item {
   width: 100%;
 }
 
+// CART SECTION
 #cart-container {
   width: 0%;
 }
@@ -70,12 +75,11 @@ article.menu-item {
   position: fixed;
   height: 100vh;
   width: 90vw;
-  padding: 1rem;
+  padding: 1.5rem;
   top: 0px;
   right: 0px;
   display: flex;
   flex-direction: column;
-  // background-color: rgb(126, 126, 126);
   background-color: black;
   color: white;
   z-index: 2;
@@ -83,8 +87,7 @@ article.menu-item {
     div.scroll {
     margin:4px, 4px;
     padding:4px;
-    background-color: rgb(24, 24, 24);
-    // width: 500px;
+    // background-color: rgb(24, 24, 24);
     flex: 1 1 70%;
     overflow-x: hidden;
     overflow-y: auto;
@@ -92,6 +95,102 @@ article.menu-item {
     scrollbar-color: white grey;
     scrollbar-width: thin;
   }
+}
+#cart_items_container {
+  border-top: gray solid;
+
+  article {
+    display: flex;
+    flex-direction: row;
+    border-bottom: gray solid;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    div:last-child {
+      margin-left: 1rem;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  button {
+    border-radius: 50%;
+    outline: none;
+    width: 2rem;
+    height: 2rem;
+    border-style: hidden;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+
+  input[type=number] {
+    width: 3rem;
+    background-color: transparent;
+    margin: 0.25rem;
+    color: white;
+    border-style: hidden;
+    outline: none;
+    text-align: center;
+    font-size: 1.25rem;
+
+    &:hover {
+      cursor:pointer;
+    }
+  }
+
+  h3 {
+    margin: 0.3rem;
+  }
+
+}
+
+.total {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top: gray solid;
+}
+
+form {
+  .user{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > * {
+      width: 50%;
+      margin: 0.2rem;
+    }
+  }
+
+  input {
+    width: 100%;
+  }
+
+}
+
+#user-comment {
+  margin-bottom: 1rem;
+
+  & div:first-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
+  }
+}
+
+
+button[type=submit] {
+  width: 100%;
 }
 
 #map_container {
@@ -109,7 +208,7 @@ and (max-width : 320px) {
 /* Styles */
 }
 
-/* Tablers ----------- */
+/* Tablets ----------- */
 @media only screen
 and (min-width : 768px) {
 
