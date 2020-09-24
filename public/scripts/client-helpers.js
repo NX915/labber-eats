@@ -42,13 +42,8 @@ const renderMenu = arr => {
     const { category } = item
     if (addedCategories[category] === undefined) {
       addedCategories[category] = '';
-<<<<<<< HEAD
-      $('.menu-container').append(createCategoryElement(item));
-      $('nav').append(`<a href='#category-${category_id}'>${category}</a>`);
-=======
-      $('#menu-container').append(createCategoryElement(item))
+      $('.menu-container').append(createCategoryElement(item))
       $('nav').append(`<a href='#${category}'>${category}</a>`)
->>>>>>> origin/master
     }
     $(`#${category}`).append(createItemElement(item))
   });
