@@ -29,6 +29,10 @@ nav {
   margin-left: 1.5rem;
   display: flex;
   flex-direction: column;
+
+  & a:hover {
+    color: $logo-color;
+  }
 }
 
 .cart-btn {
@@ -46,6 +50,10 @@ nav {
     font-weight: bold;
     margin-left: 0.5rem;
   }
+
+  &:hover i, span {
+    color: $btn-hover-color;
+  }
 }
 
 footer {
@@ -54,7 +62,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 2rem;
 }
 
 /* Smartphones ----------- */

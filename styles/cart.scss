@@ -134,6 +134,10 @@ form {
   font-size: 1.25rem;
   border: none;
   outline: none;
+
+    &:hover {
+      background-color: $btn-hover-color;
+    }
 }
 
 button[type=submit] {
