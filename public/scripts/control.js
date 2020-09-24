@@ -77,7 +77,7 @@ const renderAllOrders = function() {
         renderPendingOrders(addedPendingOrders);
 
       } else {
-        console.log('all new orders ', orderID);
+        // console.log('all new orders ', orderID);
         addOrders(orderID.newOrders, orderID.newOrders, '#new_orders');
         addOrders(orderID.pendingOrders, orderID.pendingOrders, '#pending_orders');
         renderNewOrders(orderID.newOrders);
@@ -95,7 +95,7 @@ const renderAllOrders = function() {
 $().ready(() => {
   renderAllOrders();
   $(".order_container").on('input', (e) => charCounter(e.target));
-  attachButtonListener();
+  attachOrderSubmitListener();
   $('ol').on('order_update_succeeded', renderAllOrders);
   window.setInterval(renderAllOrders, 5000);
 });

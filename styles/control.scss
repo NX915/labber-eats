@@ -1,5 +1,6 @@
 // See: https://sass-lang.com/
 @import 'globals';
+$button-height: 2rem;
 
 header {
   position: relative;
@@ -10,7 +11,7 @@ header {
     right: 0px;
     width: 100%;
     height: 2rem;
-    background-color: rgb(245, 60, 60);
+    background-color:$warning-color;
   }
 }
 
@@ -30,7 +31,67 @@ header {
   ol > li {
     list-style-type: none;
     border-top: solid black;
+    margin-bottom: 1rem;
     // color: white;
     // background-color: grey;
+  }
+
+  form {
+    height: $button-height;
+    display: flex;
+    align-items: stretch;
+
+    &.hidden{
+      display: none;
+    }
+  }
+
+  button {
+    flex: 1 1 20%;
+    outline: none;
+    border: none;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+
+  input[type="submit"] {
+    outline: none;
+    border: none;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+
+  input {
+
+    &[value*="Accept"] {
+      color: white;
+      background-color: $logo-color;
+    }
+    &[value*="Decline"] {
+      color: white;
+      background-color: $warning-color;
+    }
+
+  }
+
+  .wait_time_container {
+    position: relative;
+  }
+
+  .new_order_button_container {
+    display: flex;
+    // height: $button-height;
+
+    button {
+      flex: 1 1 20%;
+    }
+
+    input {
+      flex: 1 1 80%;
+    }
   }
 }

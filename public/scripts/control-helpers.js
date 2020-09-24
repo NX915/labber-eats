@@ -1,4 +1,4 @@
-const attachButtonListener = function() {
+const attachOrderSubmitListener = function() {
   $('ol').on('submit', (e) => {
     e.preventDefault();
     const { action, method, parentElement } = e.target;
@@ -70,7 +70,7 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          console.log(output);
+          // console.log(output);
           if (Object.keys(output).length === orderArr.length) {
             // console.log('resolved');
             resolve(output);
@@ -102,12 +102,19 @@ const renderNewOrders = function(orderArr) {
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
-          <form method='POST' action='/orders/${orderId}'>
+          <form class='accept-form' method='POST' action='/orders/${orderId}'>
+            <div class='new_order_button_container'>
+              <input type='number' class='user_input hidden' required>
+              <input type='submit' value='Accept (${orderDetails.estimated_wait}mins)'>
+              <button type='button' class='options-toggle'>Options</button>
+            </div>
+          </form>
+          <form class='accept-form hidden' method='POST' action='/orders/${orderId}'>
             <label for='wait-time'>Wait Time: </label>
             <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
             <input type='submit' value='Accept'>
           </form>
-          <form method='POST' action='/orders/${orderId}/decline'>
+          <form class='decline-form hidden' method='POST' action='/orders/${orderId}/decline'>
             <label for='decline'>Message: </label>
             <input type='text' maxlength='150' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
             <output></output>
@@ -124,6 +131,10 @@ const renderNewOrders = function(orderArr) {
         $(`#order_id_${orderId} ul`).append($itemsDiv);
 
         $(`#order_id_${orderId} [type="number"]`).val(orderDetails.estimated_wait);
+
+        $(`#order_id_${orderId} .options-toggle`).on('click', () => {
+          $(`#order_id_${orderId} form`).toggleClass('hidden');
+        });
       }
     });
 };
@@ -145,7 +156,7 @@ const renderPendingOrders = function(orderArr) {
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
-          <form method='POST' action='/orders/${orderId}/done'>
+          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
             <label for='done'>Message: </label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
             <output></output>
