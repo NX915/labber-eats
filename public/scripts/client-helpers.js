@@ -197,12 +197,11 @@ const submitOrder = (order) => {
 const renderOrderConfirmation = () => {
   $('nav').empty();
   $('main').empty();
-  $('main').append(`
-  <h1>Thank you for your order!</h1>
-  <p>You will receive an SMS soon!</p>
-  <div id='map_container'>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.1325196446114!2d-73.5986186845436!3d45.527538737235986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91bac21dc4f8d%3A0x73e0460a68d1c265!2sLighthouse%20Labs!5e0!3m2!1sen!2sca!4v1600904458627!5m2!1sen!2sca" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-  </div`);
+  $('main').append(`<div id="confirmation-container">
+    <h1>Thank you for your order!</h1>
+    <p>You will receive an SMS soon!</p>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.1325196446114!2d-73.5986186845436!3d45.527538737235986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91bac21dc4f8d%3A0x73e0460a68d1c265!2sLighthouse%20Labs!5e0!3m2!1sen!2sca!4v1600904458627!5m2!1sen!2sca" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+  </div>`);
 };
 
 const findPrice = (id, menu) => {
