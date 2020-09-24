@@ -82,7 +82,7 @@ const getOrderDetails = function(orderArr) {
 
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
-  return new Date(timestamp).toTimeString().slice(0, 8)
+  return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
 }
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
@@ -98,7 +98,7 @@ const renderNewOrders = function(orderArr) {
             <h2># ${orderId}</h2>
             <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
           </div>
-          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
+          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
@@ -158,7 +158,7 @@ const renderPendingOrders = function(orderArr) {
               <p>Informed Wait: ${orderDetails.informed_time} min</p>
             </div>
           </div>
-          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
+          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
@@ -185,5 +185,12 @@ const renderOrderCounts = function(orderIDObj) {
   const { newOrders, pendingOrders } = orderIDObj;
   $('#new_order_header').html(`New Orders (${newOrders.length})`);
   $('#pending_order_header').html(`In Progress (${pendingOrders.length})`);
+};
+
+const convertPhoneNum = (phoneNum) => {
+  const first = phoneNum.slice(0, 3);
+  const middle = phoneNum.slice(3, 6);
+  const last = phoneNum.slice(6);
+  return `${first}-${middle}-${last}`;
 };
 

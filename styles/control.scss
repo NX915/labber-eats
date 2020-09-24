@@ -17,13 +17,19 @@ header {
 
 .order_container {
   display: flex;
-
+  padding: 0rem;
+  max-width: 900px;
+  margin: auto;
 
   .order_header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    background-color: black;
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     p {
       text-align: right;
@@ -36,18 +42,23 @@ header {
     flex: 1 1 50%;
     padding-left: 1rem;
     padding-right: 1rem;
-    // height:auto;
-    // overflow-x: hidden;
-    // overflow-y: auto;
+  }
+
+  p {
+    margin: 1rem;
   }
 
   ol {
+    height: calc(100vh - 12rem);
+    overflow: auto;
     padding-inline-start: 0px;
   }
 
   ol > li {
     list-style-type: none;
-    border-top: solid black;
+    border: solid thin black;
+    border-right: solid thin black;
+    // padding-left: 1rem;
     margin-bottom: 1rem;
     // color: white;
     // background-color: grey;
@@ -57,7 +68,7 @@ header {
     height: $button-height;
     // width: 100%;
     display: flex;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
     // justify-content: stretch;
     // align-items: stretch;
 
@@ -128,6 +139,7 @@ header {
     &[value*="Accept"],&[value*="Ready"],&[value*="Done"] {
       color: white;
       background-color: $logo-color;
+      // border-bottom: solid thin black;
     }
     &[value*="Decline"] {
       color: white;
@@ -145,6 +157,7 @@ header {
   .new_order_button_container {
     display: flex;
     width: 100%;
+    border-top: solid thin black;
     // height: $button-height;
     // flex-direction: row;
     // justify-content: stretch;
@@ -158,3 +171,13 @@ header {
     }
   }
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+
