@@ -18,11 +18,11 @@
     </header>
     <button id='cart-btn'><i class="fas fa-shopping-basket fa-2x"></i><span></span></button>
     <main>
-      <div id='menu-container'>
+      <div class='menu-container'>
         <div><h1>Menu</h1></div>
       </div>
       <div id='cart-container' class="hidden">
-        <div id='cart'>
+        <div class='cart'>
           <div><h2>Your Cart</h2></div>
           <div id="cart_items_container" class="scroll"></div>
           <div class='total'>
@@ -30,7 +30,7 @@
             <h3>$0.00</h3>
           </div>
           <form method='POST' action='/orders'>
-             <div id='user-comment'>
+             <div class='user-comment'>
               <div>
                 <label for="comment">Special Instructions:</label>
                 <p>250</p>
@@ -40,16 +40,16 @@
               </div>
             </div>
             <div class='user'>
-              <div id='user-name'>
+              <div>
                 <input type="text" name="name" id="name" placeholder="Name">
                 <p></p>
               </div>
-              <div id='user-phone'>
+              <div>
                 <input type="text" name="phone" id="phone" placeholder="(xxx)xxx-xxxx" class="form-control" data-mask="(999) 999-9999">
                 <p></p>
               </div>
             </div>
-              <p id='cart-err'></p>
+              <p class='cart-err'></p>
               <button type="submit">Order Now</button>
             </div>
           </form>
@@ -64,9 +64,10 @@
       </p>
       <p>5455 Gaspe Ave Suite 710, <br>
          Montreal, Quebec <br>
-        H2T 3B3<p>
-      <p>Tel:438-806-8816 <br>
-        Email:labbereats@gmail.com
+        H2T 3B3
+      </p>
+      <p>Tel: 438-806-8816 <br>
+        Email: labbereats@gmail.com
       </p>
     </footer>
   </body>

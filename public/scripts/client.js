@@ -49,7 +49,7 @@ $(document).ready(() => {
 
     //Update comment character counter
     $('#comment').on('input', () => {
-      changeCharCounter($('#user-comment').find('p'), 250, $('#comment').val().length);
+      changeCharCounter($('.user-comment').find('p'), 250, $('#comment').val().length);
     });
 
     // Add new order to database and shows confirmation page to client

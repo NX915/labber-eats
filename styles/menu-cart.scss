@@ -62,7 +62,7 @@ article.menu-item {
   display: none;
 }
 
-#menu-container {
+.menu-container {
   width: 100%;
 }
 
@@ -71,7 +71,7 @@ article.menu-item {
   width: 0%;
 }
 
-#cart {
+.cart {
   position: fixed;
   height: 100vh;
   width: 90vw;
@@ -164,6 +164,16 @@ form {
       width: 50%;
       margin: 0.2rem;
     }
+
+  .user-comment {
+    margin-bottom: 1rem;
+
+    & div:first-child {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
   input {
@@ -171,16 +181,6 @@ form {
   }
 
 }
-
-#user-comment {
-  margin-bottom: 1rem;
-
-  & div:first-child {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 
   textarea {
     width: 100%;
@@ -220,7 +220,7 @@ and (min-width : 768px) {
     flex: 1 1 40%;
   }
 
-  #cart {
+  .cart {
     position: -webkit-sticky;
     position: sticky;
     width: 100%;

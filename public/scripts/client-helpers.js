@@ -31,9 +31,9 @@ const createCategoryElement = (item) => {
     <div id='category-${category_id}' class='category-container'>
       <h2>${category}</h2>
       <h3>${category_description}</h3>
-    </div>`
+    </div>`;
   return element;
-}
+};
 
 // Add items inside of each category container
 const renderMenu = arr => {
@@ -42,7 +42,7 @@ const renderMenu = arr => {
     const { category, category_id } = item;
     if (addedCategories[category] === undefined) {
       addedCategories[category] = '';
-      $('#menu-container').append(createCategoryElement(item));
+      $('.menu-container').append(createCategoryElement(item));
       $('nav').append(`<a href='#category-${category_id}'>${category}</a>`);
     }
     $(`#category-${category_id}`).append(createItemElement(item));
@@ -72,11 +72,7 @@ const createCartItem = (itemObj, quant) => {
   return $item;
 };
 
-
-
-
-
-// Add item element to cart if does not exist
+// Add item element to cart if does not exist along with its event listeners
 const addCartElement = ($container, menu, id, cart) => {
   const quantity = findQuantity(id, cart);
   let itemObj = getItemDetails(id, menu);
@@ -85,7 +81,7 @@ const addCartElement = ($container, menu, id, cart) => {
     const $item = $(createCartItem(itemObj, quantity));
     $($container).append($item);
 
-    // Change quantity of cart and update totals
+    // Change quantity of cart and update totals on click
     $('#cart_items_container button').click(function() {
       const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
@@ -127,7 +123,15 @@ const getItemDetails = (itemId, menu) => {
       return item;
     }
   }
-}
+};
+
+const findPrice = (id, menu) => {
+  for (const item of menu) {
+    if (item.id === parseInt(id)) {
+      return item.price;
+    }
+  }
+};
 
 const findQuantity = (id, itemObj) => {
   for (const item in itemObj) {
@@ -138,13 +142,15 @@ const findQuantity = (id, itemObj) => {
   return 0;
 };
 
-const updateCounter = function (itemObj, id, menuEl, cartEl) {
+// Update counters in menu and cart
+const updateCounter = function(itemObj, id, menuEl, cartEl) {
   const newQuant = findQuantity(id, itemObj);
   menuEl.val(newQuant);
   cartEl.val(newQuant);
 };
 
-const updateCart = function (cart, id, value) {
+// Update cart object
+const updateCart = function(cart, id, value) {
   // non empty value from input field
   if (value && typeof value === 'string' && value !== '0') {
     cart[id] = parseInt(value);
@@ -177,7 +183,8 @@ const calculateTotal = (menu, itemObj) => {
   return (sum / 100).toFixed(2);
 };
 
-const updateTotals = function ($subtotal, $total, id, menu, cart) {
+// Update subtotal and total
+const updateTotals = function($subtotal, $total, id, menu, cart) {
   const price = findPrice(id, menu);
   const quantity = findQuantity(id, cart);
   $subtotal.text(`$${(quantity * price / 100).toFixed(2)}`);
@@ -205,44 +212,37 @@ const renderOrderConfirmation = () => {
   </div`);
 };
 
-const findPrice = (id, menu) => {
-  for (const item of menu) {
-    if (item.id === parseInt(id)) {
-      return item.price;
-    }
-  }
-};
-
 const isValidName = name => {
   if (!name) {
     // display error
-    $('#user-name').find('p').text('Please enter your name.');
+    $('input[name=name]').parent().find('p').text('Please enter your name.');
     return false;
   } else if (!/^[a-zA-Z- ]*$/.test(name)) {
-    $('#user-name').find('p').text('Please enter a valid name.');
+    $('input[name=name]').parent().find('p').text('Please enter a valid name.');
     return false;
   }
-  $('#user-name').find('p').empty();
+  $('input[name=name]').parent().find('p').empty();
   return true;
 };
 
 const isValidPhone = number => {
   if (!number) {
-    $('#user-phone').find('p').text('Please enter your phone number.');
+    $('input[name=phone]').parent().find('p').text('Please enter your phone number.');
     return false;
 
   } else if (!/^[0-9- +()]*$/.test(number)) {
-    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    $('input[name=phone]').parent().find('p').text('Please enter a valid phone number.');
     return false;
 
   } else if (number.replace(/\s|-/g, "").length > 11) {
-    $('#user-phone').find('p').text('Please enter a valid phone number.');
+    $('input[name=phone]').parent().find('p').text('Please enter a valid phone number.');
     return false;
   }
-  $('#user-phone').find('p').empty();
+  $('input[name=phone]').parent().find('p').empty();
   return true;
 };
 
+// Convert raw number to phone number
 const convertNum = number => {
   const newNum = number.replace(/\D/g, '');
   if (newNum.length === 10) {
@@ -254,7 +254,7 @@ const convertNum = number => {
 
 const isValidCart = obj => {
   if (Object.keys(obj).length === 0) {
-    $('#cart-err').text('Please add items to your order.');
+    $('.cart-err').text('Please add items to your order.');
     return false;
   }
   return true;
