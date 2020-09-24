@@ -101,7 +101,7 @@ const renderNewOrders = function(orderArr) {
           <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
+          ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
           <form class='accept-form' method='POST' action='/orders/${orderId}'>
             <div class='new_order_button_container'>
               <input type='number' class='user_input hidden' required>
@@ -115,9 +115,8 @@ const renderNewOrders = function(orderArr) {
             <input type='submit' value='Accept'>
           </form>
           <form class='decline-form hidden' method='POST' action='/orders/${orderId}/decline'>
-            <label for='decline'>Message: </label>
+            <label for='decline'>Message <output></output> </label>
             <input type='text' maxlength='150' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
-            <output></output>
             <input type='submit' value='Decline'>
           </form>
         `;

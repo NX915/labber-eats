@@ -38,12 +38,23 @@ header {
 
   form {
     height: $button-height;
+    // width: 100%;
     display: flex;
-    align-items: stretch;
+    // justify-content: stretch;
+    // align-items: stretch;
 
-    &.hidden{
+    &.decline-form {
+      flex-direction: column;
+      height: auto;
+
+      [type="text"] {
+        height: $button-height;
+      }
+    }
+    &.hidden {
       display: none;
     }
+
   }
 
   button {
@@ -59,6 +70,7 @@ header {
   input[type="submit"] {
     outline: none;
     border: none;
+    height: $button-height;
 
     &:hover {
       filter: brightness(0.95);
@@ -74,17 +86,22 @@ header {
     &[value*="Decline"] {
       color: white;
       background-color: $warning-color;
+      flex: 0 0 $button-height;
     }
 
   }
 
   .wait_time_container {
-    position: relative;
+    // position: relative;
+    flex: 1 1 100%;
   }
 
   .new_order_button_container {
     display: flex;
+    width: 100%;
     // height: $button-height;
+    // flex-direction: row;
+    // justify-content: stretch;
 
     button {
       flex: 1 1 20%;
