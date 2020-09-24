@@ -5,7 +5,9 @@
 const createItemElement = (itemObj) => {
   let item;
   if (!itemObj.available) {
-    item = `<article class='menu-item unavailable' id=${itemObj.id}>`;
+    item = `
+    <article class='menu-item unavailable' id=${itemObj.id}>
+      <div><h1>SOLD OUT</h1></div>`;
   } else {
     item = `<article class='menu-item' id=${itemObj.id}>`;
   }
