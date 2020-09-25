@@ -70,7 +70,7 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          console.log(output);
+          // console.log(output);
           if (Object.keys(output).length === orderArr.length) {
             // console.log('resolved');
             resolve(output);
