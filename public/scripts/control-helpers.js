@@ -33,7 +33,7 @@ const renderError = function(err) {
   } else if (err) {
     $(errorDiv).slideUp(200, () => {
       $(errorDiv).removeClass('hidden');
-      $(errorDiv).html(`${err.message}`);
+      $(errorDiv).html(`<div>${err.message}</div>`);
       $(errorDiv).slideDown(200);
     });
   }
@@ -72,7 +72,7 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          // console.log(output);
+          console.log(output);
           if (Object.keys(output).length === orderArr.length) {
             // console.log('resolved');
             resolve(output);
@@ -111,7 +111,7 @@ const renderNewOrders = function(orderArr) {
           <p>Total: $${orderDetails.total / 100}</p>
           ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
           <form class='accept-form' method='POST' action='/orders/${orderId}'>
-            <div class='new_order_button_container'>
+            <div class='order_button_container'>
               <input type='number' class='user_input hidden' required>
               <input type='submit' value='Accept (${orderDetails.estimated_wait}mins)'>
               <button type='button' class='options-toggle'>Options</button>
@@ -169,10 +169,20 @@ const renderPendingOrders = function(orderArr) {
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
-          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'><div>Message <output></output></div></label>
-            <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
+          <form class='ready-form' method='POST' action='/orders/${orderId}/ready'>
+            <div class='order_button_container'>
+              <input type='text' maxlength='150' name='ready' class='user_input hidden' placeholder='Your order is ready!'>
+              <input type='submit' value='Ready'>
+              <button type='button' class='options-toggle'>Options</button>
+            </div>
+          </form>
+          <form class='ready-form hidden' method='POST' action='/orders/${orderId}/ready'>
+            <label for='ready'><div>Message <output></output></div></label>
+            <input type='text' maxlength='150' name='ready' class='user_input' placeholder='Your order is ready!'>
             <input type='submit' value='Ready'>
+          </form>
+          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
+            <input type='submit' value='Done'>
           </form>
         `;
         let $itemsDiv = '';
@@ -184,6 +194,19 @@ const renderPendingOrders = function(orderArr) {
         // $('#pending_orders').append($orderDiv);
         $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
+        if (orderDetails.ready_at !== null) {
+          $(`#order_id_${orderId} .ready-form`).addClass('hidden');
+        } else {
+          $(`#order_id_${orderId} .done-form`).toggleClass('hidden');
+        }
+
+        $(`#order_id_${orderId} .options-toggle`).on('click', () => {
+          $(`#order_id_${orderId} form`).toggleClass('hidden');
+        });
+        $(`#order_id_${orderId} .ready-form`).on('order_update_succeeded', () => {
+          // $(`#order_id_${orderId} form`).toggleClass('hidden');
+          renderPendingOrders([orderId]);
+        });
       }
     });
 };

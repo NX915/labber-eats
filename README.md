@@ -1,8 +1,9 @@
-Labber Eats
-=========
+# Labber Eats
 
-## Project Introduction
+## Introduction
+Labber Eats offers a single page experience to both consumers and restaurant owners. This project was made using HTML, JS, JQuery, AJAX on the client-side and Node, Express, Sass and PG on the server-side.
 
+This project was made during Lighthouse Labs Bootcamp as a group project to practice full-stack development skills.
 
 ## Getting Started
 
@@ -19,15 +20,6 @@ Labber Eats
   - Note: nodemon is used, so you should not have to restart your server
 8. Visit `http://localhost:8080/`
 
-## Warnings & Tips
-
-## Dependencies
-
-- Node 10.x or above
-- NPM 5.x or above
-- PG 6.x
-- normalize.css?????
-
 ## Tech Stack
 
 - Node 10.x or above
@@ -39,7 +31,6 @@ Labber Eats
 - EJS
 - Twilio
 - git
-- Bootstraps
 
 ## Acknowledgment
 

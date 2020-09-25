@@ -13,6 +13,16 @@ header {
     height: 2rem;
     background-color:$warning-color;
   }
+  #control_error{
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.hidden {
+      display: none;
+    }
+  }
 }
 
 .order_container {
@@ -80,6 +90,9 @@ header {
     height: auto;
     text-align: center;
 
+    &.done-form {
+      margin-top: 0px;
+    }
     label {
       height: $button-height;
       display: flex;
@@ -137,10 +150,13 @@ header {
 
   input {
 
-    &[value*="Accept"],&[value*="Ready"],&[value*="Done"] {
+    &[value*="Accept"],&[value*="Ready"] {
       color: white;
       background-color: $logo-color;
       // border-bottom: solid thin black;
+    }
+    &[value*="Done"] {
+      background-color: royalblue;
     }
     &[value*="Decline"] {
       color: white;
@@ -155,7 +171,7 @@ header {
     flex: 1 1 100%;
   }
 
-  .new_order_button_container {
+  .order_button_container,.order_button_container {
     display: flex;
     width: 100%;
     border-top: solid thin black;
