@@ -197,7 +197,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-#new_orders {
+#new_orders, #pending_orders {
   li p:nth-child(5) {
     color: red;
   }
