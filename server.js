@@ -11,17 +11,17 @@ const app        = express();
 const morgan     = require('morgan');
 
 // PG database client/connection setup
-// const { Pool } = require('pg');
-// const dbParams = require('./lib/db.js');
-// const db = new Pool(dbParams);
 const { Pool } = require('pg');
+const dbParams = require('./lib/db.js');
+const db = new Pool(dbParams);
+// const { Pool } = require('pg');
 // const pool = new Pool({
-const db = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+// const db = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });
 db.connect();
 const dbHelpers = require('./db/dbHelpers')(db);
 
