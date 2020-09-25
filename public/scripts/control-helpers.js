@@ -70,7 +70,7 @@ const getOrderDetails = function(orderArr) {
       getOrders(orderId)
         .then(orderData => {
           output[orderId] = orderData;
-          // console.log(output);
+          console.log(output);
           if (Object.keys(output).length === orderArr.length) {
             // console.log('resolved');
             resolve(output);
@@ -103,7 +103,7 @@ const renderNewOrders = function(orderArr) {
           <p>Total: $${orderDetails.total / 100}</p>
           ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
           <form class='accept-form' method='POST' action='/orders/${orderId}'>
-            <div class='new_order_button_container'>
+            <div class='order_button_container'>
               <input type='number' class='user_input hidden' required>
               <input type='submit' value='Accept (${orderDetails.estimated_wait}mins)'>
               <button type='button' class='options-toggle'>Options</button>
@@ -162,10 +162,20 @@ const renderPendingOrders = function(orderArr) {
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
-          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'><div>Message <output></output></div></label>
-            <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
+          <form class='ready-form' method='POST' action='/orders/${orderId}/ready'>
+            <div class='order_button_container'>
+              <input type='text' maxlength='150' name='ready' class='user_input hidden' placeholder='Your order is ready!'>
+              <input type='submit' value='Ready'>
+              <button type='button' class='options-toggle'>Options</button>
+            </div>
+          </form>
+          <form class='ready-form' method='POST' action='/orders/${orderId}/ready'>
+            <label for='ready'><div>Message <output></output></div></label>
+            <input type='text' maxlength='150' name='ready' class='user_input' placeholder='Your order is ready!'>
             <input type='submit' value='Ready'>
+          </form>
+          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
+            <input type='submit' value='Done'>
           </form>
         `;
         let $itemsDiv = '';
