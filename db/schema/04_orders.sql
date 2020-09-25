@@ -8,5 +8,6 @@ CREATE TABLE orders (
   created_at TIMESTAMP DEFAULT now(),
   completed_at TIMESTAMP,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  comment VARCHAR(255)
+  comment VARCHAR(255),
+  ready_at TIMESTAMP
 );
