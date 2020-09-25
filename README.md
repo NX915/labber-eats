@@ -31,10 +31,10 @@ This project was made during Lighthouse Labs Bootcamp as a group project to prac
 ## Final product
 
 ### Menu Item
-!["Menu item"]()
+!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/hover-menu-item.gif?raw=true)
 
 ### Smartphone navigation
-!["Menu item"]()
+!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/smartphone-demo.gif?raw=true)
 
 ## Getting Started
 
