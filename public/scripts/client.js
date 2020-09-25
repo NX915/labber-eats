@@ -11,7 +11,7 @@ $(document).ready(() => {
     $('.unavailable *').prop("disabled", true);
 
     // Change quantity of cart and update totals
-    $('.menu-item button').click(updateQuantityAndPrice);
+    $('.menu-item button').click(updateQuantity);
 
     // Update quantity when use types in the input field
     $('input').on('input', function() {
