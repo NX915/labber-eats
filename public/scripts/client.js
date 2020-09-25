@@ -43,7 +43,6 @@ $(document).ready(() => {
       const $cartCount = $(`.cart-${itemId} input`);
       const $subTotalEl = $(`.cart-${itemId} .subtotal`);
 
-
       if ($menuCount.val() && $menuCount.val() > 0) {
         updateCart(selectedItems, itemId, $menuCount.val());
         addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
