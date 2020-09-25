@@ -64,6 +64,7 @@ VALUES ('Alice', '4161234567'),
 INSERT INTO categories (name, description)
 VALUES ('Appetizers', 'Perfect to share with your friends 🤝'),
 ('Entrées', 'Enjoy one of our best sellers 🍽'),
+('Chef''s specials', 'Dishes selected by the renowned chef Francis Bourgouin 👨🏻‍🍳'),
 ('Desserts', 'The sweetest options in town 😋'),
 ('Beverages', 'Kill your thirst 🍻');
 
