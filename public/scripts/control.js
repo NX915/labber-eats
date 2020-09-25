@@ -99,4 +99,19 @@ $().ready(() => {
   attachOrderSubmitListener();
   $('ol').on('order_update_succeeded', renderAllOrders);
   window.setInterval(renderAllOrders, 5000);
+
+  // $('#new_orders').scroll(() => {
+  //   if ($('#new_orders').scrollTop() < 5) {
+  //     $('#scroll-new').hide();
+  //   } else {
+  //     $('.scroll-new').show();
+  //   }
+  // });
+
+  // // Scroll to top and focus on new tweet input area when scroll button clicked
+  // $('#scroll-button').click(() => {
+  //   $('.new-tweet').show();
+  //   $('textarea').focus();
+  //   $(document).scrollTop('.new-tweet');
+  // });
 });

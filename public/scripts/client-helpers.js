@@ -202,6 +202,29 @@ const showCartQuantity = obj => {
   $('.cart-btn span').text(` ${amount} `);
 };
 
+const updateQuantityAndPrice = function() {
+  const itemId = $(this).parent().parent().attr('id');
+  const $menuCount = $(this).parent().find('input');
+  const $cartCount = $(`.cart-${itemId} input`);
+  const $subTotalEl = $(`.cart-${itemId} .subtotal`);
+
+  // check whether it is an increase or decrease button
+  if ($(this).hasClass('inc-button')) {
+    updateCart(selectedItems, itemId, 1);
+    addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+  } else if ($(this).hasClass('dec-button')) {
+    updateCart(selectedItems, itemId, -1);
+  } else {
+    updateCart(selectedItems, itemId, $menuCount.val());
+    if ($menuCount.val() && $menuCount.val() > 0) {
+      addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+    }}
+
+  updateCounter(selectedItems, itemId, $menuCount, $cartCount);
+  showCartQuantity(selectedItems);
+  updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
+};
+
 const submitOrder = (order) => {
   return $.ajax({
     url: '/orders',
