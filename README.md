@@ -37,7 +37,7 @@ This project was made during Lighthouse Labs Bootcamp as a group project to prac
 !["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/smartphone-demo.gif?raw=true)
 
 ### Control navigation
-!["Menu item"]()
+!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/control-navigation.gif?raw=true)
 
 ## Getting Started
 
