@@ -33,7 +33,7 @@ const renderError = function(err) {
   } else if (err) {
     $(errorDiv).slideUp(200, () => {
       $(errorDiv).removeClass('hidden');
-      $(errorDiv).html(`${err.message}`);
+      $(errorDiv).html(`<div>${err.message}</div>`);
       $(errorDiv).slideDown(200);
     });
   }
@@ -176,7 +176,7 @@ const renderPendingOrders = function(orderArr) {
               <button type='button' class='options-toggle'>Options</button>
             </div>
           </form>
-          <form class='ready-form' method='POST' action='/orders/${orderId}/ready'>
+          <form class='ready-form hidden' method='POST' action='/orders/${orderId}/ready'>
             <label for='ready'><div>Message <output></output></div></label>
             <input type='text' maxlength='150' name='ready' class='user_input' placeholder='Your order is ready!'>
             <input type='submit' value='Ready'>
@@ -194,6 +194,19 @@ const renderPendingOrders = function(orderArr) {
         // $('#pending_orders').append($orderDiv);
         $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
+        if (orderDetails.ready_at !== null) {
+          $(`#order_id_${orderId} .ready-form`).addClass('hidden');
+        } else {
+          $(`#order_id_${orderId} .done-form`).toggleClass('hidden');
+        }
+
+        $(`#order_id_${orderId} .options-toggle`).on('click', () => {
+          $(`#order_id_${orderId} form`).toggleClass('hidden');
+        });
+        $(`#order_id_${orderId} .ready-form`).on('order_update_succeeded', () => {
+          // $(`#order_id_${orderId} form`).toggleClass('hidden');
+          renderPendingOrders([orderId]);
+        });
       }
     });
 };
