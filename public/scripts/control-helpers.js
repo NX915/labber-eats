@@ -150,7 +150,6 @@ const renderNewOrders = function(orderArr) {
       }
     });
 };
-
 const renderPendingOrders = function(orderArr) {
   // $('#pending_orders').empty();
   getOrderDetails(orderArr)
@@ -223,4 +222,3 @@ const convertPhoneNum = (phoneNum) => {
   const last = phoneNum.slice(6);
   return `${first}-${middle}-${last}`;
 };
-

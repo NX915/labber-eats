@@ -100,3 +100,4 @@ $().ready(() => {
   $('ol').on('order_update_succeeded', renderAllOrders);
   window.setInterval(renderAllOrders, 5000);
 });
+
