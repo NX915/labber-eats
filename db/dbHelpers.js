@@ -177,7 +177,7 @@ module.exports = db => {
       .then(() => db.query(newUserQuery))
       .then(res => {
         userID = res.rows[0].id;
-        const comment = orderDetails.comment || '';
+        const comment = orderDetails.comment || null;
         // run the second query to create a new order related to the user_id that submitted the order
         return db.query(newOrderQuery, [userID, comment]);
       })

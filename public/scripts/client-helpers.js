@@ -263,7 +263,7 @@ const isValidCart = obj => {
 };
 
 // If comment is truthy, return comment, else return null
-const checkComment = ($element) => {!$.trim($element.val()) ? null: $element.val();}
+const checkComment = $element => !$.trim($element.val()) ? null : escape($element.val());
 
 // Show confirmation page if no error
 const renderOrderConfirmation = () => {

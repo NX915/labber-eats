@@ -11,37 +11,49 @@ $(document).ready(() => {
     $('.unavailable *').prop("disabled", true);
     const updateQuantity = function() {
       const itemId = $(this).parent().parent().attr('id');
-      const $menuCount = $(this).siblings('input');
+      // const $menuCount = $(this).siblings('input');
+      const $menuCount = $(this).parent().find('input');
       const $cartCount = $(`.cart-${itemId} input`);
       const $subTotalEl = $(`.cart-${itemId} .subtotal`);
+      console.log($menuCount);
 
       // check whether it is an increase or decrease button
       if ($(this).hasClass('inc-button')) {
         updateCart(selectedItems, itemId, 1);
         addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
-      } else {
+      } else if ($(this).hasClass('dec-button')) {
         updateCart(selectedItems, itemId, -1);
+      } else if ($menuCount.val() && $menuCount.val() > 0) {
+
+        addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
       }
 
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
+    };
 
-    }
     // Change quantity of cart and update totals
     $('.menu-item button').click(updateQuantity);
 
     // Update quantity when use types in the input field
     $('input').on('input', function() {
       const itemId = $(this).parent().parent().attr('id');
-      const $menuCount = $(`#${itemId} input`);
+      const $menuCount = $(this).parent().find('input');
       const $cartCount = $(`.cart-${itemId} input`);
       const $subTotalEl = $(`.cart-${itemId} .subtotal`);
 
-      updateCart(selectedItems, itemId, $menuCount.val());
+
       if ($menuCount.val() && $menuCount.val() > 0) {
+        updateCart(selectedItems, itemId, $menuCount.val());
         addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+      } else if ($(this).hasClass('inc-button')) {
+        updateCart(selectedItems, itemId, 1);
+        addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+      } else if ($(this).hasClass('dec-button')) {
+        updateCart(selectedItems, itemId, -1);
       }
+
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
@@ -59,7 +71,6 @@ $(document).ready(() => {
       const phone = convertNum($('#phone').val());
       const comment = checkComment($('#comment'));
       const orderDetails = JSON.stringify({selectedItems, orderDetails: {name, phone, comment}});
-      console.log(orderDetails);
 
       isValidPhone(phone);
       isValidCart(selectedItems);
