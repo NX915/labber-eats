@@ -42,13 +42,13 @@ const createCategoryElement = (item) => {
 const renderMenu = arr => {
   const addedCategories = {};
   arr.forEach(item => {
-    const { category } = item
+    const { category } = item;
     if (addedCategories[category] === undefined) {
       addedCategories[category] = '';
-      $('.menu-container').append(createCategoryElement(item))
-      $('nav').append(`<a href='#${category}'>${category}</a>`)
+      $('.menu-container').append(createCategoryElement(item));
+      $('nav').append(`<a href='#${category}'>${category}</a>`);
     }
-    $(`#${category} .items-container`).append(createItemElement(item))
+    $(`#${category} .items-container`).append(createItemElement(item));
   });
 };
 
@@ -85,7 +85,7 @@ const addCartElement = ($container, menu, id, cart) => {
     $($container).append($item);
 
     // Change quantity of cart and update totals on click
-    $('#cart_items_container button').click(function() {
+    $(`.cart-${id} button`).click(function() {
       const itemId = $(this).parents('article').attr('class').replace("cart-","");
       const $cartCount = $(this).siblings('input');
       const $menuCount = $(`#${itemId} input`);
@@ -94,7 +94,6 @@ const addCartElement = ($container, menu, id, cart) => {
       // check whether it is an increase or decrease button
       if ($(this).hasClass('inc-cart')) {
         updateCart(selectedItems, itemId, 1);
-        addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
       } else {
         updateCart(selectedItems, itemId, -1);
       }
@@ -102,7 +101,6 @@ const addCartElement = ($container, menu, id, cart) => {
       updateCounter(selectedItems, itemId, $menuCount, $cartCount);
       showCartQuantity(selectedItems);
       updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
-
     });
 
     // Update quantity when user types in the input field
@@ -202,9 +200,15 @@ const showCartQuantity = obj => {
   $('.cart-btn span').text(` ${amount} `);
 };
 
+<<<<<<< HEAD
 const updateQuantityAndPrice = function() {
   const itemId = $(this).parent().parent().attr('id');
   const $menuCount = $(this).parent().find('input');
+=======
+const updateQuantity = function() {
+  const itemId = $(this).parent().parent().attr('id');
+  const $menuCount = $(this).siblings('input');
+>>>>>>> origin/master
   const $cartCount = $(`.cart-${itemId} input`);
   const $subTotalEl = $(`.cart-${itemId} .subtotal`);
 
@@ -212,6 +216,7 @@ const updateQuantityAndPrice = function() {
   if ($(this).hasClass('inc-button')) {
     updateCart(selectedItems, itemId, 1);
     addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
+<<<<<<< HEAD
   } else if ($(this).hasClass('dec-button')) {
     updateCart(selectedItems, itemId, -1);
   } else {
@@ -219,10 +224,19 @@ const updateQuantityAndPrice = function() {
     if ($menuCount.val() && $menuCount.val() > 0) {
       addCartElement($('#cart_items_container'), menuCache, itemId, selectedItems);
     }}
+=======
+  } else {
+    updateCart(selectedItems, itemId, -1);
+  }
+>>>>>>> origin/master
 
   updateCounter(selectedItems, itemId, $menuCount, $cartCount);
   showCartQuantity(selectedItems);
   updateTotals($subTotalEl, $('.total h3:last-child'), itemId, menuCache, selectedItems);
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 };
 
 const submitOrder = (order) => {

@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-const attachOrderSubmitListener = function() {
+const attachButtonListener = function() {
   $('ol').on('submit', (e) => {
     e.preventDefault();
     const { action, method, parentElement } = e.target;
@@ -13,11 +11,11 @@ const attachOrderSubmitListener = function() {
     $.ajax({url: action, method: method, data: userInput})
       .then(res => {
         // console.log(res);
-        $(e.target).trigger('order_update_succeeded');
+        $(parentElement).trigger('order_update_succeeded');
       })
       .catch(err => {
         console.log('Ajax request error ', err);
-        $(e.target).trigger('order_update_failed');
+        $(parentElement).trigger('order_update_failed');
       });
   });
 };
@@ -84,14 +82,8 @@ const getOrderDetails = function(orderArr) {
 
 // a function to parse timestamps returned from the database
 const parseTimestamp = timestamp => {
-  return new Date(timestamp).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-};
-
-const getArrivalTime = (startTime, mins) => {
-  const milliSinceEpoch = new Date(startTime).getTime();
-  const timeToAdd = mins * 60000;
-  return new Date(milliSinceEpoch + timeToAdd).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-};
+  return new Date(timestamp).toTimeString().slice(0, 8)
+}
 
 //take in an array formatted as  [{id: orderId}, {id: orderId}...]
 //then render all details of the order as a new order
@@ -102,51 +94,36 @@ const renderNewOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <div class='order_header'>
+          <div>
             <h2># ${orderId}</h2>
-            <p>${parseTimestamp(orderDetails.created_at)}</p>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
           </div>
-          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
-          <form class='accept-form' method='POST' action='/orders/${orderId}'>
-            <div class='new_order_button_container'>
-              <input type='number' class='user_input hidden' required>
-              <input type='submit' value='Accept (${orderDetails.estimated_wait}mins)'>
-              <button type='button' class='options-toggle'>Options</button>
-            </div>
-          </form>
-          <form class='accept-form hidden' method='POST' action='/orders/${orderId}'>
-            <label for='wait-time'>Wait Time</label>
-            <input type='number' step='1' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
+          <form method='POST' action='/orders/${orderId}'>
+            <label for='wait-time'>Wait Time: </label>
+            <input type='number' step='5' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}'>
             <input type='submit' value='Accept'>
           </form>
-          <form class='done-form hidden' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'><div>Message <output></output></div></label>
-            <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
-            <input type='submit' value='Ready'>
-          </form>
-          <form class='decline-form hidden' method='POST' action='/orders/${orderId}/decline'>
-            <label for='decline'>Message <output></output> </label>
+          <form method='POST' action='/orders/${orderId}/decline'>
+            <label for='decline'>Message: </label>
             <input type='text' maxlength='150' name='decline' class='user_input' placeholder='Sorry! We cannot take orders right now'>
+            <output></output>
             <input type='submit' value='Decline'>
           </form>
         `;
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li title='${ele.acronym}'>x${ele.quantity} ${ele.name}</li>`;
+          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
         $(`#order_id_${orderId}`).html($orderDiv);
         $(`#order_id_${orderId} ul`).append($itemsDiv);
 
         $(`#order_id_${orderId} [type="number"]`).val(orderDetails.estimated_wait);
-
-        $(`#order_id_${orderId} .options-toggle`).on('click', () => {
-          $(`#order_id_${orderId} form`).toggleClass('hidden');
-        });
       }
     });
 };
@@ -159,26 +136,26 @@ const renderPendingOrders = function(orderArr) {
       for (const orderId of orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
-          <div class='order_header'>
+          <div>
             <h2># ${orderId}</h2>
-            <div>
-              <p>Due at ${getArrivalTime(orderDetails.created_at, orderDetails.informed_time)}</p>
-            </div>
+            <p>@ ${parseTimestamp(orderDetails.created_at)}</p>
+            <p>Informed Wait: ${orderDetails.informed_time}</p>
           </div>
-          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
+          <p>Contact: ${orderDetails.name} (${orderDetails.phone})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
-          <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
-          <form class='done-form' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'><div>Message <output></output></div></label>
+          <p>${orderDetails.comment !== null ? 'Customer Note: ' + orderDetails.comment : ''}</p>
+          <form method='POST' action='/orders/${orderId}/done'>
+            <label for='done'>Message: </label>
             <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
-            <input type='submit' value='Ready'>
+            <output></output>
+            <input type='submit' value='Done'>
           </form>
         `;
         let $itemsDiv = '';
 
         for (const ele of itemsFromOrder) {
-          $itemsDiv += `<li title='${ele.acronym}'>x${ele.quantity} ${ele.name}</li>`;
+          $itemsDiv += `<li>x${ele.quantity} ${ele.name}</li>`;
         }
 
         // $('#pending_orders').append($orderDiv);
@@ -192,12 +169,5 @@ const renderOrderCounts = function(orderIDObj) {
   const { newOrders, pendingOrders } = orderIDObj;
   $('#new_order_header').html(`New Orders (${newOrders.length})`);
   $('#pending_order_header').html(`In Progress (${pendingOrders.length})`);
-};
-
-const convertPhoneNum = (phoneNum) => {
-  const first = phoneNum.slice(0, 3);
-  const middle = phoneNum.slice(3, 6);
-  const last = phoneNum.slice(6);
-  return `${first}-${middle}-${last}`;
 };
 

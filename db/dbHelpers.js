@@ -7,49 +7,57 @@ module.exports = db => {
       FROM items JOIN categories ON category_id = categories.id
       ORDER BY category_id, items.name`)
       .then(res => res.rows)
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
   // returns all new orders id as an array
   const getNewOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted IS NULL ORDER BY created_at')
       .then(res => res.rows)
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
   // returns all new orders id as an array
   const getPendingOrders = () => {
     return db
       .query('SELECT id FROM orders WHERE accepted = TRUE AND completed_at IS NULL ORDER BY created_at')
       .then(res => res.rows)
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
   // returns an object with the order details
   const getOrderDetails = order_id => {
     const query = {
       text: `
-        SELECT order_id, created_at, users.name, phone, comment, informed_time, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
+        SELECT order_id, created_at, users.name, phone, comment, informed_time, ready_at, MAX(prep_time) AS estimated_wait, SUM(quantity * price) AS total
         FROM orders
         JOIN users ON user_id = users.id
         JOIN order_items ON orders.id = order_id
         JOIN items ON item_id = items.id
         WHERE orders.id = $1
-        GROUP BY order_id, created_at, users.name, phone, comment, informed_time;
+        GROUP BY order_id, created_at, users.name, phone, comment, informed_time, ready_at;
       `,
       values: [order_id]
-    }
+    };
     return db
       .query(query)
       .then(res => {
         if (res.rows[0]) {
           return res.rows[0];
         }
-        throw 'The order id does not exist'
+        throw 'The order id does not exist';
       })
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
 
   // returns an array with every item that composes the order
@@ -63,17 +71,19 @@ module.exports = db => {
         WHERE orders.id = $1;
       `,
       values: [order_id]
-    }
+    };
     return db
       .query(query)
       .then(res => {
         if (res.rows.length > 0) {
           return res.rows;
         }
-        throw 'The order id does not exist'
+        throw 'The order id does not exist';
       })
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
   // check some edge cases when submitting a new order so that no incomplete or incorrect orders change our database
   const checkErrors = (obj, itemsID) => {
@@ -111,24 +121,24 @@ module.exports = db => {
         }
       }
       //  create a new query to check if every item_id in the order is valid. The query should count how many items are valid (available and existent)
-      checkItemsQuery = `SELECT COUNT(*) FROM items WHERE available = TRUE AND id IN (`;
-      checkItemsValues = []
+      let checkItemsQuery = `SELECT COUNT(*) FROM items WHERE available = TRUE AND id IN (`;
+      const checkItemsValues = [];
       itemsID.forEach(elem => {
         checkItemsQuery += `$${checkItemsValues.length + 1}, `;
         checkItemsValues.push(elem);
-      })
+      });
       checkItemsQuery = checkItemsQuery.slice(0, -2) + ');';
       return db
         .query(checkItemsQuery, checkItemsValues)
         .then(res => {
           // after checking how many items are valid, we evaluate if the quantity is exactly the same as the different items present in an order
           if (Number(res.rows[0].count) === itemsID.length) {
-            return resolve()
+            return resolve();
           }
-          return reject('Some of the items are unavailable or not existing')
-        })
-    })
-  }
+          return reject('Some of the items are unavailable or not existing');
+        });
+    });
+  };
 
 
   /* addOrder should react to a new order submission and update three tables: users, orders, and order_items
@@ -147,7 +157,7 @@ module.exports = db => {
       VALUES ($1, $2) RETURNING id;
       `,
       values: [orderDetails.name, orderDetails.phone ? orderDetails.phone.toString().replace(/\D/g, "") : '']
-    }
+    };
 
     // the query text to insert a new order, returning its id
     let orderID;
@@ -161,7 +171,7 @@ module.exports = db => {
     // define a itemsID array to later check if all the requested item_id are available and exist in our database
     const itemsID = [];
     // create an array to hold the values to the new query. It will be populated with a for loop and it will contain every pair of itemID and quantity
-    const assignItemsToOrderValues = []
+    const assignItemsToOrderValues = [];
     for (const itemID in selectedItems) {
       itemsID.push(itemID);
       assignItemsToOrderText += `($1, $${assignItemsToOrderValues.length + 2}, $${assignItemsToOrderValues.length + 3}),\n`;
@@ -184,12 +194,14 @@ module.exports = db => {
       .then(res => {
         orderID = res.rows[0].id;
         // include the order_id as the first value in the values array
-        assignItemsToOrderValues.unshift(orderID)
+        assignItemsToOrderValues.unshift(orderID);
         // run the last query to create n rows in the order_items table
         return db.query(assignItemsToOrderText, assignItemsToOrderValues);
       })
-      .catch(e => { throw e })
-  }
+      .catch(e => {
+        throw e;
+      });
+  };
 
   // evaluate if the order was accepted and change the accepted column accordingly
   const processOrder = obj => {
@@ -197,7 +209,7 @@ module.exports = db => {
     const accepted = obj.accepted !== undefined && obj.accepted === false ? false : true;
     values.push(accepted);
     let text = `UPDATE orders
-    SET `
+    SET `;
     if (accepted && obj.input) {
       text += `informed_time = $3,\n`;
       values.push(obj.input);
@@ -205,21 +217,49 @@ module.exports = db => {
     text += `accepted = $2
     WHERE orders.id = $1
     RETURNING *
-    `
+    `;
     return db
       .query(text, values)
       .then(res => {
         if (res.rows[0]) {
           return `The order acceptance was marked as ${accepted}${obj.input ? `and the informed_time was registered as ${obj.input}` : ''}`;
         }
-        throw 'The order id does not exist'
+        throw 'The order id does not exist';
       })
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
-  // mark the order as completed (change the completed_at column to now())
+  // mark the order as ready (change the ready_at column to now())
+  const readyAt = order_id => {
+    const query = {
+      text: `
+      UPDATE orders
+      SET ready_at = now(),
+      accepted = TRUE,
+      informed_time = 0
+      WHERE orders.id = $1
+      RETURNING *
+      `,
+      values: [order_id]
+    };
+    return db
+      .query(query)
+      .then(res => {
+        if (res.rows[0]) {
+          return 'The order was marked as ready';
+        }
+        throw 'The order id does not exist';
+      })
+      .catch(e => {
+        throw e.message;
+      });
+  };
+
+  // mark the order as completed (change the completed_at column to now().
   const finishOrder = order_id => {
-    query = {
+    const query = {
       text: `
       UPDATE orders
       SET completed_at = now()
@@ -227,17 +267,19 @@ module.exports = db => {
       RETURNING *
       `,
       values: [order_id]
-    }
+    };
     return db
       .query(query)
       .then(res => {
         if (res.rows[0]) {
-          return 'The order was marked as completed'
+          return 'The order was marked as completed';
         }
-        throw 'The order id does not exist'
+        throw 'The order id does not exist';
       })
-      .catch(e => { throw e.message });
-  }
+      .catch(e => {
+        throw e.message;
+      });
+  };
 
   return {
     getMenu,
@@ -247,6 +289,7 @@ module.exports = db => {
     getItemsFromOrder,
     addOrder,
     processOrder,
+    readyAt,
     finishOrder
-  }
+  };
 };
