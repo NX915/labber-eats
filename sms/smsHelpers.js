@@ -14,11 +14,11 @@ const sendSMSToUser = obj => {
   };
   let body;
   if (type === 'confirmed') {
-    body = predefinedText[type]
+    body = predefinedText[type];
   } else {
     body = input ? (input.charAt(0)).toString().toUpperCase() + input.slice(1) : predefinedText[type];
   }
-  let sms = `Labber Eats order #${id}\nStatus: ${type}\n\n${body}`
+  let sms = `Labber Eats order #${id}\nStatus: ${type}\n\n${body}`;
 
   // try to send SMSs if the service is activated
   if (activateSMS) {
@@ -41,7 +41,7 @@ const sendSMSToUser = obj => {
       console.log(err);
     }
   } else {
-    console.log('SMS sent to costumer:')
+    console.log('SMS sent to costumer:');
     console.log(sms);
   }
 };

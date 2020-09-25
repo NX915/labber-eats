@@ -122,9 +122,9 @@ const renderNewOrders = function(orderArr) {
             <input type='number' step='1' name='wait-time' class='user_input' placeholder='${orderDetails.estimated_wait}' required>
             <input type='submit' value='Accept'>
           </form>
-          <form class='done-form hidden' method='POST' action='/orders/${orderId}/done'>
-            <label for='done'><div>Message <output></output></div></label>
-            <input type='text' maxlength='150' name='done' class='user_input' placeholder='Your order is ready!'>
+          <form class='ready-form hidden' method='POST' action='/orders/${orderId}/ready'>
+            <label for='ready'><div>Message <output></output></div></label>
+            <input type='text' maxlength='150' name='ready' class='user_input' placeholder='Your order is ready!'>
             <input type='submit' value='Ready'>
           </form>
           <form class='decline-form hidden' method='POST' action='/orders/${orderId}/decline'>
