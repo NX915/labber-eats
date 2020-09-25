@@ -31,13 +31,13 @@ This project was made during Lighthouse Labs Bootcamp as a group project to prac
 ## Final product
 
 ### Menu Item
-!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/hover-menu-item.gif?raw=true)
+!["Menu item"](https://github.com/NX915/labber-eats/blob/new_readme/docs/hover-menu-item.gif?raw=true)
 
 ### Smartphone navigation
-!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/smartphone-demo.gif?raw=true)
+!["Menu item"](https://github.com/NX915/labber-eats/blob/new_readme/docs/smartphone-demo.gif?raw=true)
 
 ### Control navigation
-!["Menu item"](https://github.com/NX915/labber-eats/blob/readme/docs/control-navigation.gif?raw=true)
+!["Menu item"](https://github.com/NX915/labber-eats/blob/new_readme/docs/control-navigation-1000px.gif?raw=true)
 
 ## Getting Started
 
