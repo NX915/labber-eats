@@ -11,9 +11,16 @@ const app        = express();
 const morgan     = require('morgan');
 
 // PG database client/connection setup
+// const { Pool } = require('pg');
+// const dbParams = require('./lib/db.js');
+// const db = new Pool(dbParams);
 const { Pool } = require('pg');
-const dbParams = require('./lib/db.js');
-const db = new Pool(dbParams);
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 db.connect();
 const dbHelpers = require('./db/dbHelpers')(db);
 
@@ -55,6 +62,18 @@ app.use("/orders", ordersRoutes(db));
 app.get("/", (req, res) => {
   res.render("index");
 });
+app.get('/db', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM test_table');
+    const results = { 'results': (result) ? result.rows : null};
+    res.render('pages/db', results );
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+})
 
 app.get("/control", (req, res) => {
   res.render("control");
