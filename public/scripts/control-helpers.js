@@ -103,10 +103,10 @@ const renderNewOrders = function(orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <div class='order_header'>
-            <h2># ${orderId} ${orderDetails.name} </h2>
+            <h2># ${orderId}</h2>
             <p>${parseTimestamp(orderDetails.created_at)}</p>
           </div>
-          <p>Contact: ${convertPhoneNum(orderDetails.phone)}</p>
+          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           ${orderDetails.comment !== null ? '<p>Customer Note: ' + escape(orderDetails.comment) + '</p>' : ''}
@@ -159,12 +159,12 @@ const renderPendingOrders = function(orderArr) {
         const { orderDetails, itemsFromOrder } = orderData[orderId];
         const $orderDiv = `
           <div class='order_header'>
-            <h2># ${orderId} ${orderDetails.name}</h2>
+            <h2># ${orderId}</h2>
             <div>
               <p>Due at ${getArrivalTime(orderDetails.created_at, orderDetails.informed_time)}</p>
             </div>
           </div>
-          <p>Contact: ${convertPhoneNum(orderDetails.phone)}</p>
+          <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
           <ul></ul>
           <p>Total: $${orderDetails.total / 100}</p>
           <p>${orderDetails.comment !== null ? 'Customer Note: ' + escape(orderDetails.comment) : ''}</p>
