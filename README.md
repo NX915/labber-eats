@@ -9,7 +9,7 @@ This project was made during Lighthouse Labs Bootcamp as a group project to prac
 
 #### Hungry labber
 
-1. As a hungry labber, I want to be able to browse and select menu items from the restaurant's site because I don't want to spend time ordering on site.
+1. As a hungry labber, I want to be able to browse and select menu items from the restaurant's site because I want to pre-order and save time.
 
 2. As a hungry labber, I want to be able to see the full details of my order (e.g. cost, items, quantities) before checking out so that I can confirm my order and know how much money to bring.
 
