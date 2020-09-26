@@ -140,7 +140,7 @@ const renderNewOrders = function(orderArr) {
         }
 
         $(`#order_id_${orderId}`).html($orderDiv);
-        $(`#order_id_${orderId} ul`).append($itemsDiv);
+        $(`#order_id_${orderId} ul`).html($itemsDiv);
 
         $(`#order_id_${orderId} [type="number"]`).val(orderDetails.estimated_wait);
 
@@ -192,7 +192,7 @@ const renderPendingOrders = function(orderArr) {
 
         // $('#pending_orders').append($orderDiv);
         $(`#order_id_${orderId}`).html($orderDiv);
-        $(`#order_id_${orderId} ul`).append($itemsDiv);
+        $(`#order_id_${orderId} ul`).html($itemsDiv);
         if (orderDetails.ready_at !== null) {
           $(`#order_id_${orderId} .ready-form`).addClass('hidden');
         } else {
