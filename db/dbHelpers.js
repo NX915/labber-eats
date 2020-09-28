@@ -15,7 +15,7 @@ module.exports = db => {
   // returns all new orders id as an array
   const getNewOrders = () => {
     return db
-      .query('SELECT id FROM orders WHERE accepted IS NULL ORDER BY created_at')
+      .query('SELECT id FROM orders WHERE accepted_at IS NULL AND rejected_at IS NULL ORDER BY created_at')
       .then(res => res.rows)
       .catch(e => {
         throw e.message;
@@ -25,7 +25,7 @@ module.exports = db => {
   // returns all new orders id as an array
   const getPendingOrders = () => {
     return db
-      .query('SELECT id FROM orders WHERE accepted = TRUE AND completed_at IS NULL ORDER BY created_at')
+      .query('SELECT id FROM orders WHERE accepted_at IS NOT NULL AND completed_at IS NULL ORDER BY created_at')
       .then(res => res.rows)
       .catch(e => {
         throw e.message;
@@ -207,14 +207,13 @@ module.exports = db => {
   const processOrder = obj => {
     const values = [obj.order_id];
     const accepted = obj.accepted !== undefined && obj.accepted === false ? false : true;
-    values.push(accepted);
     let text = `UPDATE orders
     SET `;
     if (accepted && obj.input) {
-      text += `informed_time = $3,\n`;
+      text += `informed_time = $2,\n`;
       values.push(obj.input);
     }
-    text += `accepted = $2
+    text += `${accepted ? 'accepted_at' : 'rejected_at'} = now()
     WHERE orders.id = $1
     RETURNING *
     `;
@@ -237,7 +236,7 @@ module.exports = db => {
       text: `
       UPDATE orders
       SET ready_at = now(),
-      accepted = TRUE,
+      accepted_at = now(),
       informed_time = 0
       WHERE orders.id = $1
       RETURNING *
