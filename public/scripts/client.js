@@ -3,6 +3,7 @@ const selectedItems = {};
 let menuCache;
 
 $(document).ready(() => {
+  $('.phone-us').mask('(000) 000-0000');
   $.get('/items').then(res => {
     menuCache = res;
     renderMenu(res);
