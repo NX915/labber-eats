@@ -161,7 +161,7 @@ const renderPendingOrders = function(orderArr) {
           <div class='order_header'>
             <h2># ${orderId}</h2>
             <div>
-              <p>Due at ${getArrivalTime(orderDetails.created_at, orderDetails.informed_time)}</p>
+              <p>Due at ${getArrivalTime(orderDetails.accepted_at, orderDetails.informed_time)}</p>
             </div>
           </div>
           <p>Contact: ${orderDetails.name} (${convertPhoneNum(orderDetails.phone)})</p>
