@@ -33,13 +33,14 @@ CREATE TABLE items (
 DROP TABLE IF EXISTS orders CASCADE;
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY NOT NULL,
-  informed_time INTEGER,
-  accepted BOOLEAN,
   created_at TIMESTAMP DEFAULT now(),
-  completed_at TIMESTAMP,
-  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   comment VARCHAR(255),
-  ready_at TIMESTAMP
+  accepted_at TIMESTAMP,
+  informed_time INTEGER,
+  rejected_at TIMESTAMP,
+  ready_at TIMESTAMP,
+  completed_at TIMESTAMP,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Drop and recreate order_items table
@@ -107,23 +108,23 @@ VALUES (1),
 
 
 -- some orders that were already accepted, but not completed
-INSERT INTO orders (user_id, accepted, informed_time)
-VALUES (1, TRUE, 20),
-(3, TRUE, 10),
-(4, TRUE, 15);
+INSERT INTO orders (user_id, accepted_at, informed_time)
+VALUES (1, now(), 20),
+(3, now(), 10),
+(4, now(), 15);
 
 
 
 -- some orders that were already accepted and completed
-INSERT INTO orders (user_id, accepted, completed_at)
-VALUES (1, TRUE, now()),
-(1, TRUE, now());
+INSERT INTO orders (user_id, accepted_at, completed_at)
+VALUES (1, now(), now()),
+(1, now(), now());
 
 
 -- some orders that were rejected
-INSERT INTO orders (user_id, accepted)
-VALUES (1, FALSE),
-(1, FALSE);
+INSERT INTO orders (user_id, rejected_at)
+VALUES (1, now()),
+(1, now());
 
 -- orders with comments
 INSERT INTO orders (user_id, comment)
@@ -131,9 +132,10 @@ VALUES (1, 'No ice!'),
 (3, 'No spicy and dip apart. Please make sure to follow this instruction. The last time I ordered I could not eat because of how spicy it was!!');
 
 -- some orders that are ready
-INSERT INTO orders (user_id, ready_at, accepted, informed_time)
-VALUES (1, now(), TRUE, 0),
-(1, now(), TRUE, 0);
+INSERT INTO orders (user_id, ready_at, accepted_at, informed_time)
+VALUES (1, now(), now(), 0),
+(1, now(), now(), 0);
+
 
 -- orders table seeds here
 INSERT INTO order_items (order_id, item_id, quantity)
