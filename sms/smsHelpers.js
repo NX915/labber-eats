@@ -2,7 +2,7 @@
 // phone and estimated_wait = according to the database
 // type = 'confirmed' || 'ready' || 'declined'
 
-let activateSMS = false;
+let activateSMS = true;
 
 const sendSMSToUser = obj => {
   // build the sms according with the information received
