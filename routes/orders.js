@@ -51,13 +51,6 @@ module.exports = (db) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('accept order input', input);
-    dbHelpers.getOrderDetails(id)
-      .then(res => {
-        const { phone, estimated_wait } = res;
-        const obj = { id, phone, type: 'confirmed', input, estimated_wait }
-        sendSMSToUser(obj);
-      });
-
     dbHelpers.processOrder({ order_id: id, input })
       .then(() => {
         res.status(200).send(`Successful POST to orders/${id}`);
@@ -65,19 +58,18 @@ module.exports = (db) => {
       .catch((err) => {
         res.status(404).send(`Unsuccessful POST to orders/${id} ${err.message}`);
       });
+    dbHelpers.getOrderDetails(id)
+      .then(res => {
+        const { phone, estimated_wait } = res;
+        const obj = { id, phone, type: 'confirmed', input, estimated_wait }
+        sendSMSToUser(obj);
+      });
   });
 
   router.post("/:id/decline", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
     console.log('decline order input', input);
-    dbHelpers.getOrderDetails(id)
-      .then(res => {
-        const { phone } = res;
-        const obj = { id, phone, type: 'declined', input }
-        sendSMSToUser(obj);
-      });
-
     dbHelpers.processOrder({ order_id: id, accepted: false })
       .then(() => {
         res.send(`Successful POST to orders/${id}/decline`);
@@ -85,22 +77,29 @@ module.exports = (db) => {
       .catch((err) => {
         res.send(`Unsuccessful POST to orders/${id}/decline ${err.message}`);
       });
+    dbHelpers.getOrderDetails(id)
+      .then(res => {
+        const { phone } = res;
+        const obj = { id, phone, type: 'declined', input }
+        sendSMSToUser(obj);
+      });
   });
 
   router.post("/:id/ready", (req, res) => {
     const { id } = req.params;
     const { input } = req.body;
+    let obj;
     console.log('ready order input', input)
     dbHelpers.getOrderDetails(id)
       .then(res => {
         const { phone, accepted_at } = res;
+        obj = { id, phone, type: 'ready', input }
         if (accepted_at === null) {
-          dbHelpers.processOrder({ order_id: id, input: 0 });
+          return dbHelpers.processOrder({ order_id: id, input: 0 });
         }
-        const obj = { id, phone, type: 'ready', input }
-        sendSMSToUser(obj);
       })
       .then(() => dbHelpers.readyAt(id))
+      .then(() => sendSMSToUser(obj))
       .then(() => {
         res.send(`Successful POST to orders/:${req.params.id}/ready`);
       })
