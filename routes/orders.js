@@ -93,11 +93,14 @@ module.exports = (db) => {
     console.log('ready order input', input)
     dbHelpers.getOrderDetails(id)
       .then(res => {
-        const { phone } = res;
+        const { phone, accepted_at } = res;
+        if (accepted_at === null) {
+          dbHelpers.processOrder({ order_id: id, input: 0 });
+        }
         const obj = { id, phone, type: 'ready', input }
         sendSMSToUser(obj);
-      });
-    dbHelpers.readyAt(id)
+      })
+      .then(() => dbHelpers.readyAt(id))
       .then(() => {
         res.send(`Successful POST to orders/:${req.params.id}/ready`);
       })
@@ -111,7 +114,7 @@ module.exports = (db) => {
     dbHelpers.getOrderDetails(id)
       .then(res => {
         const { ready_at } = res;
-        if (ready_at === undefined) {
+        if (ready_at === null) {
           return dbHelpers.readyAt(id)
         }
       })
