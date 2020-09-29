@@ -2,7 +2,7 @@
 // phone and estimated_wait = according to the database
 // type = 'confirmed' || 'ready' || 'declined'
 
-let activateSMS = true;
+let activateSMS = process.env.ACTIVATE_SMS;
 
 const sendSMSToUser = obj => {
   // build the sms according with the information received
@@ -21,7 +21,7 @@ const sendSMSToUser = obj => {
   let sms = `Labber Eats order #${id}\nStatus: ${type}\n\n${body}`;
 
   // try to send SMSs if the service is activated
-  if (activateSMS) {
+  if (activateSMS === 'true') {
     try {
       require('dotenv').config();
       const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -58,7 +58,7 @@ const sendSMSToUser = obj => {
 // sendSMSToUser({ id: 7, phone: 6475406051, type: 'ready', input: 'come and get it' }) // ==> ok
 
 const sendSMSToRestaurant = (msg) => {
-  if (activateSMS) {
+  if (activateSMS === 'true') {
     try {
       require('dotenv').config();
       const accountSid = process.env.TWILIO_ACCOUNT_SID;
