@@ -67,8 +67,8 @@ app.get('/db', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM test_table');
-    const results = { 'results': (result) ? result.rows : null};
-    res.render('pages/db', results );
+    const results = { 'results': (result) ? result.rows : null };
+    res.render('pages/db', results);
     client.release();
   } catch (err) {
     console.error(err);
@@ -78,6 +78,28 @@ app.get('/db', async (req, res) => {
 
 app.get("/control", (req, res) => {
   res.render("control");
+});
+
+// to be able to reset database by requesting /debug/reset
+
+const fs = require("fs");
+
+app.get("/debug/reset", (req, res) => {
+  fs.readFile('./db/reset.sql', 'utf8', (error, data) => {
+    if (!error) {
+      db.query(data)
+        .then(() => {
+          console.log("Database Reset");
+          res.status(200).send("Database Reset");
+        })
+        .catch(e => {
+          console.log(e.message);
+          res.status(500).send("Failed to reset the database");
+        });
+    } else {
+      res.status(500).send("Failed to reset the database");
+    }
+  });
 });
 
 app.listen(PORT, () => {

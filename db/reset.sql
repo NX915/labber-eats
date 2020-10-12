@@ -7,7 +7,7 @@ CREATE TABLE users (
   type VARCHAR(255) DEFAULT 'customer'
 );
 
--- Drop and recreate items table
+-- Drop and recreate categories table
 DROP TABLE IF EXISTS categories CASCADE;
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -65,20 +65,16 @@ VALUES ('Alice', '4161234567'),
 INSERT INTO categories (name, description)
 VALUES ('Appetizers', 'Perfect to share with your friends 🤝'),
 ('Entrées', 'Enjoy one of our best sellers 🍽'),
-('Chef''s specials', 'Dishes selected by the renowned chef Francis Bourgouin 👨🏻‍🍳'),
+('Chef''s specials', 'Dishes selected by the chef 👨🏻‍🍳'),
 ('Desserts', 'The sweetest options in town 😋'),
 ('Beverages', 'Kill your thirst 🍻');
-
--- photos from: https://unsplash.com/
 
 -- Items table seeds here
 INSERT INTO items (name, prep_time, acronym, description, price, image_url, category_id)
 VALUES ('Lasagna', 35, 'LAS', 'Fatima''s favourite lasagna! You should have at least 10 of them! (made with ground beef, onions, peppers, garlic, tomatoes, oregano, parsley and italian seasoning)', 1199, 'https://images.unsplash.com/photo-1560035285-64808ba47bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', 2),
-
 ('Sundae', 10, 'SUN', 'A well-served sundae (two scoops of vanilla ice cream, two scoops of chocolate ice cream, Oreo cookies and Nutella)', 899, 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80', 4),
 ('Chocolate Ice Cream', 5, 'CIC', 'Two scoops of chocolate ice cream', 599, 'https://images.unsplash.com/photo-1533072561526-0d9ee358c8bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', 4),
 ('Strawberry Ice Cream', 5, 'SIC', 'Two scoops of strawberry ice cream', 599, 'https://images.unsplash.com/photo-1555529211-3237f6e13d33?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1894&q=80', 4),
-
 ('Chicken Wings', 25, 'CKNWG', 'Boneless wings (served with celery and blue cheese dip)', 1299, 'https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80', 1),
 ('Shrimp and Fries', 20, 'SHPF', 'Breaded shrimps and french fries with salad and special sauce', 1299, 'https://images.unsplash.com/photo-1576777647209-e8733d7b851d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', 1),
 ('French Fries', 15, 'FF', 'A portion of fries prepared with special condiments', 899, 'https://images.unsplash.com/photo-1529589510304-b7e994a92f60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', 1),
@@ -106,6 +102,10 @@ VALUES (1),
 (2),
 (5);
 
+-- orders with comments
+INSERT INTO orders (user_id, comment)
+VALUES (1, 'No ice!'),
+(3, 'No spicy and dip apart. Please make sure to follow this instruction. The last time I ordered I could not eat because of how spicy it was!!');
 
 -- some orders that were already accepted, but not completed
 INSERT INTO orders (user_id, accepted_at, informed_time)
@@ -113,31 +113,23 @@ VALUES (1, now(), 20),
 (3, now(), 10),
 (4, now(), 15);
 
-
-
 -- some orders that were already accepted and completed
-INSERT INTO orders (user_id, accepted_at, completed_at)
-VALUES (1, now(), now()),
-(1, now(), now());
-
-
--- some orders that were rejected
-INSERT INTO orders (user_id, rejected_at)
-VALUES (1, now()),
-(1, now());
-
--- orders with comments
-INSERT INTO orders (user_id, comment)
-VALUES (1, 'No ice!'),
-(3, 'No spicy and dip apart. Please make sure to follow this instruction. The last time I ordered I could not eat because of how spicy it was!!');
+INSERT INTO orders (user_id, accepted_at, ready_at, completed_at)
+VALUES (1, now(), now(), now()),
+(1, now(), now(), now());
 
 -- some orders that are ready
 INSERT INTO orders (user_id, ready_at, accepted_at, informed_time)
 VALUES (1, now(), now(), 0),
 (1, now(), now(), 0);
 
+-- some orders that were rejected
+INSERT INTO orders (user_id, rejected_at)
+VALUES (1, now()),
+(1, now());
 
--- orders table seeds here
+
+-- order_items table seeds here
 INSERT INTO order_items (order_id, item_id, quantity)
 VALUES
 -- new orders
@@ -155,8 +147,8 @@ VALUES
 -- accepted but not completed
 (6, 17, 3),
 (6, 15, 1),
-(6, 13, 5),
-(7, 9, 3),
+(6, 11, 4),
+(7, 5, 2),
 (8, 8, 4),
 -- accepted and completed
 (9, 7, 2),

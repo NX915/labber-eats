@@ -1,4 +1,4 @@
--- Drop and recreate items table
+-- Drop and recreate categories table
 
 DROP TABLE IF EXISTS categories CASCADE;
 CREATE TABLE categories (

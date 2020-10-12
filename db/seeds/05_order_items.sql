@@ -1,4 +1,4 @@
--- orders table seeds here
+-- order_items table seeds here
 INSERT INTO order_items (order_id, item_id, quantity)
 VALUES
 -- new orders
