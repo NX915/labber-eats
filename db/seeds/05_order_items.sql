@@ -16,8 +16,8 @@ VALUES
 -- accepted but not completed
 (6, 17, 3),
 (6, 15, 1),
-(6, 13, 5),
-(7, 9, 3),
+(6, 11, 4),
+(7, 5, 2),
 (8, 8, 4),
 -- accepted and completed
 (9, 7, 2),
