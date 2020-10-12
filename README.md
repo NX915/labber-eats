@@ -52,7 +52,9 @@ This project was made during Lighthouse Labs Bootcamp as a group project to prac
   - Check the db folder to see what gets created and seeded in the SDB
 7. Run the server: `npm run local`
   - Note: nodemon is used, so you should not have to restart your server
-8. Visit `http://localhost:8080/`
+8. Visit `http://localhost:8080/` to access the menu
+9. Visit `http://localhost:8080/control` to access the restaurant's control panel
+10. As an alternative to `npm run db:reset`, you can visit `http://localhost:8080/debug/reset`
 
 ## Tech Stack
 
